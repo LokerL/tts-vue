@@ -37,10 +37,24 @@
           </el-select>
         </el-form-item>
         <el-form-item label="语速">
-          <el-slider v-model="form.speed" show-input size="small" />
+          <el-slider
+            v-model="form.speed"
+            show-input
+            size="small"
+            :show-input-controls="false"
+            :max="3"
+            :step="0.01"
+          />
         </el-form-item>
         <el-form-item label="音调">
-          <el-slider v-model="form.pitch" show-input size="small" />
+          <el-slider
+            v-model="form.pitch"
+            show-input
+            size="small"
+            :show-input-controls="false"
+            :max="2"
+            :step="0.01"
+          />
         </el-form-item>
       </el-form>
     </div>
@@ -69,11 +83,21 @@ const form = reactive({
   overscroll-behavior: contain;
   display: flex;
 }
-.options {
-  border-left: 5px solid #f2f3f5;
-}
 .input-area {
   width: 500px !important;
+}
+.options {
+  border-left: 5px solid #f2f3f5;
+  padding: 5px 12px !important;
+}
+.el-form-item {
+  width: 250px;
+}
+.el-slider {
+  margin-left: 5px;
+}
+:deep(.el-slider__runway.show-input) {
+  margin-right: 10px;
 }
 :deep(.el-textarea__inner) {
   min-height: 500px !important;
@@ -91,5 +115,14 @@ const form = reactive({
   background-color: rgb(183, 192, 201);
   transition: 0.3 background-color;
   opacity: 0.3;
+}
+
+:deep(.el-input-number) {
+  width: 40px;
+}
+:deep(.el-input__wrapper) {
+  width: 100%;
+  padding: 0 !important;
+  margin: 0 !important;
 }
 </style>
