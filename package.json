@@ -1,0 +1,40 @@
+{
+  "name": "electron-vue-vite",
+  "version": "2.0.0",
+  "main": "dist/electron/main/index.js",
+  "description": "Really simple Electron + Vue + Vite boilerplate.",
+  "author": "沫離Loker <806076693@qq.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build && electron-builder"
+  },
+  "engines": {
+    "node": ">=14.17.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^2.3.3",
+    "electron": "^19.0.8",
+    "electron-builder": "^23.1.0",
+    "typescript": "^4.7.4",
+    "vite": "^2.9.13",
+    "vite-plugin-electron": "^0.8.1",
+    "vue": "^3.2.37",
+    "vue-tsc": "^0.38.3"
+  },
+  "env": {
+    "VITE_DEV_SERVER_HOST": "127.0.0.1",
+    "VITE_DEV_SERVER_PORT": 3344
+  },
+  "keywords": [
+    "electron",
+    "rollup",
+    "vite",
+    "vue3",
+    "vue"
+  ],
+  "dependencies": {
+    "element-plus": "^2.2.10"
+  }
+}
