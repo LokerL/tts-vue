@@ -4,6 +4,10 @@ import {
   ElButton,
   ElButtonGroup,
   ElMenu,
+  ElInput,
+  ElForm,
+  ElSelect,
+  ElSlider,
 } from "element-plus";
 import "element-plus/dist/index.css";
 import "element-plus/theme-chalk/display.css";
@@ -21,6 +25,12 @@ const components = [
   ElButtonGroup,
   ElMenu,
   ElMenu.MenuItem,
+
+  ElInput,
+  ElForm,
+  ElForm.FormItem,
+  ElSelect,
+  ElSlider,
 ];
 
 export default function (app: any) {

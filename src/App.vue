@@ -3,17 +3,19 @@
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
 import Header from "./components/header/Header.vue";
 import Aside from "./components/aside/Aside.vue";
+import Main from "./components/main/Main.vue";
+import Footer from "./components/footer/Footer.vue";
 </script>
 
 <template>
   <div class="app">
     <el-container>
       <el-header><Header /></el-header>
-      <el-container>
-        <el-aside width="200px"><Aside /></el-aside>
-        <el-container class="container">
-          <el-main>Main</el-main>
-          <el-footer>Foo23ter</el-footer>
+      <el-container class="container">
+        <el-aside><Aside /></el-aside>
+        <el-container class="main-footer">
+          <el-main><Main /></el-main>
+          <el-footer><Footer /></el-footer>
         </el-container>
       </el-container>
     </el-container>
@@ -23,11 +25,11 @@ import Aside from "./components/aside/Aside.vue";
 <style>
 body {
   margin: 0;
+  /* height: 570px; */
 }
 .app {
   background-color: #f2f3f5;
   border-radius: 10px;
-  height: 95vh;
 }
 .el-header {
   border: 0 !important;
@@ -37,10 +39,21 @@ body {
   -webkit-app-region: drag;
 }
 .el-aside {
-  overflow: hidden !important;
+  width: auto !important;
 }
 .container {
   margin-top: 5px;
+  height: 100%;
+}
+.el-main,
+.el-footer {
+  border: 0 !important;
+  padding: 0 !important;
+  margin-left: 5px;
+}
+.main-footer {
+  height: 100%;
+  display: flex;
 }
 .el-button {
   -webkit-app-region: no-drag;

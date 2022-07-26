@@ -1,7 +1,13 @@
 <template>
   <div class="header">
     <div class="win-tools">
-      <el-button type="danger" size="small" circle class="circle-btn">
+      <el-button
+        type="danger"
+        size="small"
+        circle
+        class="circle-btn"
+        @click="close"
+      >
       </el-button>
       <el-button type="warning" size="small" circle class="circle-btn">
       </el-button>
@@ -11,7 +17,12 @@
   </div>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const { ipcRenderer } = require("electron");
+function close() {
+  ipcRenderer.send("close");
+}
+</script>
 
 <style scoped>
 .header {

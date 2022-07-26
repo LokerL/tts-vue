@@ -3,8 +3,8 @@ import { release } from "os";
 import { join } from "path";
 
 // Disable GPU Acceleration for Windows 7
-if (release().startsWith("6.1")) app.disableHardwareAcceleration();
-
+//if (release().startsWith("6.1")) app.disableHardwareAcceleration();
+app.disableHardwareAcceleration();
 // Set application name for Windows 10+ notifications
 if (process.platform === "win32") app.setAppUserModelId(app.getName());
 
@@ -34,8 +34,9 @@ const indexHtml = join(ROOT_PATH.dist, "index.html");
 
 async function createWindow() {
   win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 900,
+    // height: 600,
+
     title: "Main window",
     icon: join(ROOT_PATH.public, "favicon.ico"),
     useContentSize: true,
@@ -97,6 +98,10 @@ app.on("activate", () => {
     createWindow();
   }
 });
+
+ipcMain.on("min", (e) => win.minimize());
+ipcMain.on("max", (e) => win.maximize());
+ipcMain.on("close", (e) => win.close());
 
 // new window example arg: new windows url
 ipcMain.handle("open-win", (event, arg) => {
