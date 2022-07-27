@@ -4,7 +4,7 @@
       <el-form-item label="语言">
         <el-select
           v-model="form.languageSelect"
-          placeholder="please select your zone"
+          placeholder="选择语言"
           filterable
         >
           <el-option
@@ -25,13 +25,11 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item
-        label="说话风格"
-        :disable="voiceStyleSelectList?.value?.length == 0"
-      >
+      <el-form-item label="说话风格">
         <el-select
           v-model="form.voiceStyleSelect"
-          placeholder="please select your zone"
+          placeholder="选择说话风格"
+          :disable="typeof voiceStyleSelectList?.value == 'undefined'"
         >
           <el-option
             v-for="item in voiceStyleSelectList"
@@ -82,35 +80,43 @@ const voiceSelectList = ref(oc.findVoicesByLocaleName(form.languageSelect));
 watch(
   () => form.languageSelect,
   (newValue) => {
+    form.voiceSelect = "";
+    form.voiceStyleSelect = "";
     voiceSelectList.value = oc.findVoicesByLocaleName(newValue);
-  },
-  { immediate: true }
+  }
 );
-let voiceStyleSelectList: any = ref([]);
+const voiceStyleSelectListInit = voiceSelectList.value.find(
+  (item: any) => item.ShortName == form.voiceSelect
+)?.StyleList;
+let voiceStyleSelectList: any = ref(voiceStyleSelectListInit);
 watch(
   () => form.voiceSelect,
   (newValue) => {
+    form.voiceStyleSelect = "";
     const voice = voiceSelectList.value.find(
       (item: any) => item.ShortName == form.voiceSelect
     );
     voiceStyleSelectList.value = voice?.StyleList;
-    console.log(voiceStyleSelectList);
-    console.log(voiceStyleSelectList?.value);
-  },
-  { immediate: true }
+  }
 );
 </script>
 
 <style scoped>
 .options {
-  border-left: 5px solid #f2f3f5;
+  background-color: #fff;
+  margin-left: 5px;
   padding: 5px 12px !important;
+  border: 1px solid #dcdfe6;
+  border-radius: 5px;
 }
 .el-form-item {
-  width: 250px;
+  width: 270px;
 }
 .el-slider {
   margin-left: 5px;
+}
+.el-select {
+  width: 100% !important;
 }
 :deep(.el-slider__runway.show-input) {
   margin-right: 10px;
@@ -118,7 +124,7 @@ watch(
 :deep(.el-slider > .el-input-number) {
   width: 40px;
 }
-:deep(.el-slider > .el-input__wrapper) {
+:deep(.el-slider .el-input__wrapper) {
   width: 100%;
   padding: 0 !important;
   margin: 0 !important;

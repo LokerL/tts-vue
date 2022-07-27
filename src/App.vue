@@ -40,6 +40,7 @@ body {
 }
 .el-aside {
   width: auto !important;
+  overflow: hidden !important;
 }
 .container {
   margin-top: 5px;

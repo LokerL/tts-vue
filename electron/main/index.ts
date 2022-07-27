@@ -46,8 +46,10 @@ async function createWindow() {
     fullscreenable: false,
     transparent: true,
     hasShadow: false,
+    resizable: false,
     webPreferences: {
       preload,
+      webSecurity: false,
       // Warning: Enable nodeIntegration and disable contextIsolation is not secure in production
       // Consider using contextBridge.exposeInMainWorld
       // Read more on https://www.electronjs.org/docs/latest/tutorial/context-isolation
@@ -55,7 +57,7 @@ async function createWindow() {
       contextIsolation: false,
     },
   });
-
+  app.commandLine.appendSwitch("disable-features", "OutOfBlinkCors");
   if (app.isPackaged) {
     win.loadFile(indexHtml);
   } else {

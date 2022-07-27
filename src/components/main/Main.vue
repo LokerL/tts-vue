@@ -19,18 +19,21 @@ const inputValue = ref("");
 
 <style scoped>
 .main {
-  background-color: #fff;
+  background-color: #f2f3f5;
   margin-bottom: 5px;
   scroll-behavior: smooth;
   overscroll-behavior: contain;
   display: flex;
+  justify-content: space-between;
 }
 .input-area {
   width: 500px !important;
+  border-radius: 5px !important;
 }
 :deep(.el-textarea__inner) {
   min-height: 500px !important;
   resize: none;
+  border-radius: 5px !important;
 }
 :deep(textarea::-webkit-scrollbar) {
   width: 5px;

@@ -19,8 +19,11 @@
 .aside {
   height: 100%;
   background-color: #fff;
+  border-right: 1px solid #dcdfe6;
+  border-top: 1px solid #dcdfe6;
   overflow: hidden;
   border-bottom-left-radius: 10px;
+  border-top-right-radius: 5px;
 }
 .el-menu {
   border-right: unset !important;
