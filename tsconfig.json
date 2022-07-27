@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
+    "target": "esnext",
+    "module": "esnext",
     "moduleResolution": "node",
     "importHelpers": true,
     "jsx": "preserve",
@@ -12,9 +12,16 @@
     "strict": true,
     "paths": {},
     "allowSyntheticDefaultImports": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "suppressImplicitAnyIndexErrors": true
   },
-  "references": [
-    { "path": "./tsconfig.node.json" }
-  ]
+  "references": [{ "path": "./tsconfig.node.json" }],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "tests/**/*.ts",
+    "tests/**/*.tsx"
+  ],
+  "exclude": ["node_modules"]
 }
