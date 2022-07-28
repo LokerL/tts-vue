@@ -37,6 +37,7 @@
   "dependencies": {
     "axios": "^0.27.2",
     "element-plus": "^2.2.10",
+    "mitt": "^3.0.0",
     "nodejs-websocket": "^1.7.2",
     "uuid": "^8.3.2"
   }

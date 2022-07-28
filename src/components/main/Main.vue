@@ -4,17 +4,17 @@
       <el-input
         v-model="inputValue"
         type="textarea"
-        placeholder="Please input2"
+        placeholder="Please input"
       />
     </div>
-    <MainOptions></MainOptions>
+    <MainOptions :inputValue="inputValue"></MainOptions>
   </div>
 </template>
 
 <script setup lang="ts">
 import MainOptions from "./MainOptions.vue";
 import { ref } from "vue";
-const inputValue = ref("");
+const inputValue = ref("123");
 </script>
 
 <style scoped>

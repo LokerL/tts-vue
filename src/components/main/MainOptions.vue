@@ -2,11 +2,7 @@
   <div class="options">
     <el-form :model="form" label-width="120px" label-position="top">
       <el-form-item label="语言">
-        <el-select
-          v-model="form.languageSelect"
-          placeholder="选择语言"
-          filterable
-        >
+        <el-select v-model="languageSelect" placeholder="选择语言" filterable>
           <el-option
             v-for="item in oc.languageSelect"
             :key="item.Locale"
@@ -39,6 +35,16 @@
           />
         </el-select>
       </el-form-item>
+      <el-form-item label="角色扮演">
+        <el-select v-model="form.role" placeholder="选择角色">
+          <el-option
+            v-for="item in voiceStyleSelectList"
+            :key="item"
+            :label="item"
+            :value="item"
+          />
+        </el-select>
+      </el-form-item>
       <el-form-item label="语速">
         <el-slider
           v-model="form.speed"
@@ -59,32 +65,42 @@
           :step="0.01"
         />
       </el-form-item>
+      <el-form-item class="startBtn">
+        <a href="#" class="btn" @click="startBtn">开始转换</a>
+      </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch, reactive } from "vue";
+import { ref, watch, reactive, getCurrentInstance } from "vue";
 import { optionsConfig as oc } from "./options-config";
+
+const props = defineProps<{
+  inputValue: string;
+}>();
+
 const form = reactive({
-  languageSelect: "Chinese (Mandarin, Simplified)",
+  inputValue: "",
   voiceSelect: "zh-CN-XiaoxiaoNeural",
   voiceStyleSelect: "General",
+  role: "",
   speed: 1.0,
   pitch: 1.0,
 });
-watch(form, (newValue) => {
-  console.log(newValue);
+watch(props, (newValue) => {
+  form.inputValue = newValue.inputValue;
 });
-const voiceSelectList = ref(oc.findVoicesByLocaleName(form.languageSelect));
-watch(
-  () => form.languageSelect,
-  (newValue) => {
-    form.voiceSelect = "";
-    form.voiceStyleSelect = "";
-    voiceSelectList.value = oc.findVoicesByLocaleName(newValue);
-  }
-);
+const languageSelect = ref("Chinese (Mandarin, Simplified)");
+// watch(form, (newValue) => {
+//   console.log(newValue);
+// });
+const voiceSelectList = ref(oc.findVoicesByLocaleName(languageSelect.value));
+watch(languageSelect, (newValue) => {
+  form.voiceSelect = "";
+  form.voiceStyleSelect = "";
+  voiceSelectList.value = oc.findVoicesByLocaleName(newValue);
+});
 const voiceStyleSelectListInit = voiceSelectList.value.find(
   (item: any) => item.ShortName == form.voiceSelect
 )?.StyleList;
@@ -99,6 +115,11 @@ watch(
     voiceStyleSelectList.value = voice?.StyleList;
   }
 );
+
+const { appContext } = getCurrentInstance() as any;
+const startBtn = () => {
+  appContext.config.globalProperties.$mitt.emit("start", form);
+};
 </script>
 
 <style scoped>
@@ -128,5 +149,49 @@ watch(
   width: 100%;
   padding: 0 !important;
   margin: 0 !important;
+}
+/* From uiverse.io by @Zena4L */
+:deep(.startBtn > .el-form-item__content) {
+  justify-content: center;
+}
+.btn:link,
+.btn:visited {
+  text-transform: uppercase;
+  text-decoration: none;
+  color: rgb(27, 27, 27);
+  padding: 0px 20px;
+  border: 1px solid;
+  border-radius: 1000px;
+  display: inline-block;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(27, 27, 27, 0.5);
+}
+
+.btn:active {
+  transform: translateY(-3px);
+}
+
+.btn::after {
+  content: "";
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  border-radius: 100px;
+  top: 0;
+  left: 0;
+  position: absolute;
+  z-index: -1;
+  transition: all 0.3s;
+}
+
+.btn:hover::after {
+  background-color: rgb(0, 238, 255);
+  transform: scaleX(1.4) scaleY(1.5);
+  opacity: 0;
 }
 </style>

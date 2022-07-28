@@ -2,7 +2,7 @@
   <div class="footer">
     <div class="play-bar">
       <div class="paly-bar-options">
-        <el-button type="primary" circle>
+        <!-- <el-button type="primary" circle>
           <el-icon @click="test"><CaretRight /></el-icon>
         </el-button>
         <el-button
@@ -11,13 +11,13 @@
           style="font-size: 10px; font-weight: 900; width: 32px"
         >
           | |
-        </el-button>
+        </el-button> -->
         <el-button type="success" circle>
           <el-icon><Download /></el-icon>
         </el-button>
       </div>
       <div class="paly-bar-process">
-        <audio :src="src" autoplay controls ref="audio"></audio>
+        <audio :src="src" autoplay controls style="width: 100%"></audio>
         <!-- <el-slider v-model="process" /> -->
       </div>
     </div>
@@ -25,11 +25,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, getCurrentInstance, onBeforeMount, onMounted } from "vue";
 import getTTSData from "./play";
 const src = ref("");
-async function test() {
-  const mp3buffer: any = await getTTSData("你好啊");
+async function test(vConfig: any) {
+  const mp3buffer: any = await getTTSData(vConfig);
   if (mp3buffer) {
     var svlob = new Blob([mp3buffer]);
     src.value = URL.createObjectURL(svlob);
@@ -37,6 +37,16 @@ async function test() {
   }
 }
 const process = ref(0);
+const { appContext } = getCurrentInstance() as any;
+onMounted(() => {
+  appContext.config.globalProperties.$mitt.on("start", (res: any) => {
+    console.log(res);
+  });
+});
+
+onBeforeMount(() => {
+  appContext.config.globalProperties.$mitt.off("start");
+});
 </script>
 
 <style scoped>
@@ -50,13 +60,13 @@ const process = ref(0);
 }
 .play-bar {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
 }
 .paly-bar-options {
-  width: 150px;
+  width: 70px;
 }
 .paly-bar-process {
-  width: 500px;
+  width: 60%;
 }
 </style>
