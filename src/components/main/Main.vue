@@ -20,16 +20,27 @@
     </div>
     <div class="input-area" v-show="asideIndex == 2">
       <el-table :data="tableData" height="430" style="width: 100%">
-        <el-table-column prop="fileName" label="文件名" />
-        <el-table-column prop="filePath" label="文件路径" />
-        <el-table-column prop="fileSize" label="文件大小" />
-        <el-table-column prop="status" label="状态" />
+        <el-table-column
+          prop="fileName"
+          label="文件名"
+          show-overflow-tooltip="true"
+        />
+        <el-table-column
+          prop="filePath"
+          label="文件路径"
+          show-overflow-tooltip="true"
+        />
+        <el-table-column prop="fileSize" label="字符数" />
+        <el-table-column prop="status" label="状态">
+          <template #default="scope">
+            <div>
+              <el-tag class="ml-2" type="info">{{ scope.row.status }}</el-tag>
+            </div>
+          </template>
+        </el-table-column>
       </el-table>
       <div class="table-tool">
         <el-upload
-          ref="uploadRef"
-          class="upload-demo"
-          action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
           :auto-upload="false"
           :on-change="fileChange"
           :on-remove="fileRemove"
@@ -38,13 +49,8 @@
           multiple
         >
           <template #trigger>
-            <el-button type="primary">select file</el-button>
+            <el-button type="primary">选择文件</el-button>
           </template>
-
-          <el-button class="ml-3" type="success" @click="submitUpload">
-            upload to server
-          </el-button>
-
           <template #tip>
             <div class="el-upload__tip">文本格式为： *.txt</div>
           </template>
@@ -110,8 +116,6 @@ const configChange = (form: any) => {
   );
 };
 
-const uploadRef = ref();
-
 const tableData = ref([]);
 
 const fileChange = (uploadFile: any, uploadFiles: any) => {
@@ -135,9 +139,6 @@ const fileRemove = (uploadFile: any, uploadFiles: any) => {
       status: item.status,
     };
   });
-};
-const submitUpload = () => {
-  uploadRef.value!.submit();
 };
 </script>
 
