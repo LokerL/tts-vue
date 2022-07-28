@@ -72,22 +72,24 @@
         />
       </el-form-item>
       <el-form-item class="startBtn">
-        <el-button
-          color="#626aef"
-          :dark="false"
-          plain
-          size="small"
-          @click="saveConfig"
-          >保存配置</el-button
-        >
-        <el-select-v2
-          class="get-cfg"
-          v-model="currConfig"
-          placeholder="选择配置"
-          filterable
-          :options="allConfig"
-          @change="getConfig"
-        ></el-select-v2>
+        <div class="configOption">
+          <el-button
+            color="#626aef"
+            :dark="false"
+            plain
+            size="small"
+            @click="saveConfig"
+            >保存配置</el-button
+          >
+          <el-select-v2
+            class="get-cfg"
+            v-model="currConfig"
+            placeholder="选择配置"
+            filterable
+            :options="allConfig"
+            @change="getConfig"
+          ></el-select-v2>
+        </div>
         <a href="#" class="btn" @click="startBtn">
           <template v-if="isLoading">
             <Loading></Loading>
@@ -107,16 +109,23 @@ import { ElNotification, ElMessageBox } from "element-plus";
 const Store = require("electron-store");
 
 const store = new Store();
+const emit = defineEmits(["change"]);
+const props = defineProps({
+  inputValue: String,
+  ssmlValue: String,
+  activeIndex: Number,
+});
 
-const props = defineProps<{
-  inputValue: string;
-}>();
+const inputValues = {
+  inputValue: props.inputValue,
+  ssmlValue: props.ssmlValue,
+  activeIndex: props.activeIndex,
+};
 
 let currConfig = ref("默认");
 
 if (!store.has("FormConfig.默认")) {
   store.set("FormConfig.默认", {
-    inputValue: "",
     languageSelect: "Chinese (Mandarin, Simplified)",
     voiceSelect: "zh-CN-XiaoxiaoNeural",
     voiceStyleSelect: "General",
@@ -139,7 +148,6 @@ const form = reactive(
   store.has("FormConfig.默认")
     ? store.get("FormConfig.默认")
     : {
-        inputValue: "",
         languageSelect: "Chinese (Mandarin, Simplified)",
         voiceSelect: "zh-CN-XiaoxiaoNeural",
         voiceStyleSelect: "General",
@@ -148,8 +156,18 @@ const form = reactive(
         pitch: 1.0,
       }
 );
+// 监听form值的变化
+watch(
+  form,
+  (newValue) => {
+    emit("change", newValue);
+  },
+  {
+    immediate: true,
+  }
+);
+
 const getConfig = (val: any) => {
-  console.log(store.get("FormConfig." + val));
   const fc = store.get("FormConfig." + val);
   form.voiceSelect = fc.voiceSelect;
   form.voiceStyleSelect = fc.voiceStyleSelect;
@@ -179,6 +197,7 @@ const saveConfig = () => {
     .then(({ value }) => {
       store.set("FormConfig." + value, form);
       allConfig.value = getAllConfig();
+      currConfig.value = value;
       ElNotification({
         title: "成功",
         message: "保存成功。",
@@ -199,7 +218,9 @@ const saveConfig = () => {
 const isLoading = ref(false);
 
 watch(props, (newValue) => {
-  form.inputValue = newValue.inputValue;
+  inputValues.inputValue = newValue.inputValue;
+  inputValues.ssmlValue = newValue.ssmlValue;
+  inputValues.activeIndex = newValue.activeIndex;
 });
 
 const voiceSelectList = ref(oc.findVoicesByLocaleName(form.languageSelect));
@@ -232,7 +253,7 @@ watch(
 
 const { appContext } = getCurrentInstance() as any;
 const startBtn = () => {
-  if (form.inputValue == "") {
+  if (inputValues.inputValue == "") {
     ElNotification({
       title: "警告",
       message: "请输入文字内容。",
@@ -242,7 +263,7 @@ const startBtn = () => {
     return;
   }
   isLoading.value = true;
-  appContext.config.globalProperties.$mitt.emit("start", form);
+  appContext.config.globalProperties.$mitt.emit("start", { form, inputValues });
 };
 onMounted(() => {
   appContext.config.globalProperties.$mitt.on("endLoanding", (res: boolean) => {
@@ -265,6 +286,10 @@ onMounted(() => {
   border: 1px solid #dcdfe6;
   border-radius: 5px;
 }
+.configOption {
+  display: flex;
+  flex-direction: column;
+}
 .el-form-item {
   width: 270px;
 }
@@ -278,7 +303,8 @@ onMounted(() => {
   width: 100% !important;
 }
 .get-cfg {
-  width: 50px;
+  margin-top: 2px;
+  width: 100px;
 }
 :deep(.el-form-item__label) {
   margin-bottom: 2px !important;
@@ -295,6 +321,9 @@ onMounted(() => {
   margin: 0 !important;
 }
 /* From uiverse.io by @Zena4L */
+.startBtn {
+  margin-bottom: 0 !important;
+}
 :deep(.startBtn > .el-form-item__content) {
   justify-content: space-around;
 }
@@ -303,7 +332,7 @@ onMounted(() => {
   text-transform: uppercase;
   text-decoration: none;
   color: rgb(27, 27, 27);
-  padding: 0px 20px;
+  padding: 8px 30px;
   border: 1px solid;
   border-radius: 1000px;
   display: inline-block;

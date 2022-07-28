@@ -12,7 +12,13 @@
         >
           | |
         </el-button> -->
-        <el-button type="success" circle @click="download">
+        <el-button
+          type="success"
+          circle
+          @click="download"
+          :disabled="src == ''"
+          :loading="isLoading"
+        >
           <el-icon><Download /></el-icon>
         </el-button>
       </div>
@@ -26,10 +32,12 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance, onBeforeMount, onMounted } from "vue";
 import getTTSData from "./play";
+
 const src = ref("");
+const isLoading = ref(false);
 let currBuffer: any = null;
 async function tts(
-  val: string,
+  val: any,
   voice: string,
   express: string,
   role: string,
@@ -49,6 +57,7 @@ async function tts(
     var svlob = new Blob([mp3buffer]);
     src.value = URL.createObjectURL(svlob);
     appContext.config.globalProperties.$mitt.emit("endLoanding", false);
+    isLoading.value = false;
   }
 }
 
@@ -56,13 +65,14 @@ const process = ref(0);
 const { appContext } = getCurrentInstance() as any;
 onMounted(() => {
   appContext.config.globalProperties.$mitt.on("start", (res: any) => {
+    isLoading.value = true;
     tts(
-      res.inputValue,
-      res.voiceSelect,
-      res.voiceStyleSelect,
-      res.role,
-      (res.speed - 1) * 100,
-      (res.pitch - 1) * 50
+      res.inputValues,
+      res.form.voiceSelect,
+      res.form.voiceStyleSelect,
+      res.form.role,
+      (res.form.speed - 1) * 100,
+      (res.form.pitch - 1) * 50
     );
   });
 });

@@ -37,26 +37,31 @@ function wssConnect(url: string) {
 }
 
 async function getTTSData(
-  text: string,
+  inps: any,
   voice: string,
   express: string,
   role: string,
   rate = 0,
   pitch = 0
 ) {
-  const SSML = `
+  let SSML = "";
+  if (inps.activeIndex == 1) {
+    SSML = `
     <speak xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="http://www.w3.org/2001/mstts" xmlns:emo="http://www.w3.org/2009/10/emotionml" version="1.0" xml:lang="en-US">
         <voice name="${voice}">
             <mstts:express-as  ${
               express != "General" ? 'style="' + express + '"' : ""
             } ${role != "Default" ? 'role="' + role + '"' : ""}>
                 <prosody rate="${rate}%" pitch="${pitch}%">
-                ${text}
+                ${inps.inputValue}
                 </prosody>
             </mstts:express-as>
         </voice>
     </speak>
     `;
+  } else {
+    SSML = inps.ssmlValue;
+  }
   console.log(SSML);
 
   console.log("获取Token...");

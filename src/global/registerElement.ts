@@ -10,6 +10,10 @@ import {
   ElSlider,
   ElOption,
   ElSelectV2,
+  ElMenuItem,
+  ElTable,
+  ElTag,
+  ElUpload,
 } from "element-plus";
 import "element-plus/dist/index.css";
 import "element-plus/theme-chalk/display.css";
@@ -35,6 +39,14 @@ const components = [
   ElSelectV2,
   ElSelect.Option,
   ElSlider,
+  ElMenu,
+  ElMenu.MenuItem,
+
+  ElTable,
+  ElTable.TableColumn,
+  ElTag,
+
+  ElUpload,
 ];
 
 export default function (app: any) {

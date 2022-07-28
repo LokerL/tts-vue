@@ -1,19 +1,31 @@
 <template>
   <div class="aside">
-    <el-menu default-active="1" class="el-menu-vertical-demo">
+    <el-menu
+      :default-active="currIndex"
+      class="el-menu-vertical-demo"
+      @select="menuChange"
+    >
       <el-menu-item index="1">
         <el-icon><document /></el-icon>
-        <span>操作1</span>
+        <span>文本</span>
       </el-menu-item>
       <el-menu-item index="2">
         <el-icon><setting /></el-icon>
-        <span>操作2</span>
+        <span>批量</span>
       </el-menu-item>
     </el-menu>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref, getCurrentInstance } from "vue";
+const currIndex = ref("1");
+const { appContext } = getCurrentInstance() as any;
+const menuChange = (index: number) => {
+  currIndex.value = index.toString();
+  appContext.config.globalProperties.$mitt.emit("sideChange", index);
+};
+</script>
 
 <style scoped>
 .aside {
