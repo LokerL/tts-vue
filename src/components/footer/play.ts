@@ -37,20 +37,19 @@ function wssConnect(url: string) {
 }
 
 async function getTTSData(
-  text: any,
-  voice = "CN-Yunxi",
-  express = "general",
-  role = "",
+  text: string,
+  voice: string,
+  express: string,
+  role: string,
   rate = 0,
   pitch = 0
 ) {
-  if (!express) express = "general";
   const SSML = `
     <speak xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="http://www.w3.org/2001/mstts" xmlns:emo="http://www.w3.org/2009/10/emotionml" version="1.0" xml:lang="en-US">
-        <voice name="zh-${voice}Neural">
-            <mstts:express-as style="${express}" ${
-    role != "" ? 'role="' + role + '"' : ""
-  }>
+        <voice name="${voice}">
+            <mstts:express-as  ${
+              express != "General" ? 'style="' + express + '"' : ""
+            } ${role != "Default" ? 'role="' + role + '"' : ""}>
                 <prosody rate="${rate}%" pitch="${pitch}%">
                 ${text}
                 </prosody>
@@ -106,7 +105,6 @@ async function getTTSData(
         response.on("end", function () {
           const index = data.toString().indexOf("Path:audio") + 10;
           const cmbData = data.slice(index + 2);
-          console.log(cmbData);
           final_data = Buffer.concat([final_data, cmbData]);
         });
       }

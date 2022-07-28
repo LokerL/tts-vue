@@ -22,11 +22,8 @@
         </el-select>
       </el-form-item>
       <el-form-item label="说话风格">
-        <el-select
-          v-model="form.voiceStyleSelect"
-          placeholder="选择说话风格"
-          :disable="typeof voiceStyleSelectList?.value == 'undefined'"
-        >
+        <el-select v-model="form.voiceStyleSelect" placeholder="选择说话风格">
+          <el-option label="General">General</el-option>
           <el-option
             v-for="item in voiceStyleSelectList"
             :key="item"
@@ -37,8 +34,9 @@
       </el-form-item>
       <el-form-item label="角色扮演">
         <el-select v-model="form.role" placeholder="选择角色">
+          <el-option label="Default">Default</el-option>
           <el-option
-            v-for="item in voiceStyleSelectList"
+            v-for="item in rolePlayList"
             :key="item"
             :label="item"
             :value="item"
@@ -66,15 +64,21 @@
         />
       </el-form-item>
       <el-form-item class="startBtn">
-        <a href="#" class="btn" @click="startBtn">开始转换</a>
+        <a href="#" class="btn" @click="startBtn">
+          <template v-if="isLoading">
+            <Loading></Loading>
+          </template>
+          <template v-else> 开始转换 </template>
+        </a>
       </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch, reactive, getCurrentInstance } from "vue";
+import { ref, watch, reactive, getCurrentInstance, onMounted } from "vue";
 import { optionsConfig as oc } from "./options-config";
+import Loading from "./Loading.vue";
 
 const props = defineProps<{
   inputValue: string;
@@ -84,42 +88,53 @@ const form = reactive({
   inputValue: "",
   voiceSelect: "zh-CN-XiaoxiaoNeural",
   voiceStyleSelect: "General",
-  role: "",
+  role: "Default",
   speed: 1.0,
   pitch: 1.0,
 });
+
+const isLoading = ref(false);
+
 watch(props, (newValue) => {
   form.inputValue = newValue.inputValue;
 });
 const languageSelect = ref("Chinese (Mandarin, Simplified)");
-// watch(form, (newValue) => {
-//   console.log(newValue);
-// });
+
 const voiceSelectList = ref(oc.findVoicesByLocaleName(languageSelect.value));
 watch(languageSelect, (newValue) => {
   form.voiceSelect = "";
-  form.voiceStyleSelect = "";
+  form.voiceStyleSelect = "General";
+  form.role = "Default";
   voiceSelectList.value = oc.findVoicesByLocaleName(newValue);
 });
 const voiceStyleSelectListInit = voiceSelectList.value.find(
   (item: any) => item.ShortName == form.voiceSelect
 )?.StyleList;
-let voiceStyleSelectList: any = ref(voiceStyleSelectListInit);
+const voiceStyleSelectList: any = ref(voiceStyleSelectListInit);
+const rolePlayList: any = ref([]);
 watch(
   () => form.voiceSelect,
   (newValue) => {
-    form.voiceStyleSelect = "";
+    form.voiceStyleSelect = "General";
+    form.role = "Default";
     const voice = voiceSelectList.value.find(
       (item: any) => item.ShortName == form.voiceSelect
     );
     voiceStyleSelectList.value = voice?.StyleList;
+    rolePlayList.value = voice?.RolePlayList;
   }
 );
 
 const { appContext } = getCurrentInstance() as any;
 const startBtn = () => {
+  isLoading.value = true;
   appContext.config.globalProperties.$mitt.emit("start", form);
 };
+onMounted(() => {
+  appContext.config.globalProperties.$mitt.on("endLoanding", (res: boolean) => {
+    isLoading.value = res;
+  });
+});
 </script>
 
 <style scoped>
@@ -138,6 +153,9 @@ const startBtn = () => {
 }
 .el-select {
   width: 100% !important;
+}
+:deep(.el-form-item__label) {
+  margin-bottom: 2px !important;
 }
 :deep(.el-slider__runway.show-input) {
   margin-right: 10px;

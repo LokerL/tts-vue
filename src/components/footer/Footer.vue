@@ -4,21 +4,20 @@
       <div class="paly-bar-options">
         <!-- <el-button type="primary" circle>
           <el-icon @click="test"><CaretRight /></el-icon>
-        </el-button>
-        <el-button
+        </el-button> -->
+        <!-- <el-button
           type="warning"
           circle
           style="font-size: 10px; font-weight: 900; width: 32px"
         >
           | |
         </el-button> -->
-        <el-button type="success" circle>
+        <el-button type="success" circle @click="download">
           <el-icon><Download /></el-icon>
         </el-button>
       </div>
       <div class="paly-bar-process">
         <audio :src="src" autoplay controls style="width: 100%"></audio>
-        <!-- <el-slider v-model="process" /> -->
       </div>
     </div>
   </div>
@@ -28,21 +27,51 @@
 import { ref, getCurrentInstance, onBeforeMount, onMounted } from "vue";
 import getTTSData from "./play";
 const src = ref("");
-async function test(vConfig: any) {
-  const mp3buffer: any = await getTTSData(vConfig);
+let currBuffer: any = null;
+async function tts(
+  val: string,
+  voice: string,
+  express: string,
+  role: string,
+  rate: number,
+  pitch: number
+) {
+  const mp3buffer: any = await getTTSData(
+    val,
+    voice,
+    express,
+    role,
+    rate,
+    pitch
+  );
   if (mp3buffer) {
+    currBuffer = mp3buffer;
     var svlob = new Blob([mp3buffer]);
     src.value = URL.createObjectURL(svlob);
-    console.log("svlob:", URL.createObjectURL(svlob));
+    appContext.config.globalProperties.$mitt.emit("endLoanding", false);
   }
 }
+
 const process = ref(0);
 const { appContext } = getCurrentInstance() as any;
 onMounted(() => {
   appContext.config.globalProperties.$mitt.on("start", (res: any) => {
-    console.log(res);
+    tts(
+      res.inputValue,
+      res.voiceSelect,
+      res.voiceStyleSelect,
+      res.role,
+      (res.speed - 1) * 100,
+      (res.pitch - 1) * 50
+    );
   });
 });
+
+const download = () => {
+  let fs = require("fs");
+
+  fs.writeFileSync(new Date().getTime() + ".mp3", currBuffer);
+};
 
 onBeforeMount(() => {
   appContext.config.globalProperties.$mitt.off("start");
