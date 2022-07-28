@@ -2,14 +2,22 @@
   <div class="options">
     <el-form :model="form" label-width="120px" label-position="top">
       <el-form-item label="语言">
-        <el-select v-model="languageSelect" placeholder="选择语言" filterable>
+        <!-- <el-select v-model="languageSelect" placeholder="选择语言" filterable>
           <el-option
             v-for="item in oc.languageSelect"
             :key="item.Locale"
             :label="item.LocaleName"
             :value="item.LocaleName"
           />
-        </el-select>
+        </el-select> -->
+        <el-select-v2
+          class="languageSelect"
+          v-model="form.languageSelect"
+          placeholder="选择语言"
+          filterable
+          :options="oc.languageSelect"
+        >
+        </el-select-v2>
       </el-form-item>
       <el-form-item label="语音">
         <el-select v-model="form.voiceSelect" placeholder="选择语音">
@@ -64,6 +72,22 @@
         />
       </el-form-item>
       <el-form-item class="startBtn">
+        <el-button
+          color="#626aef"
+          :dark="false"
+          plain
+          size="small"
+          @click="saveConfig"
+          >保存配置</el-button
+        >
+        <el-select-v2
+          class="get-cfg"
+          v-model="currConfig"
+          placeholder="选择配置"
+          filterable
+          :options="allConfig"
+          @change="getConfig"
+        ></el-select-v2>
         <a href="#" class="btn" @click="startBtn">
           <template v-if="isLoading">
             <Loading></Loading>
@@ -79,34 +103,115 @@
 import { ref, watch, reactive, getCurrentInstance, onMounted } from "vue";
 import { optionsConfig as oc } from "./options-config";
 import Loading from "./Loading.vue";
+import { ElNotification, ElMessageBox } from "element-plus";
+const Store = require("electron-store");
+
+const store = new Store();
 
 const props = defineProps<{
   inputValue: string;
 }>();
 
-const form = reactive({
-  inputValue: "",
-  voiceSelect: "zh-CN-XiaoxiaoNeural",
-  voiceStyleSelect: "General",
-  role: "Default",
-  speed: 1.0,
-  pitch: 1.0,
-});
+let currConfig = ref("默认");
+
+if (!store.has("FormConfig.默认")) {
+  store.set("FormConfig.默认", {
+    inputValue: "",
+    languageSelect: "Chinese (Mandarin, Simplified)",
+    voiceSelect: "zh-CN-XiaoxiaoNeural",
+    voiceStyleSelect: "General",
+    role: "Default",
+    speed: 1.0,
+    pitch: 1.0,
+  });
+}
+
+const getAllConfig = () => {
+  return Object.keys(store.get("FormConfig")).map((item) => ({
+    value: item,
+    label: item,
+  }));
+};
+
+let allConfig = ref(getAllConfig());
+
+const form = reactive(
+  store.has("FormConfig.默认")
+    ? store.get("FormConfig.默认")
+    : {
+        inputValue: "",
+        languageSelect: "Chinese (Mandarin, Simplified)",
+        voiceSelect: "zh-CN-XiaoxiaoNeural",
+        voiceStyleSelect: "General",
+        role: "Default",
+        speed: 1.0,
+        pitch: 1.0,
+      }
+);
+const getConfig = (val: any) => {
+  console.log(store.get("FormConfig." + val));
+  const fc = store.get("FormConfig." + val);
+  form.voiceSelect = fc.voiceSelect;
+  form.voiceStyleSelect = fc.voiceStyleSelect;
+  form.role = fc.role;
+  form.speed = fc.speed;
+  form.pitch = fc.pitch;
+};
+
+const saveConfig = () => {
+  ElMessageBox.prompt(
+    `<p>给此配置起一个简单的名字吧:)</p><br>默认显示的配置名：<strong>默认</strong>`,
+    "保存配置",
+    {
+      dangerouslyUseHTMLString: true,
+      confirmButtonText: "确定",
+      cancelButtonText: "取消",
+      inputValidator: (value: any) => {
+        if (value == null || value == "" || value == undefined) {
+          return false;
+        } else {
+          return true;
+        }
+      },
+      inputErrorMessage: "错误的输入",
+    }
+  )
+    .then(({ value }) => {
+      store.set("FormConfig." + value, form);
+      allConfig.value = getAllConfig();
+      ElNotification({
+        title: "成功",
+        message: "保存成功。",
+        type: "success",
+        duration: 1500,
+      });
+    })
+    .catch(() => {
+      ElNotification({
+        title: "提示",
+        message: "取消保存",
+        type: "info",
+        duration: 1500,
+      });
+    });
+};
 
 const isLoading = ref(false);
 
 watch(props, (newValue) => {
   form.inputValue = newValue.inputValue;
 });
-const languageSelect = ref("Chinese (Mandarin, Simplified)");
 
-const voiceSelectList = ref(oc.findVoicesByLocaleName(languageSelect.value));
-watch(languageSelect, (newValue) => {
-  form.voiceSelect = "";
-  form.voiceStyleSelect = "General";
-  form.role = "Default";
-  voiceSelectList.value = oc.findVoicesByLocaleName(newValue);
-});
+const voiceSelectList = ref(oc.findVoicesByLocaleName(form.languageSelect));
+watch(
+  () => form.languageSelect,
+  (newValue) => {
+    form.voiceSelect = "";
+    form.voiceStyleSelect = "General";
+    form.role = "Default";
+    voiceSelectList.value = oc.findVoicesByLocaleName(newValue);
+  }
+);
 const voiceStyleSelectListInit = voiceSelectList.value.find(
   (item: any) => item.ShortName == form.voiceSelect
 )?.StyleList;
@@ -127,12 +232,27 @@ watch(
 
 const { appContext } = getCurrentInstance() as any;
 const startBtn = () => {
+  if (form.inputValue == "") {
+    ElNotification({
+      title: "警告",
+      message: "请输入文字内容。",
+      type: "warning",
+      duration: 1500,
+    });
+    return;
+  }
   isLoading.value = true;
   appContext.config.globalProperties.$mitt.emit("start", form);
 };
 onMounted(() => {
   appContext.config.globalProperties.$mitt.on("endLoanding", (res: boolean) => {
     isLoading.value = res;
+    ElNotification({
+      title: "成功",
+      message: "转换成功，正在试听。",
+      type: "success",
+      duration: 1500,
+    });
   });
 });
 </script>
@@ -154,6 +274,12 @@ onMounted(() => {
 .el-select {
   width: 100% !important;
 }
+.languageSelect {
+  width: 100% !important;
+}
+.get-cfg {
+  width: 50px;
+}
 :deep(.el-form-item__label) {
   margin-bottom: 2px !important;
 }
@@ -170,7 +296,7 @@ onMounted(() => {
 }
 /* From uiverse.io by @Zena4L */
 :deep(.startBtn > .el-form-item__content) {
-  justify-content: center;
+  justify-content: space-around;
 }
 .btn:link,
 .btn:visited {

@@ -6430,14 +6430,22 @@ const voicesList = [
   },
  */
 
-const localeList = voicesList.map(({ Locale, LocaleName }) => {
-  return { Locale, LocaleName };
-});
-let obj: any = {};
-const languageSelect = localeList.reduce((cur: any, next: any) => {
-  obj[next.LocaleName] ? "" : (obj[next.LocaleName] = true && cur.push(next));
-  return cur;
-}, []); //设置cur默认类型为数组，并且初始值为空的数组
+// const localeList = voicesList.map(({ Locale, LocaleName }) => {
+//   return { Locale, LocaleName };
+// });
+// let obj: any = {};
+// const languageSelect = localeList.reduce((cur: any, next: any) => {
+//   obj[next.LocaleName] ? "" : (obj[next.LocaleName] = true && cur.push(next));
+//   return cur;
+// }, []); //设置cur默认类型为数组，并且初始值为空的数组
+
+const list = voicesList.map(({ LocaleName }) => LocaleName);
+
+const set = new Set(list);
+const languageSelect = [...set].map((item) => ({
+  value: item,
+  label: item,
+}));
 
 const findVoicesByLocaleName = (localeName: any) => {
   const voices = voicesList.filter((item) => item.LocaleName == localeName);

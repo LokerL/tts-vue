@@ -14,7 +14,7 @@
 <script setup lang="ts">
 import MainOptions from "./MainOptions.vue";
 import { ref } from "vue";
-const inputValue = ref("123");
+const inputValue = ref("");
 </script>
 
 <style scoped>

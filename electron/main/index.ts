@@ -5,6 +5,7 @@ import { join } from "path";
 // Disable GPU Acceleration for Windows 7
 //if (release().startsWith("6.1")) app.disableHardwareAcceleration();
 app.disableHardwareAcceleration();
+
 // Set application name for Windows 10+ notifications
 if (process.platform === "win32") app.setAppUserModelId(app.getName());
 
@@ -120,3 +121,5 @@ ipcMain.handle("open-win", (event, arg) => {
     // childWindow.webContents.openDevTools({ mode: "undocked", activate: true })
   }
 });
+const ElectronStore = require("electron-store");
+ElectronStore.initRenderer();
