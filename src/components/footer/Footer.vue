@@ -23,7 +23,12 @@
         </el-button>
       </div>
       <div class="paly-bar-process">
-        <audio :src="src" autoplay controls style="width: 100%"></audio>
+        <audio
+          :src="src"
+          :autoplay="autoplay"
+          controls
+          style="width: 100%"
+        ></audio>
       </div>
     </div>
   </div>
@@ -31,8 +36,15 @@
 
 <script setup lang="ts">
 import { ref, getCurrentInstance, onBeforeMount, onMounted } from "vue";
+import { ElMessage } from "element-plus";
 import getTTSData from "./play";
+const path = require("path");
+const Store = require("electron-store");
+const store = new Store();
+const autoplay = store.get("autoplay");
+const savePath = store.get("savePath");
 
+const fs = require("fs");
 const src = ref("");
 const isLoading = ref(false);
 let currBuffer: any = null;
@@ -53,12 +65,50 @@ async function tts(
     pitch
   );
   if (mp3buffer) {
+    console.log(mp3buffer);
     currBuffer = mp3buffer;
     var svlob = new Blob([mp3buffer]);
     src.value = URL.createObjectURL(svlob);
-    appContext.config.globalProperties.$mitt.emit("endLoanding", false);
+    const msg = autoplay ? "成功，正在试听~" : "成功，请手动播放。";
+    appContext.config.globalProperties.$mitt.emit("endLoanding", {
+      type: false,
+      msg: "成功，正在试听~",
+    });
     isLoading.value = false;
   }
+}
+
+async function ttsBatch(
+  val: any,
+  voice: string,
+  express: string,
+  role: string,
+  rate: number,
+  pitch: number
+) {
+  const mp3buffer: any = await getTTSData(
+    val,
+    voice,
+    express,
+    role,
+    rate,
+    pitch
+  );
+  // path.join(savePath, val.tableValue.fileName)
+  // await writeMp3(mp3buffer, val.tableValue.filePath.split(".txt")[0] + ".mp3");
+  await writeMp3(
+    mp3buffer,
+    path.join(savePath, val.tableValue.fileName.split(".")[0] + ".mp3")
+  );
+  appContext.config.globalProperties.$mitt.emit("doneTrans", val);
+}
+
+function writeMp3(mp3buffer: any, path: string) {
+  fs.writeFileSync(path, mp3buffer);
+  appContext.config.globalProperties.$mitt.emit("endLoanding", {
+    type: false,
+    msg: "成功，正在写入" + path,
+  });
 }
 
 const process = ref(0);
@@ -75,12 +125,42 @@ onMounted(() => {
       (res.form.pitch - 1) * 50
     );
   });
+  appContext.config.globalProperties.$mitt.on("startBatch", (res: any) => {
+    isLoading.value = true;
+    res.inputValues.tableData.forEach((item: any) => {
+      const inps = {
+        activeIndex: 1, // 值转换普通文本
+        inputValue: "",
+        tableValue: item,
+      };
+      fs.readFile(item.filePath, "utf8", (err: any, datastr: any) => {
+        if (err) console.log(err);
+        inps.inputValue = datastr;
+        ttsBatch(
+          inps,
+          res.form.voiceSelect,
+          res.form.voiceStyleSelect,
+          res.form.role,
+          (res.form.speed - 1) * 100,
+          (res.form.pitch - 1) * 50
+        );
+      });
+    });
+  });
 });
 
 const download = () => {
-  let fs = require("fs");
-
-  fs.writeFileSync(new Date().getTime() + ".mp3", currBuffer);
+  const currTime = new Date().getTime().toString();
+  fs.writeFileSync(
+    path.resolve(path.join(savePath, currTime + ".mp3")),
+    currBuffer
+  );
+  ElMessage({
+    message:
+      "下载成功：" + path.resolve(path.join(savePath, currTime + ".mp3")),
+    type: "success",
+    duration: 2000,
+  });
 };
 
 onBeforeMount(() => {

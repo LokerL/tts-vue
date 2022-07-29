@@ -14,6 +14,10 @@ import {
   ElTable,
   ElTag,
   ElUpload,
+  ElDialog,
+  ElDivider,
+  ElSwitch,
+  ElPopover,
 } from "element-plus";
 import "element-plus/dist/index.css";
 import "element-plus/theme-chalk/display.css";
@@ -47,6 +51,9 @@ const components = [
   ElTag,
 
   ElUpload,
+  ElDialog,
+  ElSwitch,
+  ElPopover,
 ];
 
 export default function (app: any) {

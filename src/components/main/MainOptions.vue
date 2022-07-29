@@ -105,7 +105,7 @@
 import { ref, watch, reactive, getCurrentInstance, onMounted } from "vue";
 import { optionsConfig as oc } from "./options-config";
 import Loading from "./Loading.vue";
-import { ElNotification, ElMessageBox } from "element-plus";
+import { ElMessage, ElMessageBox } from "element-plus";
 const Store = require("electron-store");
 
 const store = new Store();
@@ -114,13 +114,25 @@ const props = defineProps({
   inputValue: String,
   ssmlValue: String,
   activeIndex: Number,
+  tableData: Array,
+  asideIndex: Number,
 });
 
 const inputValues = {
   inputValue: props.inputValue,
   ssmlValue: props.ssmlValue,
   activeIndex: props.activeIndex,
+  tableData: props.tableData,
+  asideIndex: props.asideIndex,
 };
+
+watch(props, (newValue) => {
+  inputValues.inputValue = newValue.inputValue;
+  inputValues.ssmlValue = newValue.ssmlValue;
+  inputValues.activeIndex = newValue.activeIndex;
+  inputValues.tableData = newValue.tableData;
+  inputValues.asideIndex = newValue.asideIndex;
+});
 
 let currConfig = ref("默认");
 
@@ -198,30 +210,22 @@ const saveConfig = () => {
       store.set("FormConfig." + value, form);
       allConfig.value = getAllConfig();
       currConfig.value = value;
-      ElNotification({
-        title: "成功",
+      ElMessage({
         message: "保存成功。",
         type: "success",
-        duration: 1500,
+        duration: 2000,
       });
     })
     .catch(() => {
-      ElNotification({
-        title: "提示",
+      ElMessage({
         message: "取消保存",
         type: "info",
-        duration: 1500,
+        duration: 2000,
       });
     });
 };
 
 const isLoading = ref(false);
-
-watch(props, (newValue) => {
-  inputValues.inputValue = newValue.inputValue;
-  inputValues.ssmlValue = newValue.ssmlValue;
-  inputValues.activeIndex = newValue.activeIndex;
-});
 
 const voiceSelectList = ref(oc.findVoicesByLocaleName(form.languageSelect));
 watch(
@@ -254,25 +258,35 @@ watch(
 const { appContext } = getCurrentInstance() as any;
 const startBtn = () => {
   if (inputValues.inputValue == "") {
-    ElNotification({
-      title: "警告",
+    ElMessage({
       message: "请输入文字内容。",
       type: "warning",
-      duration: 1500,
+      duration: 2000,
     });
     return;
   }
   isLoading.value = true;
-  appContext.config.globalProperties.$mitt.emit("start", { form, inputValues });
+  if (inputValues.asideIndex == 1) {
+    appContext.config.globalProperties.$mitt.emit("start", {
+      form,
+      inputValues,
+    });
+  }
+  if (inputValues.asideIndex == 2) {
+    inputValues.activeIndex = 1; //批量时候确认是普通文本
+    appContext.config.globalProperties.$mitt.emit("startBatch", {
+      form,
+      inputValues,
+    });
+  }
 };
 onMounted(() => {
-  appContext.config.globalProperties.$mitt.on("endLoanding", (res: boolean) => {
-    isLoading.value = res;
-    ElNotification({
-      title: "成功",
-      message: "转换成功，正在试听。",
+  appContext.config.globalProperties.$mitt.on("endLoanding", (res: any) => {
+    isLoading.value = res.type;
+    ElMessage({
+      message: res.msg,
       type: "success",
-      duration: 1500,
+      duration: 2000,
     });
   });
 });

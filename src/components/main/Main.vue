@@ -34,13 +34,28 @@
         <el-table-column prop="status" label="状态">
           <template #default="scope">
             <div>
-              <el-tag class="ml-2" type="info">{{ scope.row.status }}</el-tag>
+              <el-tag
+                class="ml-2"
+                :type="scope.row.status == 'ready' ? 'info' : 'success'"
+                >{{ scope.row.status }}</el-tag
+              >
             </div>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作">
+          <template #default="scope">
+            <el-button
+              size="small"
+              type="danger"
+              @click="handleDelete(scope.$index, scope.row)"
+              >删除</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
       <div class="table-tool">
         <el-upload
+          ref="uploadRef"
           :auto-upload="false"
           :on-change="fileChange"
           :on-remove="fileRemove"
@@ -58,29 +73,47 @@
       </div>
     </div>
     <MainOptions
+      v-show="asideIndex != 3"
       :inputValue="inputValue"
       :ssmlValue="ssmlValue"
       :activeIndex="activeIndex"
+      :tableData="tableData"
+      :asideIndex="asideIndex"
       @change="configChange"
     ></MainOptions>
+    <div class="main-config-page" v-if="asideIndex == 3">
+      <ConfigPage></ConfigPage>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import MainOptions from "./MainOptions.vue";
+import ConfigPage from "../configpage/ConfigPage.vue";
 import { ref, watch, onMounted, getCurrentInstance } from "vue";
-import type { UploadProps, UploadUserFile } from "element-plus";
+import type { UploadInstance, UploadProps, UploadUserFile } from "element-plus";
 const inputValue = ref("你好啊\n今天天气怎么样?");
 const ssmlValue = ref("");
 const activeIndex = ref(1);
 const menuChange = (index: any) => {
   activeIndex.value = index;
+  console.log(activeIndex.value);
 };
 const { appContext } = getCurrentInstance() as any;
 const asideIndex = ref(1);
 onMounted(() => {
-  appContext.config.globalProperties.$mitt.on("sideChange", (res: number) => {
-    asideIndex.value = res;
+  appContext.config.globalProperties.$mitt.on("sideChange", (res: any) => {
+    asideIndex.value = parseInt(res);
+    activeIndex.value = 1;
+  });
+
+  appContext.config.globalProperties.$mitt.on("doneTrans", (res: any) => {
+    for (const item of tableData.value) {
+      if (item.filePath == res.tableValue.filePath) {
+        item.status = "done";
+        return;
+      }
+    }
   });
 });
 
@@ -115,18 +148,21 @@ const configChange = (form: any) => {
     (form.pitch - 1) * 50
   );
 };
+const uploadRef = ref<UploadInstance>();
+const tableData = ref(<any>[]);
 
-const tableData = ref([]);
+const handleDelete = (index: any, row: any) => {
+  uploadRef.value!.handleRemove(row.file);
+};
 
 const fileChange = (uploadFile: any, uploadFiles: any) => {
-  console.log(uploadFiles);
-  // uploadFiles
   tableData.value = uploadFiles.map((item: any) => {
     return {
       fileName: item.name,
       filePath: item.raw.path,
       fileSize: item.size,
       status: item.status,
+      file: item,
     };
   });
 };
@@ -137,6 +173,7 @@ const fileRemove = (uploadFile: any, uploadFiles: any) => {
       filePath: item.raw.path,
       fileSize: item.size,
       status: item.status,
+      file: item,
     };
   });
 };
@@ -154,6 +191,19 @@ const fileRemove = (uploadFile: any, uploadFiles: any) => {
 .input-area {
   width: 500px !important;
   border-radius: 5px !important;
+}
+.main-config-page {
+  width: 100%;
+  height: 498px;
+  background-color: #fff;
+  border-radius: 5px;
+  border: 1px solid #dcdfe6;
+}
+.table-tool {
+  background-color: #fff;
+  border-radius: 5px;
+  border: 1px solid #dcdfe6;
+  height: 68px;
 }
 .menu .el-menu {
   border: 1px solid #dcdfe6;
