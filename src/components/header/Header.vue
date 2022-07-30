@@ -6,12 +6,18 @@
         size="small"
         circle
         class="circle-btn"
-        @click="close"
+        @click="ipcRenderer.send('close')"
       >
       </el-button>
-      <el-button type="warning" size="small" circle class="circle-btn">
-      </el-button>
-      <el-button type="success" size="small" circle class="circle-btn">
+      <!-- <el-button type="warning" size="small" circle class="circle-btn">
+      </el-button> -->
+      <el-button
+        type="success"
+        size="small"
+        circle
+        class="circle-btn"
+        @click="ipcRenderer.send('min')"
+      >
       </el-button>
     </div>
   </div>
@@ -19,9 +25,6 @@
 
 <script lang="ts" setup>
 const { ipcRenderer } = require("electron");
-function close() {
-  ipcRenderer.send("close");
-}
 </script>
 
 <style scoped>

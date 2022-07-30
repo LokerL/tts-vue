@@ -204,6 +204,9 @@ const fileRemove = (uploadFile: any, uploadFiles: any) => {
   border-radius: 5px;
   border: 1px solid #dcdfe6;
   height: 68px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .menu .el-menu {
   border: 1px solid #dcdfe6;

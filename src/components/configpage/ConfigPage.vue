@@ -48,8 +48,12 @@
       </el-form>
     </div>
     <div class="donate">
-      <img src="../../assets/zfb.jpg" />
-      <img src="../../assets/wx.jpg" />
+      <h3>如果你觉得这个项目帮助到了你，你可以请作者喝杯咖啡表示鼓励 ☕️</h3>
+      <div class="er-code">
+        <img src="../../assets/zfb.jpg" />
+        <img src="../../assets/wx.jpg" />
+      </div>
+      <div class="btns"><BiliBtn></BiliBtn> <GithubBtn></GithubBtn></div>
     </div>
   </div>
 </template>
@@ -57,7 +61,8 @@
 <script setup lang="ts">
 import { reactive, ref } from "vue";
 import { ElMessage } from "element-plus";
-
+import BiliBtn from "./BiliBtn.vue";
+import GithubBtn from "./GithubBtn.vue";
 const homeDir = require("os").homedir();
 const desktopDir = `${homeDir}\\Desktop\\`;
 
@@ -125,6 +130,9 @@ const tableData: any = ref(
   justify-content: space-around;
   padding: 10px;
 }
+h3 {
+  margin-left: 10px;
+}
 .el-form {
   margin-top: 7px;
   border-right: 1px solid #dcdfe6;
@@ -134,7 +142,12 @@ const tableData: any = ref(
   width: 230px;
 }
 img {
-  width: 220px;
-  height: 320px;
+  width: 250px;
+  height: 280px;
+}
+.btns {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }
 </style>

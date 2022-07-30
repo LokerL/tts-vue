@@ -65,7 +65,6 @@ async function tts(
     pitch
   );
   if (mp3buffer) {
-    console.log(mp3buffer);
     currBuffer = mp3buffer;
     var svlob = new Blob([mp3buffer]);
     src.value = URL.createObjectURL(svlob);

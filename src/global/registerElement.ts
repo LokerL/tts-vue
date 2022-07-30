@@ -54,6 +54,7 @@ const components = [
   ElDialog,
   ElSwitch,
   ElPopover,
+  ElDivider,
 ];
 
 export default function (app: any) {
