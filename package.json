@@ -1,6 +1,6 @@
 {
-  "name": "electron-vue-vite",
-  "version": "2.0.0",
+  "name": "tts-vue",
+  "version": "1.0.0",
   "main": "dist/electron/main/index.js",
   "description": "Really simple Electron + Vue + Vite boilerplate.",
   "author": "沫離Loker <806076693@qq.com>",

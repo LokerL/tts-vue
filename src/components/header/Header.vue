@@ -20,10 +20,12 @@
       >
       </el-button>
     </div>
+    <Logo />
   </div>
 </template>
 
 <script lang="ts" setup>
+import Logo from "./Logo.vue";
 const { ipcRenderer } = require("electron");
 </script>
 
@@ -36,6 +38,7 @@ const { ipcRenderer } = require("electron");
   display: flex;
   align-items: center;
   justify-items: auto;
+  justify-content: space-between;
 }
 .win-tools {
   margin-left: 10px;
