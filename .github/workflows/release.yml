@@ -1,77 +1,21 @@
-name: Release
-
+name: Build Pack
 on:
   push:
-  release:
-    branches: [main]
-    types:
-      - published
-    paths-ignore:
-      - "**.md"
-      - "**.spec.js"
-      - ".idea"
-      - ".vscode"
-      - ".dockerignore"
-      - "Dockerfile"
-      - ".gitignore"
-      - ".github/**"
-      - "!.github/workflows/release.yml"
-
-defaults:
-  run:
-    shell: "bash"
-
+    branches:
+      - master # master 分支 push 时触发工作流
 jobs:
-  build:
-    # see more environment https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idruns-on
-    runs-on: [ubuntu-20.04]
-    # https://www.electron.build/multi-platform-build#provided-docker-images
-    container: electronuserland/builder:wine
-
-    env:
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      ELECTRON_BUILDER_CACHE: "/root/.cache/electron-builder"
-      ELECTRON_CACHE: "/root/.cache/electron"
-
-    strategy:
-      matrix:
-        node: ["14"]
-
+  pack: # 打包任务
+    runs-on: windows-latest # 在 windows 系统中运行
     steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node }}
-
-      - name: Install dependencies
-        run: npm i
-
-      # - name: Run tests
-      #   run: npm run test
-
-      # - name: Build dependencies
-      #   run: npm run build
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # - uses: actions/upload-artifact@v2
-      #   with:
-      #     name: upload-artifact
-      #     path: |
-      #       release/electron-vue-vite*.exe
-      #       release/electron-vue-vite*.AppImage
-      #       release/electron-vue-vite*.snap
-
-      # https://github.com/marketplace/actions/electron-builder-action
-      - name: Compile & Release Electron app
-        uses: samuelmeuli/action-electron-builder@v1
-        with:
-          build_script_name: prebuild
-          args: --config electron-builder.json5
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          release: ${{ startsWith(github.ref, 'refs/tags/v') && github.event_name == 'push' && needs.get_metadata.outputs.branch == 'main'}}
-          max_attempts: 3
+    - uses: actions/checkout@v2 # 下载仓库代码到工作流机器中
+    - name: Install and Pack # 安装依赖并且进行构建
+      run: |
+        npm install
+        npm run build
+    - name: Upload file # 将构建产物进行上传
+      uses: actions/upload-artifact@v2
+      with:
+        name: vue-tts
+        # 打包的路径以及文件过滤，此为仅打包dist目录下的exe文件
+        path: release/1.0.0/*exe
+  
