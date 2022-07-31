@@ -21,7 +21,8 @@ jobs:
 
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        # [macos-latest, ubuntu-latest, windows-latest]
+        os: [windows-latest]
 
     steps:
       - name: Checkout Code
@@ -45,6 +46,6 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: release_on_${{ matrix. os }}
-          path: release/
+          name: vue-tts_release_on_${{ matrix.os }}
+          path: release/1.0.0/*exe
           retention-days: 5
