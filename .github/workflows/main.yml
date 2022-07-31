@@ -12,7 +12,7 @@ on:
       - "Dockerfile"
       - ".gitignore"
       - ".github/**"
-      - "!.github/workflows/main.yml"
+      - "!.github/workflows/build.yml"
   workflow_dispatch:
 
 jobs:
@@ -40,18 +40,11 @@ jobs:
 
       - name: Build Release Files
         run: npm run build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: vue-tts-${{ matrix.os }}
+          name: vue-tts.zip
           path: release/1.0.0/*exe
-          retention-days: 30
-          
-    #  - name: Upload to release
-      #  uses: softprops/action-gh-release@v1
-       # with:
-        # name: vue-tts-${{ matrix.os }}
-        # if: startsWith(github.ref, 'refs/tags/')
-        # files: "release/1.0.0/*exe"
-        # token: ${{ secrets.TOKEN }}
