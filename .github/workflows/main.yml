@@ -12,7 +12,7 @@ on:
       - "Dockerfile"
       - ".gitignore"
       - ".github/**"
-      - "!.github/workflows/build.yml"
+      - "!.github/workflows/main.yml"
   workflow_dispatch:
 
 jobs:
@@ -39,7 +39,7 @@ jobs:
         run: npm install
 
       - name: Build Release Files
-        run: npm run build
+        run: npm run electron-builder build --publish=never
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
