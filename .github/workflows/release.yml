@@ -11,7 +11,7 @@ jobs:
       - name: Install and Pack # 安装依赖并且进行构建
         run: |
           npm install
-          npm run build
+          npm run electron-builder
       - name: Upload file # 将构建产物进行上传
         uses: actions/upload-artifact@v2
         with:
