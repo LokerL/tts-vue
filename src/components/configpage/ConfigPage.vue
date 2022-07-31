@@ -3,13 +3,23 @@
     <div class="config-side">
       <el-form :model="form" label-position="top">
         <el-form-item label="下载路径">
-          <el-input v-model="form.savePath" />
+          <el-input v-model="form.savePath" size="small" class="input-path">
+            <template #append>
+              <el-button type="primary" @click="saveConfig">确认</el-button>
+            </template>
+          </el-input>
         </el-form-item>
         <el-form-item label="自动播放(仅单文本模式)">
-          <el-switch v-model="form.autoplay" />
+          <el-switch
+            v-model="form.autoplay"
+            active-text="是"
+            inactive-text="否"
+            inline-prompt
+            @change="switchChange"
+          />
         </el-form-item>
         <el-form-item label="模板编辑">
-          <el-table :data="tableData" style="width: 100%" height="200">
+          <el-table :data="tableData" style="width: 100%" height="230">
             <el-table-column prop="tagName" label="名字">
               <template #default="scope">
                 <el-popover
@@ -44,7 +54,9 @@
             </el-table-column>
           </el-table>
         </el-form-item>
-        <el-button type="primary" @click="saveConfig">确认</el-button>
+        <el-button type="primary" @click="ipcRenderer.send('reload')"
+          >刷新配置</el-button
+        >
       </el-form>
     </div>
     <div class="donate">
@@ -63,6 +75,8 @@ import { reactive, ref } from "vue";
 import { ElMessage } from "element-plus";
 import BiliBtn from "./BiliBtn.vue";
 import GithubBtn from "./GithubBtn.vue";
+const { ipcRenderer } = require("electron");
+
 const homeDir = require("os").homedir();
 const desktopDir = `${homeDir}\\Desktop\\`;
 
@@ -94,7 +108,7 @@ const handleDelete = (index: any, row: any) => {
     content: FormConfig[item],
   }));
   ElMessage({
-    message: "删除成功",
+    message: "删除成功，请点击“刷新配置”立即应用。",
     type: "success",
     duration: 2000,
   });
@@ -106,10 +120,17 @@ const form = reactive({
 });
 
 const saveConfig = () => {
-  store.set("autoplay", form.autoplay);
   store.set("savePath", form.savePath);
   ElMessage({
-    message: "保存成功，下次打开软件即可应用配置",
+    message: "保存成功，请点击“刷新配置”立即应用。",
+    type: "success",
+    duration: 2000,
+  });
+};
+const switchChange = (value: any) => {
+  store.set("autoplay", form.autoplay);
+  ElMessage({
+    message: "保存成功，请点击“刷新配置”立即应用。。",
     type: "success",
     duration: 2000,
   });
@@ -137,6 +158,33 @@ h3 {
   margin-top: 7px;
   border-right: 1px solid #dcdfe6;
   width: 270px;
+}
+:deep(.input-path .el-input-group__append) {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 1;
+  height: 32px;
+  white-space: nowrap;
+  cursor: pointer;
+  color: #fff;
+  text-align: center;
+  box-sizing: border-box;
+  outline: 0;
+  transition: 0.1s;
+  font-weight: 500;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  -webkit-appearance: none;
+  background-color: #409eff;
+  /* border: 1px solid #dcdfe6; */
+  border-color: #409eff;
+  padding: 8px 15px;
+  font-size: 14px;
+  border-radius: 4px;
 }
 .el-form-item {
   width: 230px;

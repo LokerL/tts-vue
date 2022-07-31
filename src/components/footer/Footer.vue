@@ -71,7 +71,7 @@ async function tts(
     const msg = autoplay ? "成功，正在试听~" : "成功，请手动播放。";
     appContext.config.globalProperties.$mitt.emit("endLoanding", {
       type: false,
-      msg: "成功，正在试听~",
+      msg: msg,
     });
     isLoading.value = false;
   }

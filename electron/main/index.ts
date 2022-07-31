@@ -105,6 +105,7 @@ app.on("activate", () => {
 ipcMain.on("min", (e) => win.minimize());
 ipcMain.on("max", (e) => win.maximize());
 ipcMain.on("close", (e) => win.close());
+ipcMain.on("reload", (e) => win.reload());
 
 // new window example arg: new windows url
 ipcMain.handle("open-win", (event, arg) => {

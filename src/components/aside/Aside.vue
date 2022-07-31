@@ -19,31 +19,15 @@
       </el-menu-item>
     </el-menu>
   </div>
-
-  <el-dialog v-model="dialogVisible" title="Tips" width="30%">
-    <span>This is a message</span>
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="dialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="dialogVisible = false"
-          >Confirm</el-button
-        >
-      </span>
-    </template>
-  </el-dialog>
 </template>
 
 <script setup lang="ts">
 import { ref, getCurrentInstance } from "vue";
 const currIndex = ref("1");
-const dialogVisible = ref(false);
 const { appContext } = getCurrentInstance() as any;
 const menuChange = (index: number) => {
   currIndex.value = index.toString();
   appContext.config.globalProperties.$mitt.emit("sideChange", index);
-};
-const setting = () => {
-  // dialogVisible.value = true;
 };
 </script>
 
