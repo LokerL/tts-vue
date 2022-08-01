@@ -40,6 +40,7 @@
     "element-plus": "2.2.9",
     "mitt": "^3.0.0",
     "nodejs-websocket": "^1.7.2",
+    "pinia": "^2.0.17",
     "uuid": "^8.3.2"
   }
 }
