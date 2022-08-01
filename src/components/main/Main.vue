@@ -1,24 +1,30 @@
 <template>
   <div class="main">
-    <div class="input-area" v-show="asideIndex == 1">
+    <div class="input-area" v-show="page.asideIndex == '1'">
       <div class="menu">
-        <el-menu mode="horizontal" @select="menuChange" default-active="1">
+        <el-menu
+          mode="horizontal"
+          @select="tabChange"
+          default-active="1"
+          ellipsis="false"
+          collapse-transition="false"
+        >
           <el-menu-item index="1">文本</el-menu-item>
           <el-menu-item index="2">SSML</el-menu-item>
         </el-menu>
       </div>
-      <div class="text-area" v-show="activeIndex == 1">
+      <div class="text-area" v-show="page.tabIndex == '1'">
         <el-input
-          v-model="inputValue"
+          v-model="inputs.inputValue"
           type="textarea"
           placeholder="Please input"
         />
       </div>
-      <div class="text-area2" v-show="activeIndex == 2">
-        <el-input v-model="ssmlValue" type="textarea" />
+      <div class="text-area2" v-show="page.tabIndex == '2'">
+        <el-input v-model="inputs.ssmlValue" type="textarea" />
       </div>
     </div>
-    <div class="input-area" v-show="asideIndex == 2">
+    <div class="input-area" v-show="page.asideIndex == '2'">
       <el-table :data="tableData" height="430" style="width: 100%">
         <el-table-column
           prop="fileName"
@@ -72,16 +78,8 @@
         </el-upload>
       </div>
     </div>
-    <MainOptions
-      v-show="asideIndex != 3"
-      :inputValue="inputValue"
-      :ssmlValue="ssmlValue"
-      :activeIndex="activeIndex"
-      :tableData="tableData"
-      :asideIndex="asideIndex"
-      @change="configChange"
-    ></MainOptions>
-    <div class="main-config-page" v-if="asideIndex == 3">
+    <MainOptions v-show="page.asideIndex != '3'"></MainOptions>
+    <div class="main-config-page" v-if="page.asideIndex == '3'">
       <ConfigPage></ConfigPage>
     </div>
   </div>
@@ -90,66 +88,20 @@
 <script setup lang="ts">
 import MainOptions from "./MainOptions.vue";
 import ConfigPage from "../configpage/ConfigPage.vue";
-import { ref, watch, onMounted, getCurrentInstance } from "vue";
+import { ref, onMounted, getCurrentInstance } from "vue";
 import type { UploadInstance, UploadProps, UploadUserFile } from "element-plus";
-const inputValue = ref("你好啊\n今天天气怎么样?");
-const ssmlValue = ref("");
-const activeIndex = ref(1);
-const menuChange = (index: any) => {
-  activeIndex.value = index;
-  console.log(activeIndex.value);
-};
-const { appContext } = getCurrentInstance() as any;
-const asideIndex = ref(1);
-onMounted(() => {
-  appContext.config.globalProperties.$mitt.on("sideChange", (res: any) => {
-    asideIndex.value = parseInt(res);
-    activeIndex.value = 1;
-  });
+import { useTtsStore } from "@/store/store";
+import { storeToRefs } from "pinia";
+const store = useTtsStore();
+const { inputs, formConfig, page, tableData, getSSML } = storeToRefs(store);
 
-  appContext.config.globalProperties.$mitt.on("doneTrans", (res: any) => {
-    for (const item of tableData.value) {
-      if (item.filePath == res.tableValue.filePath) {
-        item.status = "done";
-        return;
-      }
-    }
-  });
-});
+inputs.value.ssmlValue = getSSML.value;
 
-const ssml = (
-  text: string,
-  voice: string,
-  express: string,
-  role: string,
-  rate = 0,
-  pitch = 0
-) => {
-  return `<speak xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="http://www.w3.org/2001/mstts" xmlns:emo="http://www.w3.org/2009/10/emotionml" version="1.0" xml:lang="en-US">
-        <voice name="${voice}">
-            <mstts:express-as  ${
-              express != "General" ? 'style="' + express + '"' : ""
-            } ${role != "Default" ? 'role="' + role + '"' : ""}>
-                <prosody rate="${rate}%" pitch="${pitch}%">
-                ${text}
-                </prosody>
-            </mstts:express-as>
-        </voice>
-    </speak>
-    `;
-};
-const configChange = (form: any) => {
-  ssmlValue.value = ssml(
-    form.inputValue,
-    form.voiceSelect,
-    form.voiceStyleSelect,
-    form.role,
-    (form.speed - 1) * 100,
-    (form.pitch - 1) * 50
-  );
+const tabChange = (index: number) => {
+  page.value.tabIndex = index.toString();
+  console.log(page);
 };
 const uploadRef = ref<UploadInstance>();
-const tableData = ref(<any>[]);
 
 const handleDelete = (index: any, row: any) => {
   uploadRef.value!.handleRemove(row.file);
@@ -177,6 +129,8 @@ const fileRemove = (uploadFile: any, uploadFiles: any) => {
     };
   });
 };
+const { appContext } = getCurrentInstance() as any;
+onMounted(() => {});
 </script>
 
 <style scoped>

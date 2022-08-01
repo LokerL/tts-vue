@@ -76,10 +76,8 @@ import { ElMessage } from "element-plus";
 import BiliBtn from "./BiliBtn.vue";
 import GithubBtn from "./GithubBtn.vue";
 const { ipcRenderer } = require("electron");
-
 const homeDir = require("os").homedir();
 const desktopDir = `${homeDir}\\Desktop\\`;
-
 const Store = require("electron-store");
 const store = new Store();
 
@@ -89,16 +87,7 @@ if (!store.has("savePath")) {
 if (!store.has("autoplay")) {
   store.set("autoplay", true);
 }
-if (!store.has("FormConfig.默认")) {
-  store.set("FormConfig.默认", {
-    languageSelect: "Chinese (Mandarin, Simplified)",
-    voiceSelect: "zh-CN-XiaoxiaoNeural",
-    voiceStyleSelect: "General",
-    role: "Default",
-    speed: 1.0,
-    pitch: 1.0,
-  });
-}
+
 let FormConfig = store.get("FormConfig");
 const handleDelete = (index: any, row: any) => {
   delete FormConfig[row.tagName];

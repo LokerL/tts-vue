@@ -1,7 +1,7 @@
 <template>
   <div class="aside">
     <el-menu
-      :default-active="currIndex"
+      :default-active="page.asideIndex"
       class="el-menu-vertical-demo"
       @select="menuChange"
     >
@@ -23,11 +23,14 @@
 
 <script setup lang="ts">
 import { ref, getCurrentInstance } from "vue";
-const currIndex = ref("1");
-const { appContext } = getCurrentInstance() as any;
+import { useTtsStore } from "@/store/store";
+import { storeToRefs } from "pinia";
+const store = useTtsStore();
+const { page } = storeToRefs(store);
+
 const menuChange = (index: number) => {
-  currIndex.value = index.toString();
-  appContext.config.globalProperties.$mitt.emit("sideChange", index);
+  page.value.asideIndex = index.toString();
+  console.log(page.value);
 };
 </script>
 
