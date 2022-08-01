@@ -83,3 +83,13 @@
 #### 2.4 其他说明
 关闭软件：左上角红色圆圈按钮
 最小化：左上角绿色圆圈按钮
+
+### Related
+
+- [electron-vite-vue](https://github.com/electron-vite/electron-vite-vue) - 🥳 Really simple Electron + Vite + Vue boilerplate.
+- [electron](https://www.electronjs.org/) - :electron: Build cross-platform desktop apps with JavaScript, HTML, and CSS
+- [electron-builder](https://github.com/electron-userland/electron-builder) - A complete solution to package and build a ready for distribution Electron app with “auto update” support out of the box
+- [Vue](https://github.com/vuejs/vue) - Vue.js is a progressive, incrementally-adoptable JavaScript framework for building UI on the web.
+- [element-plus](https://github.com/element-plus/element-plus) - 🎉 A Vue.js 3 UI Library made by Element team
+- [mstts.js](https://github.com/ezshine/mstts-js) 
+
