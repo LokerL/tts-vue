@@ -60,7 +60,8 @@ async function getTTSData(
     </speak>
     `;
   } else {
-    SSML = inps.ssmlValue;
+    SSML = inps.inputValue;
+    // SSML = inps.ssmlValue;
   }
   console.log(SSML);
 

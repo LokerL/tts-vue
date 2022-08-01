@@ -38,15 +38,21 @@
 import { ref, getCurrentInstance, onBeforeMount, onMounted } from "vue";
 import { ElMessage } from "element-plus";
 import getTTSData from "./play";
+import { useTtsStore } from "@/store/store";
+import { storeToRefs } from "pinia";
+
 const path = require("path");
 const Store = require("electron-store");
 const store = new Store();
 const autoplay = store.get("autoplay");
 const savePath = store.get("savePath");
 
+const ttsStore = useTtsStore();
+const { inputs, formConfig, page, tableData, isLoading, getSSML } =
+  storeToRefs(ttsStore);
+
 const fs = require("fs");
 const src = ref("");
-const isLoading = ref(false);
 let currBuffer: any = null;
 async function tts(
   val: any,
@@ -66,7 +72,7 @@ async function tts(
   );
   if (mp3buffer) {
     currBuffer = mp3buffer;
-    var svlob = new Blob([mp3buffer]);
+    const svlob = new Blob([mp3buffer]);
     src.value = URL.createObjectURL(svlob);
     const msg = autoplay ? "成功，正在试听~" : "成功，请手动播放。";
     appContext.config.globalProperties.$mitt.emit("endLoanding", {
@@ -99,7 +105,8 @@ async function ttsBatch(
     mp3buffer,
     path.join(savePath, val.tableValue.fileName.split(".")[0] + ".mp3")
   );
-  appContext.config.globalProperties.$mitt.emit("doneTrans", val);
+  ttsStore.setDoneStatus(val.tableValue.filePath);
+  // appContext.config.globalProperties.$mitt.emit("doneTrans", val);
 }
 
 function writeMp3(mp3buffer: any, path: string) {
@@ -113,20 +120,26 @@ function writeMp3(mp3buffer: any, path: string) {
 const process = ref(0);
 const { appContext } = getCurrentInstance() as any;
 onMounted(() => {
-  appContext.config.globalProperties.$mitt.on("start", (res: any) => {
-    isLoading.value = true;
+  appContext.config.globalProperties.$mitt.on("start", () => {
+    const value = {
+      activeIndex: page.value.tabIndex,
+      inputValue:
+        page.value.tabIndex == "1"
+          ? inputs.value.inputValue
+          : inputs.value.ssmlValue,
+    };
     tts(
-      res.inputValues,
-      res.form.voiceSelect,
-      res.form.voiceStyleSelect,
-      res.form.role,
-      (res.form.speed - 1) * 100,
-      (res.form.pitch - 1) * 50
+      value,
+      formConfig.value.voiceSelect,
+      formConfig.value.voiceStyleSelect,
+      formConfig.value.role,
+      (formConfig.value.speed - 1) * 100,
+      (formConfig.value.pitch - 1) * 50
     );
   });
-  appContext.config.globalProperties.$mitt.on("startBatch", (res: any) => {
-    isLoading.value = true;
-    res.inputValues.tableData.forEach((item: any) => {
+
+  appContext.config.globalProperties.$mitt.on("startBatch", () => {
+    tableData.value.forEach((item: any) => {
       const inps = {
         activeIndex: 1, // 值转换普通文本
         inputValue: "",
@@ -137,11 +150,11 @@ onMounted(() => {
         inps.inputValue = datastr;
         ttsBatch(
           inps,
-          res.form.voiceSelect,
-          res.form.voiceStyleSelect,
-          res.form.role,
-          (res.form.speed - 1) * 100,
-          (res.form.pitch - 1) * 50
+          formConfig.value.voiceSelect,
+          formConfig.value.voiceStyleSelect,
+          formConfig.value.role,
+          (formConfig.value.speed - 1) * 100,
+          (formConfig.value.pitch - 1) * 50
         );
       });
     });
