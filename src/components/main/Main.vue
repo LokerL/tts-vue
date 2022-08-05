@@ -6,8 +6,7 @@
           mode="horizontal"
           @select="tabChange"
           default-active="1"
-          ellipsis="false"
-          collapse-transition="false"
+          :ellipsis="false"
         >
           <el-menu-item index="1">文本</el-menu-item>
           <el-menu-item index="2">SSML</el-menu-item>
