@@ -8,6 +8,7 @@ import Main from "./components/main/Main.vue";
 import Footer from "./components/footer/Footer.vue";
 const ttsStore = useTtsStore();
 ttsStore.genFormConfig();
+ttsStore.setSSMLValue();
 </script>
 
 <template>

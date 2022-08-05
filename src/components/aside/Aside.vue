@@ -25,12 +25,16 @@
 import { ref, getCurrentInstance } from "vue";
 import { useTtsStore } from "@/store/store";
 import { storeToRefs } from "pinia";
-const store = useTtsStore();
-const { page } = storeToRefs(store);
+const Store = require("electron-store");
+const store = new Store();
+const ttsStore = useTtsStore();
+const { page, config } = storeToRefs(ttsStore);
 
 const menuChange = (index: number) => {
   page.value.asideIndex = index.toString();
-  console.log(page.value);
+  index == 2
+    ? (config.value.autoplay = true)
+    : (config.value.autoplay = store.get("autoplay"));
 };
 </script>
 
