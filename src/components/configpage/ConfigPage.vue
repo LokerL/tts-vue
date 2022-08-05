@@ -142,6 +142,9 @@ h3 {
   border-right: 1px solid #dcdfe6;
   width: 270px;
 }
+.er-code {
+  padding-left: 5px;
+}
 :deep(.input-path .el-input-group__append) {
   display: inline-flex;
   justify-content: center;
@@ -173,7 +176,7 @@ h3 {
   width: 230px;
 }
 img {
-  width: 250px;
+  width: 245px;
   height: 280px;
 }
 .btns {
