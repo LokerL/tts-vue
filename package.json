@@ -1,8 +1,8 @@
 {
   "name": "tts-vue",
-  "version": "1.0.0",
+  "version": "1.5.0",
   "main": "dist/electron/main/index.js",
-  "description": "Really simple Electron + Vue + Vite boilerplate.",
+  "description": "🎤 微软语音合成工具，使用 Electron + Vue + ElementPlus + Vite 构建。",
   "author": "沫離Loker <806076693@qq.com>",
   "license": "MIT",
   "private": true,
