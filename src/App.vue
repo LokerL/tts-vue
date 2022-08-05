@@ -1,10 +1,14 @@
 <script setup lang="ts">
+import { useTtsStore } from "@/store/store";
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
 import Header from "./components/header/Header.vue";
 import Aside from "./components/aside/Aside.vue";
 import Main from "./components/main/Main.vue";
 import Footer from "./components/footer/Footer.vue";
+const ttsStore = useTtsStore();
+ttsStore.genFormConfig();
+ttsStore.setSSMLValue();
 </script>
 
 <template>

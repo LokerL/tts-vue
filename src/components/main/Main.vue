@@ -1,24 +1,29 @@
 <template>
   <div class="main">
-    <div class="input-area" v-show="asideIndex == 1">
+    <div class="input-area" v-show="page.asideIndex == '1'">
       <div class="menu">
-        <el-menu mode="horizontal" @select="menuChange" default-active="1">
+        <el-menu
+          mode="horizontal"
+          @select="tabChange"
+          default-active="1"
+          :ellipsis="false"
+        >
           <el-menu-item index="1">文本</el-menu-item>
           <el-menu-item index="2">SSML</el-menu-item>
         </el-menu>
       </div>
-      <div class="text-area" v-show="activeIndex == 1">
+      <div class="text-area" v-show="page.tabIndex == '1'">
         <el-input
-          v-model="inputValue"
+          v-model="inputs.inputValue"
           type="textarea"
           placeholder="Please input"
         />
       </div>
-      <div class="text-area2" v-show="activeIndex == 2">
-        <el-input v-model="ssmlValue" type="textarea" />
+      <div class="text-area2" v-show="page.tabIndex == '2'">
+        <el-input v-model="inputs.ssmlValue" type="textarea" />
       </div>
     </div>
-    <div class="input-area" v-show="asideIndex == 2">
+    <div class="input-area" v-show="page.asideIndex == '2'">
       <el-table :data="tableData" height="430" style="width: 100%">
         <el-table-column
           prop="fileName"
@@ -30,8 +35,13 @@
           label="文件路径"
           show-overflow-tooltip="true"
         />
-        <el-table-column prop="fileSize" label="字符数" />
-        <el-table-column prop="status" label="状态">
+        <el-table-column
+          prop="fileSize"
+          label="字数"
+          width="60"
+          show-overflow-tooltip="true"
+        />
+        <el-table-column prop="status" label="状态" width="60">
           <template #default="scope">
             <div>
               <el-tag
@@ -44,12 +54,26 @@
         </el-table-column>
         <el-table-column label="操作">
           <template #default="scope">
-            <el-button
-              size="small"
-              type="danger"
-              @click="handleDelete(scope.$index, scope.row)"
-              >删除</el-button
-            >
+            <template v-if="scope.row.status == 'ready'">
+              <el-button
+                size="small"
+                type="danger"
+                @click="handleDelete(scope.$index, scope.row)"
+                >移除</el-button
+              >
+            </template>
+            <template v-else>
+              <el-button
+                size="small"
+                type="warning"
+                @click="play(scope.row)"
+                circle
+                ><el-icon><CaretRight /></el-icon
+              ></el-button>
+              <el-button size="small" @click="openInFolder(scope.row)" circle
+                ><el-icon><FolderOpened /></el-icon
+              ></el-button>
+            </template>
           </template>
         </el-table-column>
       </el-table>
@@ -66,22 +90,18 @@
           <template #trigger>
             <el-button type="primary">选择文件</el-button>
           </template>
+
           <template #tip>
             <div class="el-upload__tip">文本格式为： *.txt</div>
           </template>
         </el-upload>
+        <el-button type="warning" @click="clearAll"
+          ><el-icon><DeleteFilled /></el-icon>清空</el-button
+        >
       </div>
     </div>
-    <MainOptions
-      v-show="asideIndex != 3"
-      :inputValue="inputValue"
-      :ssmlValue="ssmlValue"
-      :activeIndex="activeIndex"
-      :tableData="tableData"
-      :asideIndex="asideIndex"
-      @change="configChange"
-    ></MainOptions>
-    <div class="main-config-page" v-if="asideIndex == 3">
+    <MainOptions v-show="page.asideIndex != '3'"></MainOptions>
+    <div class="main-config-page" v-if="page.asideIndex == '3'">
       <ConfigPage></ConfigPage>
     </div>
   </div>
@@ -90,66 +110,28 @@
 <script setup lang="ts">
 import MainOptions from "./MainOptions.vue";
 import ConfigPage from "../configpage/ConfigPage.vue";
-import { ref, watch, onMounted, getCurrentInstance } from "vue";
+
+import { ref, watch } from "vue";
 import type { UploadInstance, UploadProps, UploadUserFile } from "element-plus";
-const inputValue = ref("你好啊\n今天天气怎么样?");
-const ssmlValue = ref("");
-const activeIndex = ref(1);
-const menuChange = (index: any) => {
-  activeIndex.value = index;
-  console.log(activeIndex.value);
-};
-const { appContext } = getCurrentInstance() as any;
-const asideIndex = ref(1);
-onMounted(() => {
-  appContext.config.globalProperties.$mitt.on("sideChange", (res: any) => {
-    asideIndex.value = parseInt(res);
-    activeIndex.value = 1;
-  });
+import { useTtsStore } from "@/store/store";
+import { storeToRefs } from "pinia";
+const { shell } = require("electron");
+var path = require("path");
+const store = useTtsStore();
+const { inputs, page, tableData, currMp3Url, config } = storeToRefs(store);
 
-  appContext.config.globalProperties.$mitt.on("doneTrans", (res: any) => {
-    for (const item of tableData.value) {
-      if (item.filePath == res.tableValue.filePath) {
-        item.status = "done";
-        return;
-      }
-    }
-  });
-});
+// SSML内容和文本框内容同步
+watch(
+  () => inputs.value.inputValue,
+  (newValue) => {
+    store.setSSMLValue(newValue);
+  }
+);
 
-const ssml = (
-  text: string,
-  voice: string,
-  express: string,
-  role: string,
-  rate = 0,
-  pitch = 0
-) => {
-  return `<speak xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="http://www.w3.org/2001/mstts" xmlns:emo="http://www.w3.org/2009/10/emotionml" version="1.0" xml:lang="en-US">
-        <voice name="${voice}">
-            <mstts:express-as  ${
-              express != "General" ? 'style="' + express + '"' : ""
-            } ${role != "Default" ? 'role="' + role + '"' : ""}>
-                <prosody rate="${rate}%" pitch="${pitch}%">
-                ${text}
-                </prosody>
-            </mstts:express-as>
-        </voice>
-    </speak>
-    `;
-};
-const configChange = (form: any) => {
-  ssmlValue.value = ssml(
-    form.inputValue,
-    form.voiceSelect,
-    form.voiceStyleSelect,
-    form.role,
-    (form.speed - 1) * 100,
-    (form.pitch - 1) * 50
-  );
+const tabChange = (index: number) => {
+  page.value.tabIndex = index.toString();
 };
 const uploadRef = ref<UploadInstance>();
-const tableData = ref(<any>[]);
 
 const handleDelete = (index: any, row: any) => {
   uploadRef.value!.handleRemove(row.file);
@@ -176,6 +158,25 @@ const fileRemove = (uploadFile: any, uploadFiles: any) => {
       file: item,
     };
   });
+};
+
+const clearAll = () => {
+  tableData.value = [];
+};
+
+const play = (val: any) => {
+  currMp3Url.value = path.join(
+    config.value.savePath,
+    val.fileName.split(path.extname(val.fileName))[0] + ".mp3"
+  );
+};
+const openInFolder = (val: any) => {
+  shell.showItemInFolder(
+    path.join(
+      config.value.savePath,
+      val.fileName.split(path.extname(val.fileName))[0] + ".mp3"
+    )
+  );
 };
 </script>
 
@@ -205,7 +206,7 @@ const fileRemove = (uploadFile: any, uploadFiles: any) => {
   border: 1px solid #dcdfe6;
   height: 68px;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
 }
 .menu .el-menu {

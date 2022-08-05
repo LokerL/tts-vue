@@ -1,6 +1,6 @@
 <template>
   <div class="options">
-    <el-form :model="form" label-width="120px" label-position="top">
+    <el-form :model="formConfig" label-width="120px" label-position="top">
       <el-form-item label="语言">
         <!-- <el-select v-model="languageSelect" placeholder="选择语言" filterable>
           <el-option
@@ -12,7 +12,7 @@
         </el-select> -->
         <el-select-v2
           class="languageSelect"
-          v-model="form.languageSelect"
+          v-model="formConfig.languageSelect"
           placeholder="选择语言"
           filterable
           :options="oc.languageSelect"
@@ -20,7 +20,7 @@
         </el-select-v2>
       </el-form-item>
       <el-form-item label="语音">
-        <el-select v-model="form.voiceSelect" placeholder="选择语音">
+        <el-select v-model="formConfig.voiceSelect" placeholder="选择语音">
           <el-option
             v-for="item in voiceSelectList"
             :key="item.ShortName"
@@ -30,7 +30,10 @@
         </el-select>
       </el-form-item>
       <el-form-item label="说话风格">
-        <el-select v-model="form.voiceStyleSelect" placeholder="选择说话风格">
+        <el-select
+          v-model="formConfig.voiceStyleSelect"
+          placeholder="选择说话风格"
+        >
           <el-option label="General">General</el-option>
           <el-option
             v-for="item in voiceStyleSelectList"
@@ -41,7 +44,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="角色扮演">
-        <el-select v-model="form.role" placeholder="选择角色">
+        <el-select v-model="formConfig.role" placeholder="选择角色">
           <el-option label="Default">Default</el-option>
           <el-option
             v-for="item in rolePlayList"
@@ -53,7 +56,7 @@
       </el-form-item>
       <el-form-item label="语速">
         <el-slider
-          v-model="form.speed"
+          v-model="formConfig.speed"
           show-input
           size="small"
           :show-input-controls="false"
@@ -63,7 +66,7 @@
       </el-form-item>
       <el-form-item label="音调">
         <el-slider
-          v-model="form.pitch"
+          v-model="formConfig.pitch"
           show-input
           size="small"
           :show-input-controls="false"
@@ -83,11 +86,10 @@
           >
           <el-select-v2
             class="get-cfg"
-            v-model="currConfig"
+            v-model="currConfigName"
             placeholder="选择配置"
             filterable
-            :options="allConfig"
-            @change="getConfig"
+            :options="config.configLable"
           ></el-select-v2>
         </div>
         <a href="#" class="btn" @click="startBtn">
@@ -102,91 +104,26 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, reactive, getCurrentInstance, onMounted } from "vue";
+import { ref, reactive, watch, getCurrentInstance, onMounted } from "vue";
 import { optionsConfig as oc } from "./options-config";
 import Loading from "./Loading.vue";
 import { ElMessage, ElMessageBox } from "element-plus";
+import { useTtsStore } from "@/store/store";
+import { storeToRefs } from "pinia";
+
+const { appContext } = getCurrentInstance() as any;
+const ttsStore = useTtsStore();
+const {
+  inputs,
+  formConfig,
+  page,
+  tableData,
+  currConfigName,
+  config,
+  isLoading,
+} = storeToRefs(ttsStore);
 const Store = require("electron-store");
-
 const store = new Store();
-const emit = defineEmits(["change"]);
-const props = defineProps({
-  inputValue: String,
-  ssmlValue: String,
-  activeIndex: Number,
-  tableData: Array,
-  asideIndex: Number,
-});
-
-const inputValues = {
-  inputValue: props.inputValue,
-  ssmlValue: props.ssmlValue,
-  activeIndex: props.activeIndex,
-  tableData: props.tableData,
-  asideIndex: props.asideIndex,
-};
-
-watch(props, (newValue) => {
-  inputValues.inputValue = newValue.inputValue;
-  inputValues.ssmlValue = newValue.ssmlValue;
-  inputValues.activeIndex = newValue.activeIndex;
-  inputValues.tableData = newValue.tableData;
-  inputValues.asideIndex = newValue.asideIndex;
-});
-
-let currConfig = ref("默认");
-
-if (!store.has("FormConfig.默认")) {
-  store.set("FormConfig.默认", {
-    languageSelect: "Chinese (Mandarin, Simplified)",
-    voiceSelect: "zh-CN-XiaoxiaoNeural",
-    voiceStyleSelect: "General",
-    role: "Default",
-    speed: 1.0,
-    pitch: 1.0,
-  });
-}
-
-const getAllConfig = () => {
-  return Object.keys(store.get("FormConfig")).map((item) => ({
-    value: item,
-    label: item,
-  }));
-};
-
-let allConfig = ref(getAllConfig());
-
-const form = reactive(
-  store.has("FormConfig.默认")
-    ? store.get("FormConfig.默认")
-    : {
-        languageSelect: "Chinese (Mandarin, Simplified)",
-        voiceSelect: "zh-CN-XiaoxiaoNeural",
-        voiceStyleSelect: "General",
-        role: "Default",
-        speed: 1.0,
-        pitch: 1.0,
-      }
-);
-// 监听form值的变化
-watch(
-  form,
-  (newValue) => {
-    emit("change", newValue);
-  },
-  {
-    immediate: true,
-  }
-);
-
-const getConfig = (val: any) => {
-  const fc = store.get("FormConfig." + val);
-  form.voiceSelect = fc.voiceSelect;
-  form.voiceStyleSelect = fc.voiceStyleSelect;
-  form.role = fc.role;
-  form.speed = fc.speed;
-  form.pitch = fc.pitch;
-};
 
 const saveConfig = () => {
   ElMessageBox.prompt(
@@ -207,9 +144,8 @@ const saveConfig = () => {
     }
   )
     .then(({ value }) => {
-      store.set("FormConfig." + value, form);
-      allConfig.value = getAllConfig();
-      currConfig.value = value;
+      currConfigName.value = value;
+      ttsStore.addFormConfig();
       ElMessage({
         message: "保存成功。",
         type: "success",
@@ -225,39 +161,38 @@ const saveConfig = () => {
     });
 };
 
-const isLoading = ref(false);
-
-const voiceSelectList = ref(oc.findVoicesByLocaleName(form.languageSelect));
+const voiceSelectList = ref(
+  oc.findVoicesByLocaleName(formConfig.value.languageSelect)
+);
 watch(
-  () => form.languageSelect,
+  () => formConfig.value.languageSelect,
   (newValue) => {
-    form.voiceSelect = "";
-    form.voiceStyleSelect = "General";
-    form.role = "Default";
+    formConfig.value.voiceSelect = "";
+    formConfig.value.voiceStyleSelect = "General";
+    formConfig.value.role = "Default";
     voiceSelectList.value = oc.findVoicesByLocaleName(newValue);
   }
 );
 const voiceStyleSelectListInit = voiceSelectList.value.find(
-  (item: any) => item.ShortName == form.voiceSelect
+  (item: any) => item.ShortName == formConfig.value.voiceSelect
 )?.StyleList;
 const voiceStyleSelectList: any = ref(voiceStyleSelectListInit);
 const rolePlayList: any = ref([]);
 watch(
-  () => form.voiceSelect,
+  () => formConfig.value.voiceSelect,
   (newValue) => {
-    form.voiceStyleSelect = "General";
-    form.role = "Default";
+    formConfig.value.voiceStyleSelect = "General";
+    formConfig.value.role = "Default";
     const voice = voiceSelectList.value.find(
-      (item: any) => item.ShortName == form.voiceSelect
+      (item: any) => item.ShortName == formConfig.value.voiceSelect
     );
     voiceStyleSelectList.value = voice?.StyleList;
     rolePlayList.value = voice?.RolePlayList;
   }
 );
 
-const { appContext } = getCurrentInstance() as any;
 const startBtn = () => {
-  if (inputValues.inputValue == "") {
+  if (inputs.value.inputValue == "") {
     ElMessage({
       message: "请输入文字内容。",
       type: "warning",
@@ -265,20 +200,18 @@ const startBtn = () => {
     });
     return;
   }
+
+  if (isLoading.value) {
+    ElMessage({
+      message: "请稍后。。。",
+      type: "warning",
+      duration: 2000,
+    });
+    return;
+  }
   isLoading.value = true;
-  if (inputValues.asideIndex == 1) {
-    appContext.config.globalProperties.$mitt.emit("start", {
-      form,
-      inputValues,
-    });
-  }
-  if (inputValues.asideIndex == 2) {
-    inputValues.activeIndex = 1; //批量时候确认是普通文本
-    appContext.config.globalProperties.$mitt.emit("startBatch", {
-      form,
-      inputValues,
-    });
-  }
+
+  ttsStore.start();
 };
 onMounted(() => {
   appContext.config.globalProperties.$mitt.on("endLoanding", (res: any) => {
