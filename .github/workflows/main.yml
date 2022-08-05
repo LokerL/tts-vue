@@ -47,4 +47,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: vue-tts
-          path: release/1.0.0/*exe
+          path: release/1.5.0/*exe
