@@ -1,17 +1,17 @@
 <template>
   <div class="config-page">
     <div class="config-side">
-      <el-form :model="form" label-position="top">
+      <el-form :model="config" label-position="top">
         <el-form-item label="下载路径">
-          <el-input v-model="form.savePath" size="small" class="input-path">
+          <el-input v-model="config.savePath" size="small" class="input-path">
             <template #append>
-              <el-button type="primary" @click="saveConfig">确认</el-button>
+              <el-button type="primary" @click="savePathConfig">确认</el-button>
             </template>
           </el-input>
         </el-form-item>
         <el-form-item label="自动播放(仅单文本模式)">
           <el-switch
-            v-model="form.autoplay"
+            v-model="config.autoplay"
             active-text="是"
             inactive-text="否"
             inline-prompt
@@ -72,7 +72,7 @@
         <img src="../../assets/zfb.jpg" />
         <img src="../../assets/wx.jpg" />
       </div>
-      <div class="btns"><BiliBtn></BiliBtn> <GithubBtn></GithubBtn></div>
+      <div class="btns"><GiteeBtn></GiteeBtn> <GithubBtn></GithubBtn></div>
     </div>
   </div>
 </template>
@@ -80,7 +80,8 @@
 <script setup lang="ts">
 import { reactive, ref } from "vue";
 import { ElMessage } from "element-plus";
-import BiliBtn from "./BiliBtn.vue";
+// import BiliBtn from "./BiliBtn.vue";
+import GiteeBtn from "./GiteeBtn.vue";
 import GithubBtn from "./GithubBtn.vue";
 import { useTtsStore } from "@/store/store";
 import { storeToRefs } from "pinia";
@@ -94,7 +95,7 @@ const { config } = storeToRefs(ttsStore);
 
 const handleDelete = (index: any, row: any) => {
   delete config.value.formConfigJson[row.tagName];
-  store.set("FormConfig", config.value.formConfigJson);
+
   ttsStore.genFormConfig();
 
   ElMessage({
@@ -103,18 +104,13 @@ const handleDelete = (index: any, row: any) => {
     duration: 2000,
   });
 };
-// do not use same name with ref
-const form = reactive({
-  autoplay: store.get("autoplay"),
-  savePath: store.get("savePath"),
-});
 
 const openConfigFile = () => {
   shell.openPath(store.path);
 };
 
-const saveConfig = () => {
-  store.set("savePath", form.savePath);
+const savePathConfig = () => {
+  ttsStore.setSavePath();
   ElMessage({
     message: "保存成功，请点击“刷新配置”立即应用。",
     type: "success",
@@ -122,7 +118,7 @@ const saveConfig = () => {
   });
 };
 const switchChange = (value: any) => {
-  store.set("autoplay", form.autoplay);
+  ttsStore.setAutoPlay();
   ElMessage({
     message: "保存成功，请点击“刷新配置”立即应用。。",
     type: "success",

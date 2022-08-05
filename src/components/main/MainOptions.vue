@@ -144,9 +144,8 @@ const saveConfig = () => {
     }
   )
     .then(({ value }) => {
-      store.set("FormConfig." + value, formConfig.value); // 持久化
-      ttsStore.genFormConfig(); // 更新配置列表
       currConfigName.value = value;
+      ttsStore.addFormConfig();
       ElMessage({
         message: "保存成功。",
         type: "success",
@@ -201,15 +200,18 @@ const startBtn = () => {
     });
     return;
   }
+
+  if (isLoading.value) {
+    ElMessage({
+      message: "请稍后。。。",
+      type: "warning",
+      duration: 2000,
+    });
+    return;
+  }
   isLoading.value = true;
 
-  if (page.value.asideIndex == "1") {
-    appContext.config.globalProperties.$mitt.emit("start");
-  }
-  if (page.value.asideIndex == "2") {
-    page.value.tabIndex = "1"; //批量时候确认是普通文本
-    appContext.config.globalProperties.$mitt.emit("startBatch");
-  }
+  ttsStore.start();
 };
 onMounted(() => {
   appContext.config.globalProperties.$mitt.on("endLoanding", (res: any) => {

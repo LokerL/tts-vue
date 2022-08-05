@@ -36,8 +36,13 @@
           label="文件路径"
           show-overflow-tooltip="true"
         />
-        <el-table-column prop="fileSize" label="字符数" />
-        <el-table-column prop="status" label="状态">
+        <el-table-column
+          prop="fileSize"
+          label="字数"
+          width="60"
+          show-overflow-tooltip="true"
+        />
+        <el-table-column prop="status" label="状态" width="60">
           <template #default="scope">
             <div>
               <el-tag
@@ -50,12 +55,26 @@
         </el-table-column>
         <el-table-column label="操作">
           <template #default="scope">
-            <el-button
-              size="small"
-              type="danger"
-              @click="handleDelete(scope.$index, scope.row)"
-              >删除</el-button
-            >
+            <template v-if="scope.row.status == 'ready'">
+              <el-button
+                size="small"
+                type="danger"
+                @click="handleDelete(scope.$index, scope.row)"
+                >移除</el-button
+              >
+            </template>
+            <template v-else>
+              <el-button
+                size="small"
+                type="warning"
+                @click="play(scope.row)"
+                circle
+                ><el-icon><CaretRight /></el-icon
+              ></el-button>
+              <el-button size="small" @click="openInFolder(scope.row)" circle
+                ><el-icon><FolderOpened /></el-icon
+              ></el-button>
+            </template>
           </template>
         </el-table-column>
       </el-table>
@@ -72,10 +91,14 @@
           <template #trigger>
             <el-button type="primary">选择文件</el-button>
           </template>
+
           <template #tip>
             <div class="el-upload__tip">文本格式为： *.txt</div>
           </template>
         </el-upload>
+        <el-button type="warning" @click="clearAll"
+          ><el-icon><DeleteFilled /></el-icon>清空</el-button
+        >
       </div>
     </div>
     <MainOptions v-show="page.asideIndex != '3'"></MainOptions>
@@ -88,18 +111,26 @@
 <script setup lang="ts">
 import MainOptions from "./MainOptions.vue";
 import ConfigPage from "../configpage/ConfigPage.vue";
-import { ref, onMounted, getCurrentInstance } from "vue";
+
+import { ref, watch } from "vue";
 import type { UploadInstance, UploadProps, UploadUserFile } from "element-plus";
 import { useTtsStore } from "@/store/store";
 import { storeToRefs } from "pinia";
+const { shell } = require("electron");
+var path = require("path");
 const store = useTtsStore();
-const { inputs, formConfig, page, tableData, getSSML } = storeToRefs(store);
+const { inputs, page, tableData, currMp3Url, config } = storeToRefs(store);
 
-inputs.value.ssmlValue = getSSML.value;
+// SSML内容和文本框内容同步
+watch(
+  () => inputs.value.inputValue,
+  (newValue) => {
+    store.setSSMLValue(newValue);
+  }
+);
 
 const tabChange = (index: number) => {
   page.value.tabIndex = index.toString();
-  console.log(page);
 };
 const uploadRef = ref<UploadInstance>();
 
@@ -129,8 +160,25 @@ const fileRemove = (uploadFile: any, uploadFiles: any) => {
     };
   });
 };
-const { appContext } = getCurrentInstance() as any;
-onMounted(() => {});
+
+const clearAll = () => {
+  tableData.value = [];
+};
+
+const play = (val: any) => {
+  currMp3Url.value = path.join(
+    config.value.savePath,
+    val.fileName.split(path.extname(val.fileName))[0] + ".mp3"
+  );
+};
+const openInFolder = (val: any) => {
+  shell.showItemInFolder(
+    path.join(
+      config.value.savePath,
+      val.fileName.split(path.extname(val.fileName))[0] + ".mp3"
+    )
+  );
+};
 </script>
 
 <style scoped>
@@ -159,7 +207,7 @@ onMounted(() => {});
   border: 1px solid #dcdfe6;
   height: 68px;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
 }
 .menu .el-menu {
