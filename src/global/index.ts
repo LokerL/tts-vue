@@ -1,7 +1,8 @@
 import { App } from "vue";
 import registerElement from "./registerElement";
+import initLocalStore from "./initLocalStore";
 
 export function globalRegister(app: App) {
-  // init();
+  initLocalStore();
   app.use(registerElement);
 }

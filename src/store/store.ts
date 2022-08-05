@@ -2,6 +2,8 @@
 
 import { defineStore } from "pinia";
 import getTTSData from "./play";
+const Store = require("electron-store");
+const store = new Store();
 // 定义并导出容器，第一个参数是容器id，必须唯一，用来将所有的容器
 // 挂载到根容器上
 export const useTtsStore = defineStore("ttsStore", {
@@ -12,22 +14,17 @@ export const useTtsStore = defineStore("ttsStore", {
         inputValue: "你好啊\n今天天气怎么样?",
         ssmlValue: "你好啊\n今天天气怎么样?",
       },
-      formConfig: {
-        languageSelect: "Chinese (Mandarin, Simplified)",
-        voiceSelect: "zh-CN-XiaoxiaoNeural",
-        voiceStyleSelect: "General",
-        role: "Default",
-        speed: 1.0,
-        pitch: 1.0,
-      },
+      formConfig: store.get("FormConfig.默认"),
       page: {
         asideIndex: "1",
         tabIndex: "1",
       },
-      tableData: <any>[],
-      currConfigName: "",
+      tableData: <any>[], // 文件列表的数据
+      currConfigName: "默认", // 当前配置的名字
       config: {
-        FormConfig: {},
+        formConfigJson: store.get("FormConfig"),
+        formConfigList: <any>[],
+        configLable: <any>[],
       },
       isLoading: false,
       mp3Buffer: null,
@@ -86,6 +83,22 @@ export const useTtsStore = defineStore("ttsStore", {
     setFormConf(config: object) {
       Object.assign(this.formConfig, config);
     },
+    genFormConfig() {
+      this.config.formConfigJson = store.get("FormConfig");
+      this.config.formConfigList = Object.keys(this.config.formConfigJson).map(
+        (item) => ({
+          tagName: item,
+          content: this.config.formConfigJson[item],
+        })
+      );
+      this.config.configLable = Object.keys(this.config.formConfigJson).map(
+        (item) => ({
+          value: item,
+          label: item,
+        })
+      );
+    },
+    setFormConfigList() {},
     start(ttsFun: Function) {},
     async getMp3Buffer() {
       if (this.page.asideIndex == "1") {
