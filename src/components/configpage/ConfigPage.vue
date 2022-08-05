@@ -19,7 +19,11 @@
           />
         </el-form-item>
         <el-form-item label="模板编辑">
-          <el-table :data="tableData" style="width: 100%" height="230">
+          <el-table
+            :data="config.formConfigList"
+            style="width: 100%"
+            height="230"
+          >
             <el-table-column prop="tagName" label="名字">
               <template #default="scope">
                 <el-popover
@@ -55,7 +59,10 @@
           </el-table>
         </el-form-item>
         <el-button type="primary" @click="ipcRenderer.send('reload')"
-          >刷新配置</el-button
+          ><el-icon><Refresh /></el-icon>刷新配置</el-button
+        >
+        <el-button type="warning" @click="openConfigFile"
+          ><el-icon><Document /></el-icon>打开配置文件</el-button
         >
       </el-form>
     </div>
@@ -75,27 +82,21 @@ import { reactive, ref } from "vue";
 import { ElMessage } from "element-plus";
 import BiliBtn from "./BiliBtn.vue";
 import GithubBtn from "./GithubBtn.vue";
-const { ipcRenderer } = require("electron");
-const homeDir = require("os").homedir();
-const desktopDir = `${homeDir}\\Desktop\\`;
+import { useTtsStore } from "@/store/store";
+import { storeToRefs } from "pinia";
+const { ipcRenderer, shell } = require("electron");
+
 const Store = require("electron-store");
 const store = new Store();
 
-if (!store.has("savePath")) {
-  store.set("savePath", desktopDir);
-}
-if (!store.has("autoplay")) {
-  store.set("autoplay", true);
-}
+const ttsStore = useTtsStore();
+const { config } = storeToRefs(ttsStore);
 
-let FormConfig = store.get("FormConfig");
 const handleDelete = (index: any, row: any) => {
-  delete FormConfig[row.tagName];
-  store.set("FormConfig", FormConfig);
-  tableData.value = Object.keys(FormConfig).map((item) => ({
-    tagName: item,
-    content: FormConfig[item],
-  }));
+  delete config.value.formConfigJson[row.tagName];
+  store.set("FormConfig", config.value.formConfigJson);
+  ttsStore.genFormConfig();
+
   ElMessage({
     message: "删除成功，请点击“刷新配置”立即应用。",
     type: "success",
@@ -107,6 +108,10 @@ const form = reactive({
   autoplay: store.get("autoplay"),
   savePath: store.get("savePath"),
 });
+
+const openConfigFile = () => {
+  shell.openPath(store.path);
+};
 
 const saveConfig = () => {
   store.set("savePath", form.savePath);
@@ -124,13 +129,6 @@ const switchChange = (value: any) => {
     duration: 2000,
   });
 };
-
-const tableData: any = ref(
-  Object.keys(FormConfig).map((item) => ({
-    tagName: item,
-    content: FormConfig[item],
-  }))
-);
 </script>
 
 <style scoped>

@@ -89,7 +89,7 @@
             v-model="currConfigName"
             placeholder="选择配置"
             filterable
-            :options="configLable"
+            :options="config.configLable"
           ></el-select-v2>
         </div>
         <a href="#" class="btn" @click="startBtn">
@@ -120,23 +120,11 @@ const {
   tableData,
   currConfigName,
   config,
-  configLable,
   isLoading,
 } = storeToRefs(ttsStore);
 const Store = require("electron-store");
 const store = new Store();
-currConfigName.value = "默认";
-config.value.FormConfig = store.get("FormConfig");
-if (!store.has("FormConfig.默认")) {
-  store.set("FormConfig.默认", {
-    languageSelect: "Chinese (Mandarin, Simplified)",
-    voiceSelect: "zh-CN-XiaoxiaoNeural",
-    voiceStyleSelect: "General",
-    role: "Default",
-    speed: 1.0,
-    pitch: 1.0,
-  });
-}
+
 const saveConfig = () => {
   ElMessageBox.prompt(
     `<p>给此配置起一个简单的名字吧:)</p><br>默认显示的配置名：<strong>默认</strong>`,
@@ -156,8 +144,8 @@ const saveConfig = () => {
     }
   )
     .then(({ value }) => {
-      store.set("FormConfig." + value, formConfig);
-      config.value.FormConfig[value] = formConfig;
+      store.set("FormConfig." + value, formConfig.value); // 持久化
+      ttsStore.genFormConfig(); // 更新配置列表
       currConfigName.value = value;
       ElMessage({
         message: "保存成功。",
