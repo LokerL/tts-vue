@@ -1,17 +1,17 @@
 <template>
   <div class="config-page">
     <div class="config-side">
-      <el-form :model="form" label-position="top">
+      <el-form :model="config" label-position="top">
         <el-form-item label="下载路径">
-          <el-input v-model="form.savePath" size="small" class="input-path">
+          <el-input v-model="config.savePath" size="small" class="input-path">
             <template #append>
-              <el-button type="primary" @click="saveConfig">确认</el-button>
+              <el-button type="primary" @click="savePathConfig">确认</el-button>
             </template>
           </el-input>
         </el-form-item>
         <el-form-item label="自动播放(仅单文本模式)">
           <el-switch
-            v-model="form.autoplay"
+            v-model="config.autoplay"
             active-text="是"
             inactive-text="否"
             inline-prompt
@@ -19,7 +19,11 @@
           />
         </el-form-item>
         <el-form-item label="模板编辑">
-          <el-table :data="tableData" style="width: 100%" height="230">
+          <el-table
+            :data="config.formConfigList"
+            style="width: 100%"
+            height="230"
+          >
             <el-table-column prop="tagName" label="名字">
               <template #default="scope">
                 <el-popover
@@ -55,7 +59,10 @@
           </el-table>
         </el-form-item>
         <el-button type="primary" @click="ipcRenderer.send('reload')"
-          >刷新配置</el-button
+          ><el-icon><Refresh /></el-icon>刷新配置</el-button
+        >
+        <el-button type="warning" @click="openConfigFile"
+          ><el-icon><Document /></el-icon>打开配置文件</el-button
         >
       </el-form>
     </div>
@@ -65,7 +72,7 @@
         <img src="../../assets/zfb.jpg" />
         <img src="../../assets/wx.jpg" />
       </div>
-      <div class="btns"><BiliBtn></BiliBtn> <GithubBtn></GithubBtn></div>
+      <div class="btns"><GiteeBtn></GiteeBtn> <GithubBtn></GithubBtn></div>
     </div>
   </div>
 </template>
@@ -73,54 +80,37 @@
 <script setup lang="ts">
 import { reactive, ref } from "vue";
 import { ElMessage } from "element-plus";
-import BiliBtn from "./BiliBtn.vue";
+// import BiliBtn from "./BiliBtn.vue";
+import GiteeBtn from "./GiteeBtn.vue";
 import GithubBtn from "./GithubBtn.vue";
-const { ipcRenderer } = require("electron");
-
-const homeDir = require("os").homedir();
-const desktopDir = `${homeDir}\\Desktop\\`;
+import { useTtsStore } from "@/store/store";
+import { storeToRefs } from "pinia";
+const { ipcRenderer, shell } = require("electron");
 
 const Store = require("electron-store");
 const store = new Store();
 
-if (!store.has("savePath")) {
-  store.set("savePath", desktopDir);
-}
-if (!store.has("autoplay")) {
-  store.set("autoplay", true);
-}
-if (!store.has("FormConfig.默认")) {
-  store.set("FormConfig.默认", {
-    languageSelect: "Chinese (Mandarin, Simplified)",
-    voiceSelect: "zh-CN-XiaoxiaoNeural",
-    voiceStyleSelect: "General",
-    role: "Default",
-    speed: 1.0,
-    pitch: 1.0,
-  });
-}
-let FormConfig = store.get("FormConfig");
+const ttsStore = useTtsStore();
+const { config } = storeToRefs(ttsStore);
+
 const handleDelete = (index: any, row: any) => {
-  delete FormConfig[row.tagName];
-  store.set("FormConfig", FormConfig);
-  tableData.value = Object.keys(FormConfig).map((item) => ({
-    tagName: item,
-    content: FormConfig[item],
-  }));
+  delete config.value.formConfigJson[row.tagName];
+
+  ttsStore.genFormConfig();
+
   ElMessage({
     message: "删除成功，请点击“刷新配置”立即应用。",
     type: "success",
     duration: 2000,
   });
 };
-// do not use same name with ref
-const form = reactive({
-  autoplay: store.get("autoplay"),
-  savePath: store.get("savePath"),
-});
 
-const saveConfig = () => {
-  store.set("savePath", form.savePath);
+const openConfigFile = () => {
+  shell.openPath(store.path);
+};
+
+const savePathConfig = () => {
+  ttsStore.setSavePath();
   ElMessage({
     message: "保存成功，请点击“刷新配置”立即应用。",
     type: "success",
@@ -128,20 +118,13 @@ const saveConfig = () => {
   });
 };
 const switchChange = (value: any) => {
-  store.set("autoplay", form.autoplay);
+  ttsStore.setAutoPlay();
   ElMessage({
     message: "保存成功，请点击“刷新配置”立即应用。。",
     type: "success",
     duration: 2000,
   });
 };
-
-const tableData: any = ref(
-  Object.keys(FormConfig).map((item) => ({
-    tagName: item,
-    content: FormConfig[item],
-  }))
-);
 </script>
 
 <style scoped>
@@ -158,6 +141,9 @@ h3 {
   margin-top: 7px;
   border-right: 1px solid #dcdfe6;
   width: 270px;
+}
+.er-code {
+  padding-left: 5px;
 }
 :deep(.input-path .el-input-group__append) {
   display: inline-flex;
@@ -190,7 +176,7 @@ h3 {
   width: 230px;
 }
 img {
-  width: 250px;
+  width: 245px;
   height: 280px;
 }
 .btns {
