@@ -166,12 +166,18 @@ const clearAll = () => {
 };
 
 const play = (val: any) => {
-  console.log(audioPlayer.value);
-  audioPlayer.value.src = path.join(
-    config.value.savePath,
-    val.fileName.split(path.extname(val.fileName))[0] + ".mp3"
-  );
-  audioPlayer.value.play();
+  if (audioPlayer) {
+    audioPlayer.value.src = path.join(
+      config.value.savePath,
+      val.fileName.split(path.extname(val.fileName))[0] + ".mp3"
+    );
+    audioPlayer.value.play();
+  } else {
+    currMp3Url.value = path.join(
+      config.value.savePath,
+      val.fileName.split(path.extname(val.fileName))[0] + ".mp3"
+    );
+  }
 };
 const openInFolder = (val: any) => {
   shell.showItemInFolder(
