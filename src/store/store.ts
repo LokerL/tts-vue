@@ -34,6 +34,7 @@ export const useTtsStore = defineStore("ttsStore", {
       isLoading: false,
       currMp3Buffer: null,
       currMp3Url: "",
+      audioPlayer: null,
     };
   },
   // 定义getters，类似于computed，具有缓存g功能
@@ -49,7 +50,7 @@ export const useTtsStore = defineStore("ttsStore", {
       }
     },
     setSSMLValue(text = "") {
-      if (text === "") text = this.inputs.ssmlValue;
+      if (text === "") text = this.inputs.inputValue;
       const voice = this.formConfig.voiceSelect;
       const express = this.formConfig.voiceStyleSelect;
       const role = this.formConfig.role;

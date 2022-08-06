@@ -14,6 +14,7 @@
       </div>
       <div class="paly-bar-process">
         <audio
+          ref="audioPlayer"
           :src="currMp3Url"
           :autoplay="config.autoplay"
           controls
@@ -29,7 +30,7 @@ import { useTtsStore } from "@/store/store";
 import { storeToRefs } from "pinia";
 
 const ttsStore = useTtsStore();
-const { config, currMp3Url, isLoading } = storeToRefs(ttsStore);
+const { config, currMp3Url, isLoading, audioPlayer } = storeToRefs(ttsStore);
 
 const download = () => {
   ttsStore.writeFileSync();
