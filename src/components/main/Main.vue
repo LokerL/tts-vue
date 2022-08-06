@@ -166,12 +166,12 @@ const clearAll = () => {
 };
 
 const play = (val: any) => {
-  if (audioPlayer) {
-    audioPlayer.value.src = path.join(
+  if (audioPlayer.value) {
+    (audioPlayer.value as any).src = path.join(
       config.value.savePath,
       val.fileName.split(path.extname(val.fileName))[0] + ".mp3"
     );
-    audioPlayer.value.play();
+    (audioPlayer.value as any).play();
   } else {
     currMp3Url.value = path.join(
       config.value.savePath,
