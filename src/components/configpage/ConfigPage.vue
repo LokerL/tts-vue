@@ -95,7 +95,7 @@ const { config } = storeToRefs(ttsStore);
 
 const handleDelete = (index: any, row: any) => {
   delete config.value.formConfigJson[row.tagName];
-
+  store.set("FormConfig", config.value.formConfigJson);
   ttsStore.genFormConfig();
 
   ElMessage({

@@ -2,25 +2,22 @@
   <div class="options">
     <el-form :model="formConfig" label-width="120px" label-position="top">
       <el-form-item label="语言">
-        <!-- <el-select v-model="languageSelect" placeholder="选择语言" filterable>
-          <el-option
-            v-for="item in oc.languageSelect"
-            :key="item.Locale"
-            :label="item.LocaleName"
-            :value="item.LocaleName"
-          />
-        </el-select> -->
         <el-select-v2
           class="languageSelect"
           v-model="formConfig.languageSelect"
           placeholder="选择语言"
           filterable
           :options="oc.languageSelect"
+          @change="languageSelectChange"
         >
         </el-select-v2>
       </el-form-item>
       <el-form-item label="语音">
-        <el-select v-model="formConfig.voiceSelect" placeholder="选择语音">
+        <el-select
+          v-model="formConfig.voiceSelect"
+          placeholder="选择语音"
+          @change="voiceSelectChange"
+        >
           <el-option
             v-for="item in voiceSelectList"
             :key="item.ShortName"
@@ -90,6 +87,7 @@
             placeholder="选择配置"
             filterable
             :options="config.configLable"
+            @change="configChange"
           ></el-select-v2>
         </div>
         <a href="#" class="btn" @click="startBtn">
@@ -145,7 +143,9 @@ const saveConfig = () => {
   )
     .then(({ value }) => {
       currConfigName.value = value;
-      ttsStore.addFormConfig();
+      config.value.formConfigJson[value] = formConfig.value;
+      store.set("FormConfig." + value, formConfig.value);
+      ttsStore.genFormConfig();
       ElMessage({
         message: "保存成功。",
         type: "success",
@@ -164,32 +164,30 @@ const saveConfig = () => {
 const voiceSelectList = ref(
   oc.findVoicesByLocaleName(formConfig.value.languageSelect)
 );
-watch(
-  () => formConfig.value.languageSelect,
-  (newValue) => {
-    formConfig.value.voiceSelect = "";
-    formConfig.value.voiceStyleSelect = "General";
-    formConfig.value.role = "Default";
-    voiceSelectList.value = oc.findVoicesByLocaleName(newValue);
-  }
-);
+const languageSelectChange = (value: string) => {
+  formConfig.value.voiceSelect = "";
+  formConfig.value.voiceStyleSelect = "General";
+  formConfig.value.role = "Default";
+  voiceSelectList.value = oc.findVoicesByLocaleName(value);
+};
 const voiceStyleSelectListInit = voiceSelectList.value.find(
   (item: any) => item.ShortName == formConfig.value.voiceSelect
 )?.StyleList;
 const voiceStyleSelectList: any = ref(voiceStyleSelectListInit);
 const rolePlayList: any = ref([]);
-watch(
-  () => formConfig.value.voiceSelect,
-  (newValue) => {
-    formConfig.value.voiceStyleSelect = "General";
-    formConfig.value.role = "Default";
-    const voice = voiceSelectList.value.find(
-      (item: any) => item.ShortName == formConfig.value.voiceSelect
-    );
-    voiceStyleSelectList.value = voice?.StyleList;
-    rolePlayList.value = voice?.RolePlayList;
-  }
-);
+const voiceSelectChange = (value: string) => {
+  formConfig.value.voiceStyleSelect = "General";
+  formConfig.value.role = "Default";
+  const voice = voiceSelectList.value.find(
+    (item: any) => item.ShortName == formConfig.value.voiceSelect
+  );
+  voiceStyleSelectList.value = voice?.StyleList;
+  rolePlayList.value = voice?.RolePlayList;
+};
+const configChange = (val: string) => {
+  formConfig.value = config.value.formConfigJson[val];
+  console.log(formConfig.value);
+};
 
 const startBtn = () => {
   if (inputs.value.inputValue == "") {
@@ -213,16 +211,6 @@ const startBtn = () => {
 
   ttsStore.start();
 };
-onMounted(() => {
-  appContext.config.globalProperties.$mitt.on("endLoanding", (res: any) => {
-    isLoading.value = res.type;
-    ElMessage({
-      message: res.msg,
-      type: "success",
-      duration: 2000,
-    });
-  });
-});
 </script>
 
 <style scoped>
