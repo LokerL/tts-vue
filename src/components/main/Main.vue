@@ -118,7 +118,8 @@ import { storeToRefs } from "pinia";
 const { shell } = require("electron");
 var path = require("path");
 const store = useTtsStore();
-const { inputs, page, tableData, currMp3Url, config } = storeToRefs(store);
+const { inputs, page, tableData, currMp3Url, config, formConfig, audioPlayer } =
+  storeToRefs(store);
 
 // SSML内容和文本框内容同步
 watch(
@@ -165,10 +166,12 @@ const clearAll = () => {
 };
 
 const play = (val: any) => {
-  currMp3Url.value = path.join(
+  console.log(audioPlayer.value);
+  audioPlayer.value.src = path.join(
     config.value.savePath,
     val.fileName.split(path.extname(val.fileName))[0] + ".mp3"
   );
+  audioPlayer.value.play();
 };
 const openInFolder = (val: any) => {
   shell.showItemInFolder(

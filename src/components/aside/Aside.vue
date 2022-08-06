@@ -32,9 +32,6 @@ const { page, config } = storeToRefs(ttsStore);
 
 const menuChange = (index: number) => {
   page.value.asideIndex = index.toString();
-  index == 2
-    ? (config.value.autoplay = true)
-    : (config.value.autoplay = store.get("autoplay"));
 };
 </script>
 

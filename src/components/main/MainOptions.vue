@@ -102,14 +102,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, watch, getCurrentInstance, onMounted } from "vue";
+import { ref, reactive, watch } from "vue";
 import { optionsConfig as oc } from "./options-config";
 import Loading from "./Loading.vue";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { useTtsStore } from "@/store/store";
 import { storeToRefs } from "pinia";
 
-const { appContext } = getCurrentInstance() as any;
 const ttsStore = useTtsStore();
 const {
   inputs,
@@ -122,6 +121,31 @@ const {
 } = storeToRefs(ttsStore);
 const Store = require("electron-store");
 const store = new Store();
+
+watch(formConfig.value, (newValue) => {
+  inputs.value.ssmlValue = `<speak xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="http://www.w3.org/2001/mstts" xmlns:emo="http://www.w3.org/2009/10/emotionml" version="1.0" xml:lang="en-US">
+        <voice name="${newValue.voiceSelect}">
+            <mstts:express-as  ${
+              newValue.voiceStyleSelect != "General"
+                ? 'style="' + newValue.voiceStyleSelect + '"'
+                : ""
+            } ${
+    newValue.role != "Default" ? 'role="' + newValue.role + '"' : ""
+  }>
+                <prosody rate="${(
+                  (newValue.speed - 1) *
+                  100
+                ).toFixed()}%" pitch="${(
+    (newValue.pitch - 1) *
+    50
+  ).toFixed()}%">
+                ${inputs.value.inputValue}
+                </prosody>
+            </mstts:express-as>
+        </voice>
+    </speak>
+    `;
+});
 
 const saveConfig = () => {
   ElMessageBox.prompt(
@@ -190,9 +214,17 @@ const configChange = (val: string) => {
 };
 
 const startBtn = () => {
-  if (inputs.value.inputValue == "") {
+  if (page.value.asideIndex == "1" && inputs.value.inputValue == "") {
     ElMessage({
       message: "请输入文字内容。",
+      type: "warning",
+      duration: 2000,
+    });
+    return;
+  }
+  if (page.value.asideIndex == "2" && tableData.value.length == 0) {
+    ElMessage({
+      message: "列表内容为空。",
       type: "warning",
       duration: 2000,
     });
