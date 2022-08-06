@@ -81,7 +81,7 @@ export const useTtsStore = defineStore("ttsStore", {
       this.genFormConfig();
     },
     genFormConfig() {
-      store.set("FormConfig", this.config.formConfigJson);
+      // store.set("FormConfig", this.config.formConfigJson);
       this.config.formConfigList = Object.keys(this.config.formConfigJson).map(
         (item) => ({
           tagName: item,
