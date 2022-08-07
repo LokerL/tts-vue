@@ -13,8 +13,11 @@
   * [下载地址 GitHub](https://github.com/LokerL/tts-vue/releases/latest)
   
   * [下载地址 lanzou 云](https://wwn.lanzoul.com/b0f3ype9g)  密码：`em1n`
+  
+  * 在[GitHubActions](https://github.com/LokerL/tts-vue/actions)有实时推送自动构建的版本。
+  
     ![tts-vue.zip](http://pic.rmb.bdstatic.com/bjh/50c9038bab1165bce67cf26b763be521.png)
-    
+
     解压压缩包得到安装程序`tts-vue_1.0.0.exe`
     双击安装程序`tts-vue_1.0.0.exe`，选择安装位置，点击安装。
     ![安装结束](http://pic.rmb.bdstatic.com/bjh/226a11ce4887c21429d0ad1da1dd5d69.png)
