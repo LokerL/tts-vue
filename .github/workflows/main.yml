@@ -48,3 +48,4 @@ jobs:
         with:
           name: vue-tts
           path: release/1.5.0/*exe
+          retention-days: 30
