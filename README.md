@@ -8,9 +8,9 @@
 
 - 方法 1：直接下载安装包：
   
-  * [下载地址 Gitee](https://gitee.com/LGW_space/tts-vue/releases/download/tts-vue_1.5.0/tts-vue_1.5.0.zip)
+  * [下载地址 Gitee](https://gitee.com/api/v5/repos/LGW_space/tts-vue/releases/latest)
   
-  * [下载地址 GitHub](https://github.com/LokerL/tts-vue/releases/download/v1.5.0/tts-vue_1.5.0.zip)
+  * [下载地址 GitHub](https://api.github.com/repos/LokerL/tts-vue/releases/latest)
   
   * [下载地址 lanzou 云](https://wwn.lanzoul.com/b0f3ype9g)  密码：`em1n`
     ![tts-vue.zip](http://pic.rmb.bdstatic.com/bjh/50c9038bab1165bce67cf26b763be521.png)
