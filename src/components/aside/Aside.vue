@@ -18,13 +18,15 @@
         <span>设置</span>
       </el-menu-item>
     </el-menu>
+    <Version />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, getCurrentInstance } from "vue";
 import { useTtsStore } from "@/store/store";
 import { storeToRefs } from "pinia";
+import Version from "./Version.vue";
+
 const Store = require("electron-store");
 const store = new Store();
 const ttsStore = useTtsStore();
@@ -42,6 +44,9 @@ const menuChange = (index: number) => {
   border-right: 1px solid #dcdfe6;
   border-top: 1px solid #dcdfe6;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   border-bottom-left-radius: 10px;
   border-top-right-radius: 5px;
 }
