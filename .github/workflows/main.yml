@@ -12,7 +12,7 @@ on:
       - "Dockerfile"
       - ".gitignore"
       - ".github/**"
-      - "!.github/workflows/build.yml"
+      - "!.github/workflows/main.yml"
   workflow_dispatch:
 
 jobs:
@@ -47,5 +47,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: vue-tts
-          path: release/1.5.0/*exe
+          path: release/*/*.exe
           retention-days: 30
