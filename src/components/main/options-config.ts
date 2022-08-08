@@ -6088,7 +6088,50 @@ const voicesList = [
     Gender: "Female",
     Locale: "zh-CN",
     LocaleName: "Chinese (Mandarin, Simplified)",
-    StyleList: ["general", "chat"],
+    StyleList: ["chat"],
+    SampleRateHertz: "24000",
+    VoiceType: "Neural",
+    Status: "Preview",
+  },
+  {
+    Name: "Microsoft Server Speech Text to Speech Voice (zh-CN, XiaoyiNeural)",
+    DisplayName: "Xiaoyi",
+    LocalName: "晓伊",
+    ShortName: "zh-CN-XiaoyiNeural",
+    Gender: "Female",
+    Locale: "zh-CN",
+    LocaleName: "Chinese (Mandarin, Simplified)",
+    StyleList: [
+      "angry",
+      "disgruntled",
+      "affectionate",
+      "cheerful",
+      "fearful",
+      "sad",
+      "embarrassed",
+      "serious",
+      "gentle",
+    ],
+    SampleRateHertz: "24000",
+    VoiceType: "Neural",
+    Status: "Preview",
+  },
+  {
+    Name: "Microsoft Server Speech Text to Speech Voice (zh-CN, XiaozhenNeural)",
+    DisplayName: "Xiaozhen",
+    LocalName: "晓甄",
+    ShortName: "zh-CN-XiaozhenNeural",
+    Gender: "Female",
+    Locale: "zh-CN",
+    LocaleName: "Chinese (Mandarin, Simplified)",
+    StyleList: [
+      "angry",
+      "disgruntled",
+      "cheerful",
+      "fearful",
+      "sad",
+      "serious",
+    ],
     SampleRateHertz: "24000",
     VoiceType: "Neural",
     Status: "Preview",
@@ -6413,31 +6456,6 @@ const voicesList = [
     WordsPerMinute: "90",
   },
 ];
-
-/**
- *   {
-    "Name": "Microsoft Server Speech Text to Speech Voice (af-ZA, AdriNeural)",
-    "DisplayName": "Adri",
-    "LocalName": "Adri",
-    "ShortName": "af-ZA-AdriNeural",
-    "Gender": "Female",
-    "Locale": "af-ZA",
-    "LocaleName": "Afrikaans (South Africa)",
-    "SampleRateHertz": "24000",
-    "VoiceType": "Neural",
-    "Status": "GA",
-    "WordsPerMinute": "147"
-  },
- */
-
-// const localeList = voicesList.map(({ Locale, LocaleName }) => {
-//   return { Locale, LocaleName };
-// });
-// let obj: any = {};
-// const languageSelect = localeList.reduce((cur: any, next: any) => {
-//   obj[next.LocaleName] ? "" : (obj[next.LocaleName] = true && cur.push(next));
-//   return cur;
-// }, []); //设置cur默认类型为数组，并且初始值为空的数组
 
 const list = voicesList.map(({ LocaleName }) => LocaleName);
 

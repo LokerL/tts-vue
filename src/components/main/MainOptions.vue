@@ -230,7 +230,18 @@ const startBtn = () => {
     });
     return;
   }
-
+  for (const key in formConfig.value) {
+    if (Object.prototype.hasOwnProperty.call(formConfig.value, key)) {
+      if (!formConfig.value[key]) {
+        ElMessage({
+          message: "有空选项。",
+          type: "warning",
+          duration: 2000,
+        });
+        return;
+      }
+    }
+  }
   if (isLoading.value) {
     ElMessage({
       message: "请稍后。。。",
