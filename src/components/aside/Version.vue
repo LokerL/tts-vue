@@ -60,6 +60,7 @@ const checkUpdate = async () => {
 
     ElMessageBox.alert(htmlMsg, "版本信息", {
       confirmButtonText: "确定",
+      closeOnClickModal: true,
       dangerouslyUseHTMLString: true,
       callback: (action: Action) => {
         console.log(`action: ${action}`);
@@ -87,14 +88,6 @@ const checkUpdate = async () => {
 </style>
 <style>
 .version-info {
-  --el-alert-padding: 8px 16px;
-  --el-alert-border-radius-base: 4px;
-  --el-alert-title-font-size: 13px;
-  --el-alert-description-font-size: 12px;
-  --el-alert-close-font-size: 12px;
-  --el-alert-close-customed-font-size: 13px;
-  --el-alert-icon-size: 16px;
-  --el-alert-icon-large-size: 28px;
   width: 100%;
   padding: 8px 16px;
   margin: 0;
