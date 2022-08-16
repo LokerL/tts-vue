@@ -46,6 +46,6 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: vue-tts
+          name: tts-vue
           path: release/*/*.exe
           retention-days: 30
