@@ -48,7 +48,7 @@ body {
 }
 .container {
   margin-top: 5px;
-  height: 100%;
+  height: calc(100vh - 35px);
 }
 .el-main,
 .el-footer {

@@ -36,18 +36,20 @@ const indexHtml = join(ROOT_PATH.dist, "index.html");
 async function createWindow() {
   win = new BrowserWindow({
     width: 900,
-    // height: 600,
+    minWidth: 900,
+    minHeight: 600,
+    height: 600,
 
     title: "Main window",
     icon: join(ROOT_PATH.public, "favicon.ico"),
-    useContentSize: true,
+    // useContentSize: true,
     frame: false,
-    maximizable: false,
-    minimizable: false,
-    fullscreenable: false,
+    // maximizable: false,
+    // minimizable: false,
+    // fullscreenable: false,
     transparent: true,
     hasShadow: false,
-    resizable: false,
+    // resizable: false,
     webPreferences: {
       preload,
       webSecurity: false,
@@ -103,7 +105,15 @@ app.on("activate", () => {
 });
 
 ipcMain.on("min", (e) => win.minimize());
-ipcMain.on("max", (e) => win.maximize());
+ipcMain.on("window-maximize", function () {
+  if (win.isFullScreen()) {
+    win.setFullScreen(false);
+  } else if (win.isMaximized()) {
+    win.unmaximize();
+  } else {
+    win.maximize();
+  }
+});
 ipcMain.on("close", (e) => win.close());
 ipcMain.on("reload", (e) => win.reload());
 

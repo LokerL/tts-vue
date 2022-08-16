@@ -7,15 +7,15 @@
 ### 1. 下载安装
 
 - 方法 1：直接下载安装包：
-  
-  * [下载地址 Gitee](https://gitee.com/LGW_space/tts-vue/releases/latest)
-  
-  * [下载地址 GitHub](https://github.com/LokerL/tts-vue/releases/latest)
-  
-  * [下载地址 lanzou 云](https://wwn.lanzoul.com/b0f3ype9g)  密码：`em1n`
-  
-  * 在[GitHubActions](https://github.com/LokerL/tts-vue/actions)有实时推送自动构建的版本。
-  
+
+  - [下载地址 Gitee](https://gitee.com/LGW_space/tts-vue/releases/latest)
+
+  - [下载地址 GitHub](https://github.com/LokerL/tts-vue/releases/latest)
+
+  - [下载地址 lanzou 云](https://wwn.lanzoul.com/b0f3ype9g) 密码：`em1n`
+
+  - 在[GitHubActions](https://github.com/LokerL/tts-vue/actions)有实时推送自动构建的版本。
+
     ![tts-vue.zip](http://pic.rmb.bdstatic.com/bjh/50c9038bab1165bce67cf26b763be521.png)
 
     解压压缩包得到安装程序`tts-vue_1.0.0.exe`
@@ -26,7 +26,7 @@
   GitHub: https://github.com/LokerL/tts-vue
   Gitee: https://gitee.com/LGW_space/tts-vue
   下载源码后运行
-  
+
   ```shell
   # npm
   npm install
@@ -85,7 +85,7 @@
 - 是否自动播放：配置为`是`时，文本转为语音后，可以自动播放。批量转换时无效。
 
 - 配置模板编辑：保存的模板可以在这里查看或删除。鼠标放在配置名字上可以显示全部配置内容。
-  
+
   ![](http://pic.rmb.bdstatic.com/bjh/dabc0e3200b44c0c3c1f65cfca586160.png)
 
 修改完成后其实已经自动保存完成，可以点击`刷新配置`以立即应用。
@@ -107,17 +107,30 @@
 - 去除 Bilibili 按钮，添加 Gitee 按钮
 - 修复了一些莫名其妙的 BUG。
 
+##### V1.6.0
+
+- 添加版本检测功能。
+- 添加转换时配置为空的检测。
+- 更新语音库，新增一个晓伊声音。
+- 修改了一些 UI。
+
+##### V1.7.0
+
+- 添加自定义的`AuthToken`，因为使用这个功能的可能不多，没把这个配置写到 UI 里面。需要在设置页面打开配置文件手动填写。（这是个未经测试的更新）
+- 添加窗口最大化。修改部分属性为响应式。
+- 修改了一些 UI。
+
 #### 可能出现的问题
 
 > **点击下载没反应，下载文件为文本文档？**
 
-* 可能出现问题的原因：
-  
+- 可能出现问题的原因：
+
   1. 正确的下载方法是转换完成后点击绿色的下载图标，而不是播放器控件的扩展下载，点播放器控件的下载会默认保存为 xxxx.txt。
   2. 点击绿色下载没反应？因为默认保存位置是桌面，所以要检查当前登录的账户有没有写入桌面文件的权限。
 
-* 解决方法：
-  
+- 解决方法：
+
   1. 尝试更改默认下载位置为其他盘。
   2. 以管理员身份运行此软件。
   3. 要是想直接用播放器控件下载音乐，可以在保存的时候更改文件名后缀为.mp3 即可。（如果你已经下载完了，可以尝试更改下载的文本文档.txt 后缀名为.mp3）

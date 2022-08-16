@@ -22,7 +22,7 @@
           <el-table
             :data="config.formConfigList"
             style="width: 100%"
-            height="230"
+            height="calc(100vh - 400px)"
           >
             <el-table-column prop="tagName" label="名字">
               <template #default="scope">
@@ -133,6 +133,7 @@ const switchChange = (value: any) => {
   flex-direction: row;
   justify-content: space-around;
   padding: 10px;
+  height: 97%;
 }
 h3 {
   margin-left: 10px;
@@ -140,10 +141,13 @@ h3 {
 .el-form {
   margin-top: 7px;
   border-right: 1px solid #dcdfe6;
-  width: 270px;
+  width: 250px;
 }
 .er-code {
   padding-left: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }
 :deep(.input-path .el-input-group__append) {
   display: inline-flex;
@@ -180,6 +184,7 @@ img {
   height: 280px;
 }
 .btns {
+  margin-top: 10px;
   display: flex;
   flex-direction: row;
   justify-content: space-around;

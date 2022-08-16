@@ -1,5 +1,5 @@
 <template>
-  <div class="header">
+  <div class="header" @click="test">
     <div class="win-tools">
       <el-button
         type="danger"
@@ -9,8 +9,14 @@
         @click="ipcRenderer.send('close')"
       >
       </el-button>
-      <!-- <el-button type="warning" size="small" circle class="circle-btn">
-      </el-button> -->
+      <el-button
+        type="warning"
+        size="small"
+        circle
+        class="circle-btn"
+        @click="ipcRenderer.send('window-maximize')"
+      >
+      </el-button>
       <el-button
         type="success"
         size="small"
@@ -27,6 +33,9 @@
 <script lang="ts" setup>
 import Logo from "./Logo.vue";
 const { ipcRenderer } = require("electron");
+const test = () => {
+  console.log("object");
+};
 </script>
 
 <style scoped>
