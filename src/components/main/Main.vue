@@ -24,7 +24,11 @@
       </div>
     </div>
     <div class="input-area" v-show="page.asideIndex == '2'">
-      <el-table :data="tableData" height="430" style="width: 100%">
+      <el-table
+        :data="tableData"
+        height="calc(100vh - 170px)"
+        style="width: 100%"
+      >
         <el-table-column
           prop="fileName"
           label="文件名"
@@ -199,12 +203,12 @@ const openInFolder = (val: any) => {
   justify-content: space-between;
 }
 .input-area {
-  width: 500px !important;
+  width: 100% !important;
   border-radius: 5px !important;
 }
 .main-config-page {
   width: 100%;
-  height: 498px;
+  height: calc(100vh - 102px);
   background-color: #fff;
   border-radius: 5px;
   border: 1px solid #dcdfe6;
@@ -227,7 +231,7 @@ const openInFolder = (val: any) => {
   display: none;
 }
 :deep(.el-textarea__inner) {
-  min-height: 470px !important;
+  height: calc(100vh - 130px);
   resize: none;
   border-radius: 5px !important;
 }

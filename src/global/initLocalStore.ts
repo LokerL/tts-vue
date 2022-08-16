@@ -19,4 +19,7 @@ export default function initStore() {
   if (!store.has("autoplay")) {
     store.set("autoplay", true);
   }
+  if (!store.has("AuthToken")) {
+    store.set("AuthToken", "");
+  }
 }
