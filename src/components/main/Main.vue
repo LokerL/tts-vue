@@ -167,6 +167,7 @@ const fileRemove = (uploadFile: any, uploadFiles: any) => {
 
 const clearAll = () => {
   tableData.value = [];
+  uploadRef.value!.clearFiles();
 };
 
 const play = (val: any) => {
