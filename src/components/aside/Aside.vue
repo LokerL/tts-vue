@@ -53,4 +53,11 @@ const menuChange = (index: number) => {
 .el-menu {
   border-right: unset !important;
 }
+.el-menu-item {
+  box-sizing: border-box;
+  border-color: var(--el-menu-active-color);
+}
+.is-active {
+  border-left: 2px solid;
+}
 </style>

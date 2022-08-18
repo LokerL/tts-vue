@@ -30,6 +30,7 @@ export const useTtsStore = defineStore("ttsStore", {
         configLable: <any>[],
         savePath: store.get("savePath"),
         autoplay: store.get("autoplay"),
+        updateNotification: store.get("updateNotification"),
       },
       isLoading: false,
       currMp3Buffer: null,
@@ -73,12 +74,14 @@ export const useTtsStore = defineStore("ttsStore", {
     setSavePath() {
       store.set("savePath", this.config.savePath);
     },
+    updateNotificationChange() {
+      store.set("updateNotification", this.config.updateNotification);
+    },
     setAutoPlay() {
       store.set("autoplay", this.config.autoplay);
     },
     addFormConfig() {
       this.config.formConfigJson[this.currConfigName] = this.formConfig;
-      console.log(this.config.formConfigJson);
       this.genFormConfig();
     },
     genFormConfig() {

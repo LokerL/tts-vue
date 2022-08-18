@@ -1,5 +1,5 @@
 <template>
-  <div class="header" @click="test">
+  <div class="header">
     <div class="win-tools">
       <el-button
         type="danger"
@@ -7,8 +7,10 @@
         circle
         class="circle-btn"
         @click="ipcRenderer.send('close')"
+        @mouseenter="currShow = 1"
+        @mouseleave="currShow = 0"
       >
-        <el-icon><Close /></el-icon>
+        <el-icon v-show="currShow == 1"><Close /></el-icon>
       </el-button>
       <el-button
         type="warning"
@@ -16,8 +18,10 @@
         circle
         class="circle-btn"
         @click="ipcRenderer.send('min')"
+        @mouseenter="currShow = 2"
+        @mouseleave="currShow = 0"
       >
-        <el-icon><Minus /></el-icon>
+        <el-icon v-show="currShow == 2"><Minus /></el-icon>
       </el-button>
       <el-button
         type="success"
@@ -25,8 +29,10 @@
         circle
         class="circle-btn"
         @click="ipcRenderer.send('window-maximize')"
+        @mouseenter="currShow = 3"
+        @mouseleave="currShow = 0"
       >
-        <el-icon><FullScreen /></el-icon>
+        <el-icon v-show="currShow == 3"><FullScreen /></el-icon>
       </el-button>
     </div>
     <Logo />
@@ -35,10 +41,10 @@
 
 <script lang="ts" setup>
 import Logo from "./Logo.vue";
+import { ref } from "vue";
+
 const { ipcRenderer } = require("electron");
-const test = () => {
-  console.log("object");
-};
+const currShow = ref(0);
 </script>
 
 <style scoped>

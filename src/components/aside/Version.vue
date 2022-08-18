@@ -1,7 +1,7 @@
 <template>
-  <div class="version">
+  <div class="version" @click="checkUpdate">
     <span>Version:{{ version }}</span>
-    <el-icon @click="checkUpdate" :color="hasUpdate ? '#e6a23c' : '#67c23a'"
+    <el-icon :color="hasUpdate ? '#e6a23c' : '#67c23a'"
       ><RefreshRight
     /></el-icon>
   </div>
@@ -9,36 +9,66 @@
 
 <script setup lang="ts">
 import pkg from "../../../package.json";
-import { ref } from "vue";
-import { ElMessageBox } from "element-plus";
+import { ref, h } from "vue";
+import { ElNotification, ElMessageBox } from "element-plus";
 import type { Action } from "element-plus";
-import { reduce } from "lodash";
 
+const Store = require("electron-store");
+const store = new Store();
 const axios = require("axios");
+
+const updateNotification = store.get("updateNotification");
 const version = pkg.version;
 const getLatestVsersion = async () => {
-  const latestVsersion_Gitee = await axios.get(
-    "https://gitee.com/api/v5/repos/LGW_space/tts-vue/releases/latest"
-  );
-  // const latestVsersion_GitHub = await axios.get(
-  //   "https://api.github.com/repos/LokerL/tts-vue/releases/latest"
-  // );
+  let data = {};
+  let latestVsersion = await axios
+    .get("https://gitee.com/api/v5/repos/LGW_space/tts-vue/releases/latest")
+    .catch((e: any) => {
+      console.log(e);
+    });
+  if (typeof latestVsersion == "undefined") {
+    latestVsersion = await axios.get(
+      "https://api.github.com/repos/LokerL/tts-vue/releases/latest"
+    );
+  }
   return {
-    gitee: latestVsersion_Gitee.data,
+    latestVsersion: latestVsersion.data,
     // github: latestVsersion_GitHub.data,
   };
 };
 let hasUpdate = ref(false);
-getLatestVsersion().then(({ gitee }) => {
-  if (version != gitee.tag_name) {
+getLatestVsersion().then(({ latestVsersion }) => {
+  if (version != latestVsersion.tag_name) {
     hasUpdate.value = true;
+    if (updateNotification) {
+      ElNotification({
+        title: "发现新版本",
+        message: h("strong", [
+          "发现新版本：",
+          h(
+            "i",
+            { style: "color: teal;margin-right: 5px;" },
+            latestVsersion.tag_name
+          ),
+          h(
+            "a",
+            {
+              href: "https://gitee.com/LGW_space/tts-vue/releases/latest",
+              target: "_blank",
+            },
+            "前往查看"
+          ),
+        ]),
+        type: "success",
+      });
+    }
   }
 });
 
 const checkUpdate = async () => {
-  getLatestVsersion().then(({ gitee }) => {
+  getLatestVsersion().then(({ latestVsersion }) => {
     let versionInfo = "";
-    if (version == gitee.tag_name) {
+    if (version == latestVsersion.tag_name) {
       versionInfo = `<p class="version-info version-info-success">当前为最新版本，无需更新。</p>`;
     } else {
       versionInfo = `<p class="version-info version-info-warning">发现新版本，请手动更新。</p>`;
@@ -47,7 +77,7 @@ const checkUpdate = async () => {
       <div>
       ${versionInfo}
         <p>当前版本：<span>${version}</span></p>
-        <p>最新版本：<span>${gitee.tag_name}</span></p>
+        <p>最新版本：<span>${latestVsersion.tag_name}</span></p>
         <p>下载地址：
           <ul style="margin: 0;">
             <li><a href="https://github.com/LokerL/tts-vue/releases/latest" target="_blank">GitHub</a></li>
@@ -77,6 +107,7 @@ const checkUpdate = async () => {
   display: flex;
   justify-content: space-around;
   margin-bottom: 1px;
+  cursor: pointer;
 }
 .el-icon {
   margin: auto;
