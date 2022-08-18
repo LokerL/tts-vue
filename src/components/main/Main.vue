@@ -213,6 +213,7 @@ const openInFolder = (val: any) => {
   background-color: #fff;
   border-radius: 5px;
   border: 1px solid #dcdfe6;
+  overflow: hidden;
 }
 .table-tool {
   background-color: #fff;

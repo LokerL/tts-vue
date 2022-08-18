@@ -18,11 +18,20 @@
             @change="switchChange"
           />
         </el-form-item>
+        <el-form-item label="版本更新弹窗提醒">
+          <el-switch
+            v-model="config.updateNotification"
+            active-text="是"
+            inactive-text="否"
+            inline-prompt
+            @change="updateNotificationChange"
+          />
+        </el-form-item>
         <el-form-item label="模板编辑">
           <el-table
             :data="config.formConfigList"
             style="width: 100%"
-            height="calc(100vh - 400px)"
+            height="calc(100vh - 450px)"
           >
             <el-table-column prop="tagName" label="名字">
               <template #default="scope">
@@ -117,8 +126,16 @@ const savePathConfig = () => {
     duration: 2000,
   });
 };
-const switchChange = (value: any) => {
+const switchChange = () => {
   ttsStore.setAutoPlay();
+  ElMessage({
+    message: "保存成功，请点击“刷新配置”立即应用。。",
+    type: "success",
+    duration: 2000,
+  });
+};
+const updateNotificationChange = () => {
+  ttsStore.updateNotificationChange();
   ElMessage({
     message: "保存成功，请点击“刷新配置”立即应用。。",
     type: "success",
@@ -135,13 +152,17 @@ const switchChange = (value: any) => {
   padding: 10px;
   height: 97%;
 }
+.config-side {
+  width: 35vw;
+}
 h3 {
   margin-left: 10px;
 }
 .el-form {
   margin-top: 7px;
   border-right: 1px solid #dcdfe6;
-  width: 250px;
+  width: 30vw;
+  padding-left: 10px;
 }
 .er-code {
   padding-left: 5px;
@@ -176,8 +197,12 @@ h3 {
   font-size: 14px;
   border-radius: 4px;
 }
+:deep(.el-table .el-table__cell) {
+  padding: 3px 0 !important;
+}
 .el-form-item {
   width: 230px;
+  margin-bottom: 8px;
 }
 img {
   width: 245px;

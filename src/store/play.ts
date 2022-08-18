@@ -1,17 +1,8 @@
 const axios = require("axios");
 const { v4: uuidv4 } = require("uuid");
 const ws = require("nodejs-websocket");
-const Store = require("electron-store");
-const store = new Store();
 
 async function getAuthToken() {
-  const customToken = store.get("AuthToken");
-  if (customToken !== "") {
-    console.log("正在使用用户Token：", customToken);
-    return customToken;
-  }
-  //https://azure.microsoft.com/en-gb/services/cognitive-services/text-to-speech/
-
   const res = await axios.get(
     "https://azure.microsoft.com/en-gb/services/cognitive-services/text-to-speech/"
   );
