@@ -8,22 +8,25 @@
         class="circle-btn"
         @click="ipcRenderer.send('close')"
       >
+        <el-icon><Close /></el-icon>
       </el-button>
       <el-button
         type="warning"
         size="small"
         circle
         class="circle-btn"
-        @click="ipcRenderer.send('window-maximize')"
+        @click="ipcRenderer.send('min')"
       >
+        <el-icon><Minus /></el-icon>
       </el-button>
       <el-button
         type="success"
         size="small"
         circle
         class="circle-btn"
-        @click="ipcRenderer.send('min')"
+        @click="ipcRenderer.send('window-maximize')"
       >
+        <el-icon><FullScreen /></el-icon>
       </el-button>
     </div>
     <Logo />
@@ -51,9 +54,6 @@ const test = () => {
 }
 .win-tools {
   margin-left: 10px;
-}
-.circle-btn {
-  width: 15px !important;
-  height: 15px !important;
+  transform: scale(0.8);
 }
 </style>
