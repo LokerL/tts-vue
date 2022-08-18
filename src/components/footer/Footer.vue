@@ -8,9 +8,8 @@
           @click="download"
           :disabled="currMp3Url == ''"
           :loading="isLoading"
-        >
-          <el-icon><Download /></el-icon>
-        </el-button>
+          :icon="Download"
+        />
       </div>
       <div class="paly-bar-process">
         <audio
@@ -28,6 +27,7 @@
 <script setup lang="ts">
 import { useTtsStore } from "@/store/store";
 import { storeToRefs } from "pinia";
+import { Download } from '@element-plus/icons-vue';
 
 const ttsStore = useTtsStore();
 const { config, currMp3Url, isLoading, audioPlayer } = storeToRefs(ttsStore);
