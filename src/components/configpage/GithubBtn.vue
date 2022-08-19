@@ -2,8 +2,8 @@
   <div>
     <button @click="github">
       <svg
-        height="24"
-        width="24"
+        height="20"
+        width="20"
         viewBox="0 0 24 24"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -32,8 +32,8 @@ button {
   align-items: center;
   font-family: inherit;
   font-weight: 500;
-  font-size: 17px;
-  padding: 0.8em 1.3em 0.8em 0.9em;
+  font-size: 16px;
+  padding: 0.75em 1.5em 0.75em 1.1em;
   color: white;
   background: #ad5389;
   background: linear-gradient(to right, #0f0c29, #302b63, #24243e);

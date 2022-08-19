@@ -1,11 +1,11 @@
 <template>
   <div>
-    <button @click="bilibili">
+    <button @click="gitee">
       <div class="svg-wrapper-1">
         <div class="svg-wrapper">
           <img
-            width="33"
-            height="33"
+            width="25"
+            height="25"
             src="https://gitee.com/assets/favicon.ico"
             alt=""
           />
@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 const { shell } = require("electron");
-const bilibili = () => {
+const gitee = () => {
   shell.openExternal("https://gitee.com/LGW_space/tts-vue");
 };
 </script>
@@ -27,10 +27,10 @@ const bilibili = () => {
 /* From uiverse.io by @adamgiebl */
 button {
   font-family: inherit;
-  font-size: 20px;
+  font-size: 25px;
   background: #fff;
   color: rgb(199, 29, 35);
-  padding: 0.2em 0.8em;
+  padding: 0.1em 0.4em;
   padding-left: 0.9em;
   display: flex;
   align-items: center;
@@ -43,7 +43,7 @@ button {
 
 button span {
   display: block;
-  margin-left: 0.3em;
+  margin-left: 0.25em;
   transition: all 0.3s ease-in-out;
 }
 
@@ -58,7 +58,7 @@ button:hover .svg-wrapper {
 }
 
 button:hover img {
-  transform: translateX(1.5em) scale(1.1);
+  transform: translateX(1.2em) scale(1.1);
 }
 
 button:hover span {
@@ -66,7 +66,7 @@ button:hover span {
 }
 
 button:active {
-  transform: scale(0.95);
+  transform: scale(0.9);
 }
 
 @keyframes fly-1 {

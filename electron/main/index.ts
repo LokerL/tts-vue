@@ -37,8 +37,8 @@ async function createWindow() {
   win = new BrowserWindow({
     width: 900,
     minWidth: 900,
-    minHeight: 600,
-    height: 600,
+    minHeight: 650,
+    height: 650,
 
     title: "Main window",
     icon: join(ROOT_PATH.public, "favicon.ico"),
