@@ -85,6 +85,25 @@ const checkUpdate = async () => {
             <li><a href="https://wwn.lanzoul.com/b0f3ype9g" target="_blank">lanzou云</a> 密码：em1n</li>
           </ul>
         </p>
+        <p style="margin-top:5px;">
+            <div>
+      <a href="https://github.com/LokerL/tts-vue/stargazers" target="_blank"
+        ><img
+          alt="GitHub stars"
+          src="https://img.shields.io/github/stars/LokerL/tts-vue?color=success"
+      /></a>
+      <a href="https://github.com/LokerL/tts-vue/network" target="_blank"
+        ><img
+          alt="GitHub forks"
+          src="https://img.shields.io/github/forks/LokerL/tts-vue"
+      /></a>
+      <a href="https://github.com/LokerL/tts-vue/issues" target="_blank"
+        ><img
+          alt="GitHub issues"
+          src="https://img.shields.io/github/issues/LokerL/tts-vue"
+      /></a>
+    </div>
+        </p>
       </div>
     `;
 

@@ -260,9 +260,14 @@ const startBtn = () => {
 .options {
   background-color: #fff;
   margin-left: 5px;
-  padding: 5px 12px !important;
+  padding: 10px 12px !important;
   border: 1px solid #dcdfe6;
   border-radius: 5px;
+}
+.el-form {
+  height: 99%;
+  display: flex;
+  flex-direction: column;
 }
 .configOption {
   display: flex;
@@ -301,6 +306,9 @@ const startBtn = () => {
 /* From uiverse.io by @Zena4L */
 .startBtn {
   margin-bottom: 0 !important;
+  flex: 1;
+  display: flex !important;
+  align-items: flex-end;
 }
 :deep(.startBtn > .el-form-item__content) {
   justify-content: space-around;

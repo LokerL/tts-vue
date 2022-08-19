@@ -74,14 +74,7 @@
           ><el-icon><Document /></el-icon>打开配置文件</el-button
         >
       </el-form>
-    </div>
-    <div class="donate">
-      <h3>如果你觉得这个项目帮助到了你，你可以请作者喝杯咖啡表示鼓励 ☕️</h3>
-      <div class="er-code">
-        <img src="../../assets/zfb.jpg" />
-        <img src="../../assets/wx.jpg" />
-      </div>
-      <div class="btns"><GiteeBtn></GiteeBtn> <GithubBtn></GithubBtn></div>
+      <Donate></Donate>
     </div>
   </div>
 </template>
@@ -89,11 +82,9 @@
 <script setup lang="ts">
 import { reactive, ref } from "vue";
 import { ElMessage } from "element-plus";
-// import BiliBtn from "./BiliBtn.vue";
-import GiteeBtn from "./GiteeBtn.vue";
-import GithubBtn from "./GithubBtn.vue";
 import { useTtsStore } from "@/store/store";
 import { storeToRefs } from "pinia";
+import Donate from "./Donate.vue";
 const { ipcRenderer, shell } = require("electron");
 
 const Store = require("electron-store");
@@ -148,27 +139,20 @@ const updateNotificationChange = () => {
 .config-page {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
   padding: 10px;
   height: 97%;
 }
 .config-side {
-  width: 35vw;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
 }
-h3 {
-  margin-left: 10px;
-}
+
 .el-form {
   margin-top: 7px;
   border-right: 1px solid #dcdfe6;
-  width: 30vw;
+  width: 60%;
   padding-left: 10px;
-}
-.er-code {
-  padding-left: 5px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
 }
 :deep(.input-path .el-input-group__append) {
   display: inline-flex;
@@ -191,7 +175,6 @@ h3 {
   vertical-align: middle;
   -webkit-appearance: none;
   background-color: #409eff;
-  /* border: 1px solid #dcdfe6; */
   border-color: #409eff;
   padding: 8px 15px;
   font-size: 14px;
@@ -201,17 +184,7 @@ h3 {
   padding: 3px 0 !important;
 }
 .el-form-item {
-  width: 230px;
+  width: 35vw;
   margin-bottom: 8px;
-}
-img {
-  width: 245px;
-  height: 280px;
-}
-.btns {
-  margin-top: 10px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
 }
 </style>
