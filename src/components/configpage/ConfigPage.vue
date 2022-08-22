@@ -73,6 +73,9 @@
         <el-button type="warning" @click="openConfigFile"
           ><el-icon><Document /></el-icon>打开配置文件</el-button
         >
+        <el-button type="warning" @click="test"
+          ><el-icon><Document /></el-icon>test</el-button
+        >
       </el-form>
       <Donate></Donate>
     </div>
@@ -92,6 +95,10 @@ const store = new Store();
 
 const ttsStore = useTtsStore();
 const { config } = storeToRefs(ttsStore);
+
+const test = () => {
+  ttsStore.ffmpegTest();
+};
 
 const handleDelete = (index: any, row: any) => {
   delete config.value.formConfigJson[row.tagName];

@@ -35,9 +35,12 @@
     "vue"
   ],
   "dependencies": {
+    "any-shell-escape": "^0.1.1",
     "axios": "^0.27.2",
+    "child_process": "^1.0.2",
     "electron-store": "^8.0.2",
     "element-plus": "2.2.9",
+    "ffmpeg-static": "^5.0.2",
     "nodejs-websocket": "^1.7.2",
     "pinia": "^2.0.17",
     "uuid": "^8.3.2"

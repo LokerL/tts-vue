@@ -1,7 +1,9 @@
 import { app, BrowserWindow, shell, ipcMain } from "electron";
 import { release } from "os";
 import { join } from "path";
-
+import sh from "any-shell-escape";
+import { exec } from "child_process";
+// const {exec} = require('child_process')
 // Disable GPU Acceleration for Windows 7
 //if (release().startsWith("6.1")) app.disableHardwareAcceleration();
 app.disableHardwareAcceleration();
@@ -134,3 +136,35 @@ ipcMain.handle("open-win", (event, arg) => {
 });
 const ElectronStore = require("electron-store");
 ElectronStore.initRenderer();
+
+const ffmpegPath = join(ROOT_PATH.public, "ffmpeg.exe");
+const dp = "C:\\Users\\lunan\\Desktop\\";
+ipcMain.on("ffmpeg", (event) => {
+  // const makeMp3 = sh([
+  //   ffmpegPath,
+  //   "-i",
+  //   "C:\\Users\\lunan\\Desktop\\public_flame.avi",
+  //   "C:\\Users\\lunan\\Desktop\\public_flame.mp4",
+  // ]);
+  const args = [
+    ffmpegPath,
+    "-i",
+    dp + "cq.mp3",
+    "-i",
+    dp + "16.mp3",
+    "-filter_complex",
+    "[1:a]aloop=loop=-1:size=2e+09[out];[out][0:a]amix",
+    dp + "out.mp3",
+  ];
+  const makeMp3 = sh(args);
+  console.log(sh.msg(args));
+
+  exec(makeMp3, (err) => {
+    event.reply("msg_ffmpegr", err);
+    if (err) {
+      console.error(err);
+    } else {
+      console.info("done!");
+    }
+  });
+});

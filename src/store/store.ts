@@ -3,10 +3,13 @@
 import { defineStore } from "pinia";
 import getTTSData from "./play";
 import { ElMessage } from "element-plus";
+
+const { ipcRenderer } = require("electron");
 const fs = require("fs");
 const path = require("path");
 const Store = require("electron-store");
 const store = new Store();
+
 // 定义并导出容器，第一个参数是容器id，必须唯一，用来将所有的容器
 // 挂载到根容器上
 export const useTtsStore = defineStore("ttsStore", {
@@ -181,5 +184,13 @@ export const useTtsStore = defineStore("ttsStore", {
       });
     },
     tts() {},
+    async ffmpegTest() {
+      const result = await ipcRenderer.send("ffmpeg");
+      ipcRenderer.on("msg_ffmpegr", (event: any, param: any) => {
+        console.log("msg_ffmpegr");
+        console.log("param", param);
+        console.log(event.sender);
+      });
+    },
   },
 });
