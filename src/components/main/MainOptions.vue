@@ -35,9 +35,16 @@
           <el-option
             v-for="item in voiceStyleSelectList"
             :key="item"
-            :label="item"
+            :label="getStyleDes(item)?.word"
             :value="item"
-          />
+          >
+            <div style="display: flex; justify-content: start">
+              <span style="margin-right: 5px">{{
+                getStyleDes(item)?.emoji
+              }}</span>
+              <span>{{ getStyleDes(item)?.word }}</span>
+            </div>
+          </el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="角色扮演">
@@ -46,9 +53,16 @@
           <el-option
             v-for="item in rolePlayList"
             :key="item"
-            :label="item"
+            :label="getRoleDes(item)?.word"
             :value="item"
-          />
+          >
+            <div style="display: flex; justify-content: start">
+              <span style="margin-right: 5px">{{
+                getRoleDes(item)?.emoji
+              }}</span>
+              <span>{{ getRoleDes(item)?.word }}</span>
+            </div>
+          </el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="语速">
@@ -104,6 +118,7 @@
 <script setup lang="ts">
 import { ref, reactive, watch } from "vue";
 import { optionsConfig as oc } from "./options-config";
+import { getStyleDes, getRoleDes } from "./emoji-config";
 import Loading from "./Loading.vue";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { useTtsStore } from "@/store/store";
@@ -254,6 +269,7 @@ const startBtn = () => {
 
   ttsStore.start();
 };
+console.log(getStyleDes("serious"));
 </script>
 
 <style scoped>
