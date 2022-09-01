@@ -63,12 +63,15 @@ async function getTTSData(
   console.log(SSML);
 
   console.log("获取Token...");
-  const Authorization = await getAuthToken();
+  // const Authorization = await getAuthToken();
   const XConnectionId = uuidv4().toUpperCase();
 
   console.log("创建webscoket连接...");
+  // const connect: any = await wssConnect(
+  //   `wss://eastus.tts.speech.microsoft.com/cognitiveservices/websocket/v1?Authorization=${Authorization}&X-ConnectionId=${XConnectionId}`
+  // );
   const connect: any = await wssConnect(
-    `wss://eastus.tts.speech.microsoft.com/cognitiveservices/websocket/v1?Authorization=${Authorization}&X-ConnectionId=${XConnectionId}`
+    `wss://eastus.api.speech.microsoft.com/cognitiveservices/websocket/v1?TrafficType=AzureDemo&Authorization=bearer%20undefined&X-ConnectionId=${XConnectionId}`
   );
 
   console.log("第1次上报...");
