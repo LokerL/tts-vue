@@ -20,7 +20,7 @@
     "typescript": "^4.7.4",
     "vite": "^2.9.13",
     "vite-plugin-electron": "^0.8.1",
-    "vue": "^3.2.37",
+    "vue": "^3.2.38",
     "vue-tsc": "^0.38.3"
   },
   "env": {
