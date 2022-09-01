@@ -133,6 +133,11 @@
 - 说话风格和角色扮演的下拉显示为emoji和中文。
 - 修改部分UI：donate,MainOptions,Version
 
+##### V1.7.3
+
+- 紧急修复webscoket连接问题
+> 此次更新一定程度上加快了一点转换速度。
+
 
 #### 可能出现的问题
 
@@ -169,3 +174,7 @@
 - [Vue](https://github.com/vuejs/vue) - Vue.js is a progressive, incrementally-adoptable JavaScript framework for building UI on the web.
 - [element-plus](https://github.com/element-plus/element-plus) - 🎉 A Vue.js 3 UI Library made by Element team
 - [mstts.js](https://github.com/ezshine/mstts-js)
+
+
+### 使用交流
+点击链接加入群聊[【tts-vue交流群】](https://jq.qq.com/?_wv=1027&k=nyp8gPOW)
