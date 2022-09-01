@@ -5,6 +5,13 @@
       <h3>
         欢迎<span>Star</span>、<span>Fork</span>和<span>PR</span>。你的Star是对项目最好的鼓励：）
       </h3>
+      <p style="margin: 0 10px">
+        点击链接加入企鹅群聊<a
+          href="https://jq.qq.com/?_wv=1027&k=nyp8gPOW"
+          target="_blank"
+          >【tts-vue交流群】</a
+        >
+      </p>
     </div>
 
     <div class="btns"><GiteeBtn></GiteeBtn> <GithubBtn></GithubBtn></div>
