@@ -39,7 +39,7 @@
     "electron-store": "^8.0.2",
     "element-plus": "2.2.9",
     "nodejs-websocket": "^1.7.2",
-    "pinia": "^2.0.17",
+    "pinia": "^2.0.21",
     "uuid": "^8.3.2"
   }
 }
