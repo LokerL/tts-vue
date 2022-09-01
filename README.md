@@ -142,6 +142,20 @@
 #### 可能出现的问题
 
 
+> **如何调整多音字的读音或添加中断或暂停等 ？**
+
+- 解决方法：
+
+  文本内容输入这个试试，简单的读音例子：
+  ```
+  你好啊
+  读<phoneme alphabet="sapi" ph="chong 2 liang 4">重量</phoneme>是不对的
+  要读成“重量”
+  ```
+  ![image](https://user-images.githubusercontent.com/44148627/187923533-5f0a2375-c685-475e-9e51-d0ef3c3ce19e.png)
+  详情可以看：[使用音素改善发音](https://docs.microsoft.com/zh-cn/azure/cognitive-services/speech-service/speech-synthesis-markup?tabs=csharp#use-phonemes-to-improve-pronunciation)
+
+
 > **批量转换失败或者听到都是“汪汪汪”(one one one)的声音**
 
 - 可能出现问题的原因：
@@ -152,6 +166,13 @@
 
   1. 已经存在的ANSI编码的文本文档，可以点击文件->另存为->编码：UTF-8。
   2. 新建的文本文档保存文件格式及的选择UTF-8。
+  以下节选自官方：
+  > - 文件是纯文本 (.txt) 或 SSML 文本 (.txt)。
+  > - 文件已编码为包含字节顺序标记 (BOM) 的 UTF-8 格式。
+  > - 文件是单个文件，而不是 zip 文件。
+  > - 文件包含 400 多个字符（对于纯文本），或 400 个可计费字符（对于 SSML 文本），并且少于 10,000 个段落。
+  >   - 对于纯文本，通过点击 Enter/Return 来分隔每个段落。 请参阅纯文本输入示例。
+  >   - 对于 SSML 文本，每个 SSML 部分都被视为一个段落。 按不同段落分隔 SSML 部分。 请参阅 SSML 文本输入示例。
 
 > **点击下载没反应，下载文件为文本文档？**
 
