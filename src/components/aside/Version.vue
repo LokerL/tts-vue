@@ -44,21 +44,24 @@ getLatestVsersion().then(({ latestVsersion }) => {
       ElNotification({
         title: "发现新版本",
         message: h("strong", [
-          "发现新版本：",
-          h(
-            "i",
-            { style: "color: teal;margin-right: 5px;" },
-            latestVsersion.tag_name
-          ),
-          h(
-            "a",
-            {
-              href: "https://gitee.com/LGW_space/tts-vue/releases/latest",
-              target: "_blank",
-              style: "margin-bottom: 20px;",
-            },
-            "前往查看"
-          ),
+          h("div", [
+            "发现新版本：",
+            h(
+              "i",
+              { style: "color: teal;margin-right: 5px;" },
+              latestVsersion.tag_name
+            ),
+            h(
+              "a",
+              {
+                href: "https://gitee.com/LGW_space/tts-vue/releases/latest",
+                target: "_blank",
+                style: "margin-bottom: 20px;",
+              },
+              "前往查看"
+            ),
+          ]),
+          h("div", latestVsersion.body),
         ]),
         type: "success",
       });

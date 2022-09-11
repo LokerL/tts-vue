@@ -1,6 +1,6 @@
 {
   "name": "tts-vue",
-  "version": "1.7.3",
+  "version": "1.8.0",
   "main": "dist/electron/main/index.js",
   "description": "🎤 微软语音合成工具，使用 Electron + Vue + ElementPlus + Vite 构建。",
   "author": "沫離Loker <806076693@qq.com>",
@@ -36,6 +36,7 @@
   ],
   "dependencies": {
     "axios": "^0.27.2",
+    "electron-log": "^4.4.8",
     "electron-store": "^8.0.2",
     "element-plus": "2.2.9",
     "nodejs-websocket": "^1.7.2",
