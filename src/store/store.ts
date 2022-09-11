@@ -6,6 +6,7 @@ import { ElMessage } from "element-plus";
 const fs = require("fs");
 const path = require("path");
 const Store = require("electron-store");
+const { ipcRenderer } = require("electron");
 const store = new Store();
 // 定义并导出容器，第一个参数是容器id，必须唯一，用来将所有的容器
 // 挂载到根容器上
@@ -29,11 +30,12 @@ export const useTtsStore = defineStore("ttsStore", {
         formConfigList: <any>[],
         configLable: <any>[],
         savePath: store.get("savePath"),
+        audition: store.get("audition"),
         autoplay: store.get("autoplay"),
         updateNotification: store.get("updateNotification"),
       },
       isLoading: false,
-      currMp3Buffer: null,
+      currMp3Buffer: Buffer.alloc(0),
       currMp3Url: "",
       audioPlayer: null,
     };
@@ -74,6 +76,9 @@ export const useTtsStore = defineStore("ttsStore", {
     setSavePath() {
       store.set("savePath", this.config.savePath);
     },
+    setAuditionConfig() {
+      store.set("audition", this.config.audition);
+    },
     updateNotificationChange() {
       store.set("updateNotification", this.config.updateNotification);
     },
@@ -110,26 +115,80 @@ export const useTtsStore = defineStore("ttsStore", {
               ? this.inputs.inputValue
               : this.inputs.ssmlValue,
         };
-        await getTTSData(
-          value,
-          this.formConfig.voiceSelect,
-          this.formConfig.voiceStyleSelect,
-          this.formConfig.role,
-          (this.formConfig.speed - 1) * 100,
-          (this.formConfig.pitch - 1) * 50
-        ).then((mp3buffer: any) => {
-          this.currMp3Buffer = mp3buffer;
-          const svlob = new Blob([mp3buffer]);
+        if (this.page.tabIndex == "1" && this.inputs.inputValue.length > 400) {
+          const delimiters = "，。？,.?".split("");
+          const maxSize = 300;
+          ipcRenderer.send("log.info", "字数过多，正在对文本切片。。。");
+
+          const textHandler = this.inputs.inputValue.split("").reduce(
+            (obj: any, char, index, arr) => {
+              obj.buffer.push(char);
+              if (delimiters.indexOf(char) >= 0) obj.end = index;
+              if (obj.buffer.length === maxSize) {
+                obj.res.push(
+                  obj.buffer.splice(0, obj.end + 1 - obj.offset).join("")
+                );
+                obj.offset += obj.res[obj.res.length - 1].length;
+              }
+              return obj;
+            },
+            {
+              buffer: [],
+              end: 0,
+              offset: 0,
+              res: [],
+            }
+          );
+          textHandler.res.push(textHandler.buffer.join(""));
+          const tasks = textHandler.res;
+          for (let index = 0; index < tasks.length; index++) {
+            ipcRenderer.send("log.info", `正在执行第${index + 1}次转换。。。`);
+            const element = tasks[index];
+            value.inputValue = element;
+            const buffers: any = await getTTSData(
+              value,
+              this.formConfig.voiceSelect,
+              this.formConfig.voiceStyleSelect,
+              this.formConfig.role,
+              (this.formConfig.speed - 1) * 100,
+              (this.formConfig.pitch - 1) * 50
+            );
+            this.currMp3Buffer = Buffer.concat([this.currMp3Buffer, buffers]);
+            ipcRenderer.send(
+              "log.info",
+              `第${index + 1}次转换完成，此时Buffer长度为：${
+                this.currMp3Buffer.length
+              }`
+            );
+          }
+
+          const svlob = new Blob([this.currMp3Buffer]);
           this.currMp3Url = URL.createObjectURL(svlob);
           this.isLoading = false;
-          ElMessage({
-            message: this.config.autoplay
-              ? "成功，正在试听~"
-              : "成功，请手动播放。",
-            type: "success",
-            duration: 2000,
+        } else {
+          // 字数少直接转换
+          await getTTSData(
+            value,
+            this.formConfig.voiceSelect,
+            this.formConfig.voiceStyleSelect,
+            this.formConfig.role,
+            (this.formConfig.speed - 1) * 100,
+            (this.formConfig.pitch - 1) * 50
+          ).then((mp3buffer: any) => {
+            this.currMp3Buffer = mp3buffer;
+            const svlob = new Blob([mp3buffer]);
+            this.currMp3Url = URL.createObjectURL(svlob);
+            this.isLoading = false;
           });
+        }
+        ElMessage({
+          message: this.config.autoplay
+            ? "成功，正在试听~"
+            : "成功，请手动播放。",
+          type: "success",
+          duration: 2000,
         });
+        ipcRenderer.send("log.info", `转换完成`);
       } else {
         // this.page.asideIndex == "2" 批量转换
         this.page.tabIndex == "1";
@@ -145,18 +204,59 @@ export const useTtsStore = defineStore("ttsStore", {
           );
           fs.readFile(item.filePath, "utf8", async (err: any, datastr: any) => {
             if (err) console.log(err);
-            inps.inputValue = datastr;
 
-            const data = await getTTSData(
-              inps,
-              this.formConfig.voiceSelect,
-              this.formConfig.voiceStyleSelect,
-              this.formConfig.role,
-              (this.formConfig.speed - 1) * 100,
-              (this.formConfig.pitch - 1) * 50
-            ).then((mp3buffer: any) => {
-              console.log(this.isLoading);
-              fs.writeFileSync(filePath, mp3buffer);
+            inps.inputValue = datastr;
+            let buffer = Buffer.alloc(0);
+
+            if (datastr.length > 400) {
+              const delimiters = "，。？,.?".split("");
+              const maxSize = 300;
+              ipcRenderer.send("log.info", "字数过多，正在对文本切片。。。");
+
+              const textHandler = datastr.split("").reduce(
+                (obj: any, char: any, index: any, arr: any) => {
+                  obj.buffer.push(char);
+                  if (delimiters.indexOf(char) >= 0) obj.end = index;
+                  if (obj.buffer.length === maxSize) {
+                    obj.res.push(
+                      obj.buffer.splice(0, obj.end + 1 - obj.offset).join("")
+                    );
+                    obj.offset += obj.res[obj.res.length - 1].length;
+                  }
+                  return obj;
+                },
+                {
+                  buffer: [],
+                  end: 0,
+                  offset: 0,
+                  res: [],
+                }
+              );
+              textHandler.res.push(textHandler.buffer.join(""));
+              const tasks = textHandler.res;
+              for (let index = 0; index < tasks.length; index++) {
+                ipcRenderer.send(
+                  "log.info",
+                  `正在执行第${index + 1}次转换。。。`
+                );
+                const element = tasks[index];
+                inps.inputValue = element;
+                const buffers: any = await getTTSData(
+                  inps,
+                  this.formConfig.voiceSelect,
+                  this.formConfig.voiceStyleSelect,
+                  this.formConfig.role,
+                  (this.formConfig.speed - 1) * 100,
+                  (this.formConfig.pitch - 1) * 50
+                );
+                buffer = Buffer.concat([buffer, buffers]);
+                ipcRenderer.send(
+                  "log.info",
+                  `第${index + 1}次转换完成，此时Buffer长度为：${buffer.length}`
+                );
+              }
+
+              fs.writeFileSync(filePath, buffer);
               this.setDoneStatus(item.filePath);
               ElMessage({
                 message: "成功，正在写入" + filePath,
@@ -164,7 +264,26 @@ export const useTtsStore = defineStore("ttsStore", {
                 duration: 2000,
               });
               this.isLoading = false;
-            });
+            } else {
+              await getTTSData(
+                inps,
+                this.formConfig.voiceSelect,
+                this.formConfig.voiceStyleSelect,
+                this.formConfig.role,
+                (this.formConfig.speed - 1) * 100,
+                (this.formConfig.pitch - 1) * 50
+              ).then((mp3buffer: any) => {
+                console.log(this.isLoading);
+                fs.writeFileSync(filePath, mp3buffer);
+                this.setDoneStatus(item.filePath);
+                ElMessage({
+                  message: "成功，正在写入" + filePath,
+                  type: "success",
+                  duration: 2000,
+                });
+                this.isLoading = false;
+              });
+            }
           });
         });
         // this.isLoading = false;
@@ -179,7 +298,26 @@ export const useTtsStore = defineStore("ttsStore", {
         type: "success",
         duration: 2000,
       });
+      ipcRenderer.send("log.info", `下载完成:${filePath}`);
     },
-    tts() {},
+    async audition(val: string) {
+      const inps = {
+        activeIndex: 1, // 值转换普通文本
+        inputValue: this.config.audition,
+      };
+      await getTTSData(
+        inps,
+        val,
+        this.formConfig.voiceStyleSelect,
+        this.formConfig.role,
+        (this.formConfig.speed - 1) * 100,
+        (this.formConfig.pitch - 1) * 50
+      ).then((mp3buffer: any) => {
+        this.currMp3Buffer = mp3buffer;
+        const svlob = new Blob([mp3buffer]);
+        const sound = new Audio(URL.createObjectURL(svlob));
+        sound.play();
+      });
+    },
   },
 });

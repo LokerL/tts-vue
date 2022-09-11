@@ -2,6 +2,8 @@ import { app, BrowserWindow, shell, ipcMain } from "electron";
 import { release } from "os";
 import { join } from "path";
 
+import logger from "../utils/log";
+
 // Disable GPU Acceleration for Windows 7
 //if (release().startsWith("6.1")) app.disableHardwareAcceleration();
 app.disableHardwareAcceleration();
@@ -134,3 +136,14 @@ ipcMain.handle("open-win", (event, arg) => {
 });
 const ElectronStore = require("electron-store");
 ElectronStore.initRenderer();
+
+ipcMain.on("log.info", async (event, arg) => {
+  logger.info(arg);
+});
+ipcMain.on("log.error", async (event, arg) => {
+  logger.error(arg);
+});
+
+ipcMain.on("openLogs", async (event, arg) => {
+  shell.openPath(logger.logger.transports.file.getFile().path);
+});

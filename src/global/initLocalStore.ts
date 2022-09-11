@@ -16,6 +16,12 @@ export default function initStore() {
   if (!store.has("savePath")) {
     store.set("savePath", desktopDir);
   }
+  if (!store.has("audition")) {
+    store.set(
+      "audition",
+      "如果你觉得这个项目还不错， 欢迎Star、Fork和PR。你的Star是对作者最好的鼓励。"
+    );
+  }
   if (!store.has("autoplay")) {
     store.set("autoplay", true);
   }

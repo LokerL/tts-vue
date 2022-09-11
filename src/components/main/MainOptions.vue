@@ -23,7 +23,20 @@
             :key="item.ShortName"
             :label="item.DisplayName + '-' + item.LocalName"
             :value="item.ShortName"
-          />
+          >
+            <div style="display: flex; justify-content: space-between">
+              <span style="margin-right: 5px">{{
+                item.DisplayName + "-" + item.LocalName
+              }}</span>
+              <el-button
+                size="small"
+                type="success"
+                circle
+                @click.stop="audition(item.ShortName)"
+                ><el-icon><CaretRight /></el-icon
+              ></el-button>
+            </div>
+          </el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="说话风格">
@@ -136,6 +149,10 @@ const {
 } = storeToRefs(ttsStore);
 const Store = require("electron-store");
 const store = new Store();
+
+const audition = (value: string) => {
+  ttsStore.audition(value);
+};
 
 watch(formConfig.value, (newValue) => {
   inputs.value.ssmlValue = `<speak xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="http://www.w3.org/2001/mstts" xmlns:emo="http://www.w3.org/2009/10/emotionml" version="1.0" xml:lang="en-US">
@@ -269,7 +286,6 @@ const startBtn = () => {
 
   ttsStore.start();
 };
-console.log(getStyleDes("serious"));
 </script>
 
 <style scoped>

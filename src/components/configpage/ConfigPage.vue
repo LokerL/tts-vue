@@ -27,11 +27,18 @@
             @change="updateNotificationChange"
           />
         </el-form-item>
+        <el-form-item label="试听文本">
+          <el-input v-model="config.audition" size="small" class="input-path">
+            <template #append>
+              <el-button type="primary" @click="auditionConfig">确认</el-button>
+            </template>
+          </el-input>
+        </el-form-item>
         <el-form-item label="模板编辑">
           <el-table
             :data="config.formConfigList"
             style="width: 100%"
-            height="calc(100vh - 450px)"
+            height="calc(100vh - 480px)"
           >
             <el-table-column prop="tagName" label="名字">
               <template #default="scope">
@@ -73,6 +80,9 @@
         <el-button type="warning" @click="openConfigFile"
           ><el-icon><Document /></el-icon>打开配置文件</el-button
         >
+        <el-button type="success" @click="openLogs"
+          ><el-icon><Finished /></el-icon>打开日志</el-button
+        >
       </el-form>
       <Donate></Donate>
     </div>
@@ -85,6 +95,7 @@ import { ElMessage } from "element-plus";
 import { useTtsStore } from "@/store/store";
 import { storeToRefs } from "pinia";
 import Donate from "./Donate.vue";
+
 const { ipcRenderer, shell } = require("electron");
 
 const Store = require("electron-store");
@@ -109,6 +120,10 @@ const openConfigFile = () => {
   shell.openPath(store.path);
 };
 
+const openLogs = () => {
+  ipcRenderer.send("openLogs");
+};
+
 const savePathConfig = () => {
   ttsStore.setSavePath();
   ElMessage({
@@ -117,6 +132,15 @@ const savePathConfig = () => {
     duration: 2000,
   });
 };
+const auditionConfig = () => {
+  ttsStore.setAuditionConfig();
+  ElMessage({
+    message: "保存成功，请点击“刷新配置”立即应用。",
+    type: "success",
+    duration: 2000,
+  });
+};
+
 const switchChange = () => {
   ttsStore.setAutoPlay();
   ElMessage({

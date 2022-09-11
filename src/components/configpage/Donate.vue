@@ -3,7 +3,7 @@
     <div class="des">
       <h3>如果你觉得这个项目还不错，</h3>
       <h3>
-        欢迎<span>Star</span>、<span>Fork</span>和<span>PR</span>。你的Star是对项目最好的鼓励：）
+        欢迎<span>Star</span>、<span>Fork</span>和<span>PR</span>。你的Star是对作者最好的鼓励：）
       </h3>
       <p style="margin: 0 10px">
         点击链接加入企鹅群聊<a
@@ -70,8 +70,8 @@ h3 {
 /* From uiverse.io by @JoseIsra */
 .card {
   margin-top: 10px;
-  height: 33vh;
-  width: 40vw;
+  height: 32vh;
+  width: 38vw;
   max-width: 450px;
   cursor: pointer;
 }
@@ -116,7 +116,7 @@ h3 {
   border-radius: 10px;
   width: 28vw;
   max-width: 360px;
-  height: 35vh;
+  height: 38vh;
   max-height: 380px;
 }
 .subtitle {
