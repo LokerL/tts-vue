@@ -74,15 +74,24 @@
             </el-table-column>
           </el-table>
         </el-form-item>
-        <el-button type="primary" @click="ipcRenderer.send('reload')"
-          ><el-icon><Refresh /></el-icon>刷新配置</el-button
-        >
-        <el-button type="warning" @click="openConfigFile"
-          ><el-icon><Document /></el-icon>打开配置文件</el-button
-        >
-        <el-button type="success" @click="openLogs"
-          ><el-icon><Finished /></el-icon>打开日志</el-button
-        >
+        <el-form-item class="btns">
+          <el-button type="primary" @click="ipcRenderer.send('reload')"
+            ><el-icon><Refresh /></el-icon>刷新配置</el-button
+          >
+          <el-button type="warning" @click="openConfigFile"
+            ><el-icon><Document /></el-icon>配置文件</el-button
+          >
+          <el-dropdown split-button type="success" @click="openLogs">
+            <el-icon><Finished /></el-icon>打开日志
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item @click="openLogFolder"
+                  ><el-icon><FolderDelete /></el-icon>清理日志
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+        </el-form-item>
       </el-form>
       <Donate></Donate>
     </div>
@@ -122,6 +131,15 @@ const openConfigFile = () => {
 
 const openLogs = () => {
   ipcRenderer.send("openLogs");
+};
+
+const openLogFolder = () => {
+  ipcRenderer.send("openLogFolder");
+  ElMessage({
+    message: "正在打开日志文件夹，请手动清理！",
+    type: "error",
+    duration: 10000,
+  });
 };
 
 const savePathConfig = () => {
@@ -208,7 +226,18 @@ const updateNotificationChange = () => {
   padding: 3px 0 !important;
 }
 .el-form-item {
-  width: 35vw;
+  width: 37vw;
   margin-bottom: 8px;
+}
+.btns {
+  width: 100%;
+  box-sizing: border-box;
+  padding-right: 10px;
+}
+:deep(.btns .el-form-item__content) {
+  justify-content: space-between;
+}
+.el-button + .el-button {
+  margin-left: 0;
 }
 </style>

@@ -104,9 +104,14 @@
         >
       </div>
     </div>
-    <MainOptions v-show="page.asideIndex != '3'"></MainOptions>
+    <!-- <MainOptions v-show="page.asideIndex != '3'"></MainOptions> -->
+    <MainOptions v-show="['1', '2'].includes(page.asideIndex)"></MainOptions>
     <div class="main-config-page" v-if="page.asideIndex == '3'">
       <ConfigPage></ConfigPage>
+    </div>
+    <div class="main-config-page" v-if="page.asideIndex == '4'">
+      <iframe class="doc-frame" src="https://loker-page.lgwawork.com/home.html">
+      </iframe>
     </div>
   </div>
 </template>
@@ -249,5 +254,10 @@ const openInFolder = (val: any) => {
   background-color: rgb(183, 192, 201);
   transition: 0.3 background-color;
   opacity: 0.3;
+}
+.doc-frame {
+  width: 100%;
+  height: 100%;
+  border: medium none;
 }
 </style>
