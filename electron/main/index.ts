@@ -147,3 +147,6 @@ ipcMain.on("log.error", async (event, arg) => {
 ipcMain.on("openLogs", async (event, arg) => {
   shell.openPath(logger.logger.transports.file.getFile().path);
 });
+ipcMain.on("openLogFolder", async (event, arg) => {
+  shell.openPath(logger.logFolder);
+});

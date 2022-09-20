@@ -8,11 +8,12 @@ logger.transports.file.format =
 const date = new Date();
 const now_date =
   date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
-logger.transports.file.file =
-  app.getPath("userData") + "\\logs\\" + now_date + ".log";
+const logFolder = app.getPath("userData") + "\\logs\\";
+logger.transports.file.file = logFolder + now_date + ".log";
 logger.transports.console.level = false;
 export default {
   logger,
+  logFolder,
   info(param) {
     logger.info(param);
   },

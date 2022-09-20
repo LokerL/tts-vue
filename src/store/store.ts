@@ -192,6 +192,9 @@ export const useTtsStore = defineStore("ttsStore", {
       } else {
         // this.page.asideIndex == "2" 批量转换
         this.page.tabIndex == "1";
+
+        // 分割方法
+
         this.tableData.forEach((item: any) => {
           const inps = {
             activeIndex: 1, // 值转换普通文本

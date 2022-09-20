@@ -17,6 +17,10 @@
         <el-icon><Setting /></el-icon>
         <span>设置</span>
       </el-menu-item>
+      <el-menu-item index="4">
+        <el-icon><Notebook /></el-icon>
+        <span>文档</span>
+      </el-menu-item>
     </el-menu>
     <Version />
   </div>
@@ -27,12 +31,11 @@ import { useTtsStore } from "@/store/store";
 import { storeToRefs } from "pinia";
 import Version from "./Version.vue";
 
-const Store = require("electron-store");
-const store = new Store();
 const ttsStore = useTtsStore();
 const { page, config } = storeToRefs(ttsStore);
 
 const menuChange = (index: number) => {
+  if (index === 4) return;
   page.value.asideIndex = index.toString();
 };
 </script>
