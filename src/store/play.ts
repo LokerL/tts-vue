@@ -29,9 +29,17 @@ function wssSend(connect: any, msg: string) {
 
 function wssConnect(url: string) {
   return new Promise((resolve, reject) => {
-    const connect = ws.connect(url, function () {
-      resolve(connect);
-    });
+    const connect = ws.connect(
+      url,
+      {
+        extraHeaders: {
+          Origin: "https://azure.microsoft.com",
+        },
+      },
+      function () {
+        resolve(connect);
+      }
+    );
   });
 }
 
@@ -66,13 +74,14 @@ async function getTTSData(
 
   // console.log("获取Token...");
   // const Authorization = await getAuthToken();
-  const XConnectionId = uuidv4().toUpperCase();
+  const XConnectionId = uuidv4().toUpperCase().replaceAll("-", "");
 
   ipcRenderer.send("log.info", "创建webscoket连接...");
   // const connect: any = await wssConnect(
   //   `wss://eastus.tts.speech.microsoft.com/cognitiveservices/websocket/v1?Authorization=${Authorization}&X-ConnectionId=${XConnectionId}`
   // );
   console.log("创建webscoket连接...");
+  console.log(XConnectionId);
   const connect: any = await wssConnect(
     `wss://eastus.api.speech.microsoft.com/cognitiveservices/websocket/v1?TrafficType=AzureDemo&Authorization=bearer%20undefined&X-ConnectionId=${XConnectionId}`
   );
