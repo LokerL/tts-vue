@@ -34,6 +34,14 @@
       >
         <el-icon v-show="currShow == 3"><FullScreen /></el-icon>
       </el-button>
+      <el-button
+        size="small"
+        circle
+        class="circle-btn"
+        @click="ipcRenderer.send('openDevTools')"
+      >
+        <el-icon><Monitor /></el-icon>
+      </el-button>
     </div>
     <Logo />
   </div>

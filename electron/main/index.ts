@@ -150,3 +150,13 @@ ipcMain.on("openLogs", async (event, arg) => {
 ipcMain.on("openLogFolder", async (event, arg) => {
   shell.openPath(logger.logFolder);
 });
+ipcMain.on("showItemInFolder", async (event, arg) => {
+  shell.showItemInFolder(arg);
+});
+ipcMain.on("openDevTools", async (event, arg) => {
+  if (win.webContents.isDevToolsOpened()) {
+    win.webContents.closeDevTools();
+  } else {
+    win.webContents.openDevTools({ mode: "undocked", activate: true });
+  }
+});

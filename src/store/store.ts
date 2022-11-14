@@ -3,6 +3,7 @@
 import { defineStore } from "pinia";
 import getTTSData from "./play";
 import { ElMessage } from "element-plus";
+import { h } from "vue";
 const fs = require("fs");
 const path = require("path");
 const Store = require("electron-store");
@@ -105,6 +106,9 @@ export const useTtsStore = defineStore("ttsStore", {
       );
     },
     async start() {
+      console.log("清空缓存中");
+      this.currMp3Buffer = Buffer.alloc(0);
+      this.currMp3Url = "";
       // this.page.asideIndex == "1"单文本转换
       if (this.page.asideIndex == "1") {
         this.currMp3Url = "";
@@ -302,9 +306,21 @@ export const useTtsStore = defineStore("ttsStore", {
       const filePath = path.join(this.config.savePath, currTime + ".mp3");
       fs.writeFileSync(path.resolve(filePath), this.currMp3Buffer);
       ElMessage({
-        message: "下载成功：" + filePath,
+        dangerouslyUseHTMLString: true,
+        message: h("p", null, [
+          h("span", null, "下载完成："),
+          h(
+            "span",
+            {
+              on: {
+                click: this.showItemInFolder(filePath),
+              },
+            },
+            filePath
+          ),
+        ]),
         type: "success",
-        duration: 2000,
+        duration: 4000,
       });
       ipcRenderer.send("log.info", `下载完成:${filePath}`);
     },
@@ -326,6 +342,9 @@ export const useTtsStore = defineStore("ttsStore", {
         const sound = new Audio(URL.createObjectURL(svlob));
         sound.play();
       });
+    },
+    showItemInFolder(filePath: string) {
+      ipcRenderer.send("showItemInFolder", filePath);
     },
   },
 });
