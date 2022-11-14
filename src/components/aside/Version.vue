@@ -87,11 +87,6 @@ const checkUpdate = async () => {
             <li><a href="https://github.com/LokerL/tts-vue/releases/latest" target="_blank">GitHub</a></li>
             <li><a href="https://gitee.com/LGW_space/tts-vue/releases/latest" target="_blank">Gitee</a></li>
             <li><a href="https://wwn.lanzoul.com/b0f3ype9g" target="_blank">lanzou云</a> 密码：em1n</li>
-            <li>点击链接加入企鹅群聊<a
-          href="https://jq.qq.com/?_wv=1027&k=nyp8gPOW"
-          target="_blank"
-          >【tts-vue交流群】</a
-        ></li>
           </ul>
         </p>
         <p style="margin-top:5px;">
