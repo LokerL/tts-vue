@@ -1,7 +1,7 @@
 const Store = require("electron-store");
 const store = new Store();
 const homeDir = require("os").homedir();
-const desktopDir = `${homeDir}\\Desktop\\`;
+const desktopDir = require("path").resolve(homeDir, "Desktop");
 export default function initStore() {
   if (!store.has("FormConfig.默认")) {
     store.set("FormConfig.默认", {
