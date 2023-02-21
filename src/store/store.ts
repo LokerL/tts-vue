@@ -178,12 +178,17 @@ export const useTtsStore = defineStore("ttsStore", {
             this.formConfig.role,
             (this.formConfig.speed - 1) * 100,
             (this.formConfig.pitch - 1) * 50
-          ).then((mp3buffer: any) => {
-            this.currMp3Buffer = mp3buffer;
-            const svlob = new Blob([mp3buffer]);
-            this.currMp3Url = URL.createObjectURL(svlob);
-            this.isLoading = false;
-          });
+          )
+            .then((mp3buffer: any) => {
+              this.currMp3Buffer = mp3buffer;
+              const svlob = new Blob([mp3buffer]);
+              this.currMp3Url = URL.createObjectURL(svlob);
+              this.isLoading = false;
+            })
+            .catch((err) => {
+              this.isLoading = false;
+              console.log(err);
+            });
         }
         ElMessage({
           message: this.config.autoplay
@@ -284,16 +289,21 @@ export const useTtsStore = defineStore("ttsStore", {
                   this.formConfig.role,
                   (this.formConfig.speed - 1) * 100,
                   (this.formConfig.pitch - 1) * 50
-                ).then((mp3buffer: any) => {
-                  fs.writeFileSync(filePath, mp3buffer);
-                  this.setDoneStatus(item.filePath);
-                  ElMessage({
-                    message: "成功，正在写入" + filePath,
-                    type: "success",
-                    duration: 2000,
+                )
+                  .then((mp3buffer: any) => {
+                    fs.writeFileSync(filePath, mp3buffer);
+                    this.setDoneStatus(item.filePath);
+                    ElMessage({
+                      message: "成功，正在写入" + filePath,
+                      type: "success",
+                      duration: 2000,
+                    });
+                    this.isLoading = false;
+                  })
+                  .catch((err) => {
+                    this.isLoading = false;
+                    console.log(err);
                   });
-                  this.isLoading = false;
-                });
               }
             }
           );
@@ -336,12 +346,16 @@ export const useTtsStore = defineStore("ttsStore", {
         this.formConfig.role,
         (this.formConfig.speed - 1) * 100,
         (this.formConfig.pitch - 1) * 50
-      ).then((mp3buffer: any) => {
-        this.currMp3Buffer = mp3buffer;
-        const svlob = new Blob([mp3buffer]);
-        const sound = new Audio(URL.createObjectURL(svlob));
-        sound.play();
-      });
+      )
+        .then((mp3buffer: any) => {
+          this.currMp3Buffer = mp3buffer;
+          const svlob = new Blob([mp3buffer]);
+          const sound = new Audio(URL.createObjectURL(svlob));
+          sound.play();
+        })
+        .catch((err: any) => {
+          console.log(err);
+        });
     },
     showItemInFolder(filePath: string) {
       ipcRenderer.send("showItemInFolder", filePath);
