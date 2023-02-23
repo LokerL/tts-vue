@@ -18,6 +18,8 @@
 
 该软件以及代码仅为个人学习测试使用，请在下载后24小时内删除，不得用于商业用途，否则后果自负。任何违规使用造成的法律后果与本人无关。该软件也永远不会收费，如果您使用该软件前支付了额外费用，或付费获得源码或成品软件，那么你一定被骗了！
 
+**搬运请注明出处。禁止诱导他人以加群、私信等方式获取软件的仓库、下载地址和安装包。**
+
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=LokerL/tts-vue&type=Date)](https://star-history.com/#LokerL/tts-vue&Date)
