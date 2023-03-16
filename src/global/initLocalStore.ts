@@ -1,7 +1,6 @@
 const Store = require("electron-store");
 const store = new Store();
-const homeDir = require("os").homedir();
-const desktopDir = require("path").resolve(homeDir, "Desktop");
+const { ipcRenderer } = require("electron");
 export default function initStore() {
   if (!store.has("FormConfig.默认")) {
     store.set("FormConfig.默认", {
@@ -14,7 +13,7 @@ export default function initStore() {
     });
   }
   if (!store.has("savePath")) {
-    store.set("savePath", desktopDir);
+    store.set("savePath", ipcRenderer.sendSync("getDesktopPath"));
   }
   if (!store.has("audition")) {
     store.set(

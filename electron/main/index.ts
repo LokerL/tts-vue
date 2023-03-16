@@ -160,3 +160,8 @@ ipcMain.on("openDevTools", async (event, arg) => {
     win.webContents.openDevTools({ mode: "undocked", activate: true });
   }
 });
+
+// Get desktop path
+ipcMain.on("getDesktopPath", async (event) => {
+  event.returnValue = app.getPath("desktop");
+});
