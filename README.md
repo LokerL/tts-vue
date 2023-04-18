@@ -20,6 +20,8 @@
 
 **搬运请注明出处。禁止诱导他人以加群、私信等方式获取软件的仓库、下载地址和安装包。**
 
+意见问题反馈，版本发布企鹅群：`**752801820**`
+
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=LokerL/tts-vue&type=Date)](https://star-history.com/#LokerL/tts-vue&Date)
