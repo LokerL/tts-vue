@@ -1,6 +1,7 @@
 import { app, BrowserWindow, shell, ipcMain } from "electron";
 import { release } from "os";
 import { join } from "path";
+import api from "../utils/api";
 
 import logger from "../utils/log";
 
@@ -164,4 +165,10 @@ ipcMain.on("openDevTools", async (event, arg) => {
 // Get desktop path
 ipcMain.on("getDesktopPath", async (event) => {
   event.returnValue = app.getPath("desktop");
+});
+
+// Get desktop path
+ipcMain.handle("speech", async (event, ssml) => {
+  const res = api.speechApi(ssml);
+  return res;
 });

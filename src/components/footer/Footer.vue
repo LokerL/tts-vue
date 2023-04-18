@@ -27,7 +27,7 @@
 <script setup lang="ts">
 import { useTtsStore } from "@/store/store";
 import { storeToRefs } from "pinia";
-import { Download } from '@element-plus/icons-vue';
+import { Download } from "@element-plus/icons-vue";
 
 const ttsStore = useTtsStore();
 const { config, currMp3Url, isLoading, audioPlayer } = storeToRefs(ttsStore);
