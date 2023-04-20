@@ -48,14 +48,14 @@
           <el-option
             v-for="item in voiceStyleSelectList"
             :key="item"
-            :label="getStyleDes(item)?.word"
+            :label="getStyleDes(item)?.word || item"
             :value="item"
           >
             <div style="display: flex; justify-content: start">
               <span style="margin-right: 5px">{{
                 getStyleDes(item)?.emoji
               }}</span>
-              <span>{{ getStyleDes(item)?.word }}</span>
+              <span>{{ getStyleDes(item)?.word || item }}</span>
             </div>
           </el-option>
         </el-select>
@@ -276,7 +276,7 @@ const startBtn = () => {
   }
   if (isLoading.value) {
     ElMessage({
-      message: "请稍后。。。",
+      message: "请稍候。。。",
       type: "warning",
       duration: 2000,
     });

@@ -33,6 +33,13 @@ const styleDes = [
     word: "快速且充满活力的播报体育赛事",
   },
   { keyword: "documentary-narration", emoji: "🎞", word: "记录片叙事" },
+  { keyword: "excited", emoji: "😁", word: "兴奋" },
+  { keyword: "friendly", emoji: "😋", word: "友好" },
+  { keyword: "terrified", emoji: "😱", word: "害怕" },
+  { keyword: "shouting", emoji: "📢", word: "喊叫" },
+  { keyword: "unfriendly", emoji: "😤", word: "不友好" },
+  { keyword: "whispering", emoji: "😶", word: "窃窃私语" },
+  { keyword: "hopeful", emoji: "☀️", word: "充满希望" },
 ];
 const roleDes = [
   { keyword: "YoungAdultFemale", emoji: "👱‍♀️", word: "年轻成年女性" },
