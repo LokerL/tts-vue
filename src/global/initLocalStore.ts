@@ -27,4 +27,7 @@ export default function initStore() {
   if (!store.has("updateNotification")) {
     store.set("updateNotification", true);
   }
+  if (!store.has("titleStyle")) {
+    store.set("titleStyle", true);
+  }
 }

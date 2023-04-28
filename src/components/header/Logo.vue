@@ -1,18 +1,21 @@
-<template>
-  <div>
+<template>  <div>
     <div class="button">
-      <div class="box">T</div>
+      <div class="box" :class="{ 'winStyle-1': winStyle }">T</div>
       <div class="box">T</div>
       <div class="box">S</div>
       <div class="box">-</div>
       <div class="box">V</div>
       <div class="box">U</div>
-      <div class="box">E</div>
+      <div class="box" :class="{ 'winStyle-7': !winStyle }">E</div>
     </div>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const { winStyle } = defineProps(["winStyle"]);
+
+console.log("props.winStyle", winStyle);
+</script>
 
 <style scoped>
 /* From uiverse.io by @mrhyddenn */
@@ -76,8 +79,11 @@
 .box:nth-child(7)::before {
   content: "R";
 }
-.box:nth-child(7) {
+.winStyle-7 {
   border-top-right-radius: 10px;
+}
+.winStyle-1 {
+  border-top-left-radius: 10px;
 }
 .button:hover .box:before {
   transform: translateY(0);
