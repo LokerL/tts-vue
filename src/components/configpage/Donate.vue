@@ -6,7 +6,11 @@
         欢迎<span>Star</span>、<span>Fork</span>和<span>PR</span>。你的Star是对作者最好的鼓励：）
       </h3>
       <p style="margin: 0 10px; font-size: 11px">
-        不再有自建的群聊，有问题请在
+        有问题请在
+        <a href="https://jq.qq.com/?_wv=1027&k=bMNZfGxs" target="_blank"
+          >QQ群(752801820)</a
+        >
+        、
         <a href="https://github.com/LokerL/tts-vue/issues" target="_blank"
           >GitHub Issues</a
         >

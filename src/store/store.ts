@@ -34,6 +34,7 @@ export const useTtsStore = defineStore("ttsStore", {
         audition: store.get("audition"),
         autoplay: store.get("autoplay"),
         updateNotification: store.get("updateNotification"),
+        titleStyle: store.get("titleStyle"),
       },
       isLoading: false,
       currMp3Buffer: Buffer.alloc(0),
@@ -82,6 +83,9 @@ export const useTtsStore = defineStore("ttsStore", {
     },
     updateNotificationChange() {
       store.set("updateNotification", this.config.updateNotification);
+    },
+    updateTitleStyle() {
+      store.set("titleStyle", this.config.titleStyle);
     },
     setAutoPlay() {
       store.set("autoplay", this.config.autoplay);

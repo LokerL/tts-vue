@@ -27,6 +27,14 @@
             @change="updateNotificationChange"
           />
         </el-form-item>
+        <el-form-item label="标题栏样式">
+          <el-switch
+            v-model="config.titleStyle"
+            active-text="MacOS"
+            inactive-text="Windows"
+            @change="updateTitleStyle"
+          />
+        </el-form-item>
         <el-form-item label="试听文本">
           <el-input v-model="config.audition" size="small" class="input-path">
             <template #append>
@@ -38,7 +46,7 @@
           <el-table
             :data="config.formConfigList"
             style="width: 100%"
-            height="calc(100vh - 480px)"
+            height="calc(100vh - 560px)"
           >
             <el-table-column prop="tagName" label="名字">
               <template #default="scope">
@@ -93,6 +101,7 @@
           </el-dropdown>
         </el-form-item>
       </el-form>
+
       <Donate></Donate>
     </div>
   </div>
@@ -167,8 +176,18 @@ const switchChange = () => {
     duration: 2000,
   });
 };
+
 const updateNotificationChange = () => {
   ttsStore.updateNotificationChange();
+  ElMessage({
+    message: "保存成功，请点击“刷新配置”立即应用。。",
+    type: "success",
+    duration: 2000,
+  });
+};
+
+const updateTitleStyle = () => {
+  ttsStore.updateTitleStyle();
   ElMessage({
     message: "保存成功，请点击“刷新配置”立即应用。。",
     type: "success",
@@ -195,6 +214,7 @@ const updateNotificationChange = () => {
   border-right: 1px solid #dcdfe6;
   width: 60%;
   padding-left: 10px;
+  overflow-y: scroll;
 }
 :deep(.input-path .el-input-group__append) {
   display: inline-flex;

@@ -1,7 +1,6 @@
 const axios = require("axios");
-const { v4: uuidv4 } = require("uuid");
+
 const { ipcRenderer } = require("electron");
-const fs = require("fs");
 
 async function getTTSData(
   inps: any,

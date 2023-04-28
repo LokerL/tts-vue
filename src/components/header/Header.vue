@@ -1,6 +1,6 @@
 <template>
-  <div class="header">
-    <div class="win-tools">
+  <div class="header" :class="{ 'win-style': winStyle }">
+    <div class="win-tools" :class="{ 'win-style': winStyle }">
       <el-button
         type="danger"
         size="small"
@@ -43,16 +43,29 @@
         <el-icon><Monitor /></el-icon>
       </el-button>
     </div>
-    <Logo />
+    <Logo :winStyle="winStyle" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import Logo from "./Logo.vue";
-import { ref } from "vue";
+import { ref, watch } from "vue";
+import { useTtsStore } from "@/store/store";
+import { storeToRefs } from "pinia";
+
+const ttsStore = useTtsStore();
+const { config } = storeToRefs(ttsStore);
+
+watch(
+  () => config.value.titleStyle,
+  (newValue) => {
+    winStyle.value = !newValue;
+  }
+);
 
 const { ipcRenderer } = require("electron");
 const currShow = ref(0);
+const winStyle = ref(!config.value.titleStyle);
 </script>
 
 <style scoped>
@@ -67,7 +80,13 @@ const currShow = ref(0);
   justify-content: space-between;
 }
 .win-tools {
-  margin-left: 10px;
+  display: flex;
   transform: scale(0.8);
+}
+.win-tools .el-button {
+  margin-left: 8px;
+}
+.win-style {
+  flex-direction: row-reverse;
 }
 </style>

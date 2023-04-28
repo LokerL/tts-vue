@@ -1,4 +1,6 @@
-var axios = require("axios");const fs = require("fs");
+const axios = require("axios");
+const fs = require("fs");
+const { v4: uuidv4 } = require("uuid");
 
 const speechApi = (ssml: string) => {
   var data = JSON.stringify({
@@ -18,7 +20,7 @@ const speechApi = (ssml: string) => {
       authority: "southeastasia.api.speech.microsoft.com",
       accept: "*/*",
       "accept-language": "zh-CN,zh;q=0.9",
-      customvoiceconnectionid: "d8a3a480-dd87-11ed-8758-97b5a7fbfaf6",
+      customvoiceconnectionid: uuidv4(),
       origin: "https://speech.microsoft.com",
       "sec-ch-ua":
         '"Google Chrome";v="111", "Not(A:Brand";v="8", "Chromium";v="111"',
@@ -41,6 +43,7 @@ const speechApi = (ssml: string) => {
         resolve(response.data);
       })
       .catch(function (error) {
+        console.error(error);
         reject(error);
       });
   });
