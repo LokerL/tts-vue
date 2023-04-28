@@ -214,7 +214,6 @@ const updateTitleStyle = () => {
   border-right: 1px solid #dcdfe6;
   width: 60%;
   padding-left: 10px;
-  overflow-y: scroll;
 }
 :deep(.input-path .el-input-group__append) {
   display: inline-flex;
