@@ -1,4 +1,4 @@
-import { app, BrowserWindow, shell, ipcMain } from "electron";
+import { app, BrowserWindow, shell, ipcMain, dialog } from "electron";
 import { release } from "os";
 import { join } from "path";
 import api from "../utils/api";
@@ -171,4 +171,12 @@ ipcMain.on("getDesktopPath", async (event) => {
 ipcMain.handle("speech", async (event, ssml) => {
   const res = api.speechApi(ssml);
   return res;
+});
+
+ipcMain.handle("openFolderSelector", async (event) => {
+  const path = dialog.showOpenDialogSync(win, {
+    defaultPath: app.getPath("desktop"),
+    properties: ["openDirectory"],
+  });
+  return path;
 });

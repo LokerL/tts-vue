@@ -3,7 +3,12 @@
     <div class="config-side">
       <el-form :model="config" label-position="top">
         <el-form-item label="下载路径">
-          <el-input v-model="config.savePath" size="small" class="input-path">
+          <el-input
+            v-model="config.savePath"
+            size="small"
+            class="input-path"
+            @click="openFolderSelector"
+          >
             <template #append>
               <el-button type="primary" @click="savePathConfig">确认</el-button>
             </template>
@@ -121,6 +126,13 @@ const store = new Store();
 
 const ttsStore = useTtsStore();
 const { config } = storeToRefs(ttsStore);
+
+const openFolderSelector = async () => {
+  const path = await ipcRenderer.invoke("openFolderSelector");
+  if (path) {
+    config.value.savePath = path[0];
+  }
+};
 
 const handleDelete = (index: any, row: any) => {
   delete config.value.formConfigJson[row.tagName];
