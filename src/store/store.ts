@@ -111,6 +111,7 @@ export const useTtsStore = defineStore("ttsStore", {
     },
     async start() {
       console.log("清空缓存中");
+      let resFlag = true;
       this.currMp3Buffer = Buffer.alloc(0);
       this.currMp3Url = "";
       // this.page.asideIndex == "1"单文本转换
@@ -150,28 +151,50 @@ export const useTtsStore = defineStore("ttsStore", {
           textHandler.res.push(textHandler.buffer.join(""));
           const tasks = textHandler.res;
           for (let index = 0; index < tasks.length; index++) {
-            ipcRenderer.send("log.info", `正在执行第${index + 1}次转换。。。`);
-            const element = tasks[index];
-            value.inputValue = element;
-            const buffers: any = await getTTSData(
-              value,
-              this.formConfig.voiceSelect,
-              this.formConfig.voiceStyleSelect,
-              this.formConfig.role,
-              (this.formConfig.speed - 1) * 100,
-              (this.formConfig.pitch - 1) * 50
-            );
-            this.currMp3Buffer = Buffer.concat([this.currMp3Buffer, buffers]);
-            ipcRenderer.send(
-              "log.info",
-              `第${index + 1}次转换完成，此时Buffer长度为：${
-                this.currMp3Buffer.length
-              }`
-            );
+            try {
+              ipcRenderer.send(
+                "log.info",
+                `正在执行第${index + 1}次转换。。。`
+              );
+              const element = tasks[index];
+              value.inputValue = element;
+              const buffers: any = await getTTSData(
+                value,
+                this.formConfig.voiceSelect,
+                this.formConfig.voiceStyleSelect,
+                this.formConfig.role,
+                (this.formConfig.speed - 1) * 100,
+                (this.formConfig.pitch - 1) * 50
+              );
+              this.currMp3Buffer = Buffer.concat([this.currMp3Buffer, buffers]);
+              ipcRenderer.send(
+                "log.info",
+                `第${index + 1}次转换完成，此时Buffer长度为：${
+                  this.currMp3Buffer.length
+                }`
+              );
+            } catch (error) {
+              resFlag = false;
+              console.error(error);
+              ipcRenderer.send("log.error", error);
+              this.isLoading = false;
+              ElMessage({
+                message: "网络异常！\n" + String(error),
+                type: "error",
+                duration: 3000,
+              });
+              if (this.currMp3Buffer.length > 0) {
+                const svlob = new Blob([this.currMp3Buffer]);
+                this.currMp3Url = URL.createObjectURL(svlob);
+              }
+              return;
+            }
           }
 
-          const svlob = new Blob([this.currMp3Buffer]);
-          this.currMp3Url = URL.createObjectURL(svlob);
+          if (this.currMp3Buffer.length > 0) {
+            const svlob = new Blob([this.currMp3Buffer]);
+            this.currMp3Url = URL.createObjectURL(svlob);
+          }
           this.isLoading = false;
         } else {
           // 字数少直接转换
@@ -190,17 +213,26 @@ export const useTtsStore = defineStore("ttsStore", {
               this.isLoading = false;
             })
             .catch((err) => {
+              resFlag = false;
               this.isLoading = false;
-              console.log(err);
+              console.error(err);
+              ElMessage({
+                message: "转换失败\n" + String(err),
+                type: "error",
+                duration: 2000,
+              });
             });
         }
-        ElMessage({
-          message: this.config.autoplay
-            ? "成功，正在试听~"
-            : "成功，请手动播放。",
-          type: "success",
-          duration: 2000,
-        });
+        if (resFlag) {
+          ElMessage({
+            message: this.config.autoplay
+              ? "成功，正在试听~"
+              : "成功，请手动播放。",
+            type: "success",
+            duration: 2000,
+          });
+        }
+
         ipcRenderer.send("log.info", `转换完成`);
       } else {
         // this.page.asideIndex == "2" 批量转换
@@ -228,7 +260,7 @@ export const useTtsStore = defineStore("ttsStore", {
               let buffer = Buffer.alloc(0);
 
               if (datastr.length > 400) {
-                const delimiters = "，。？,.?".split("");
+                const delimiters = "，。？,.? ".split("");
                 const maxSize = 300;
                 ipcRenderer.send("log.info", "字数过多，正在对文本切片。。。");
 
@@ -254,36 +286,56 @@ export const useTtsStore = defineStore("ttsStore", {
                 textHandler.res.push(textHandler.buffer.join(""));
                 const tasks = textHandler.res;
                 for (let index = 0; index < tasks.length; index++) {
-                  ipcRenderer.send(
-                    "log.info",
-                    `正在执行第${index + 1}次转换。。。`
-                  );
-                  const element = tasks[index];
-                  inps.inputValue = element;
-                  const buffers: any = await getTTSData(
-                    inps,
-                    this.formConfig.voiceSelect,
-                    this.formConfig.voiceStyleSelect,
-                    this.formConfig.role,
-                    (this.formConfig.speed - 1) * 100,
-                    (this.formConfig.pitch - 1) * 50
-                  );
-                  buffer = Buffer.concat([buffer, buffers]);
-                  ipcRenderer.send(
-                    "log.info",
-                    `第${index + 1}次转换完成，此时Buffer长度为：${
-                      buffer.length
-                    }`
-                  );
+                  try {
+                    ipcRenderer.send(
+                      "log.info",
+                      `正在执行第${index + 1}次转换。。。`
+                    );
+                    const element = tasks[index];
+                    inps.inputValue = element;
+                    const buffers: any = await getTTSData(
+                      inps,
+                      this.formConfig.voiceSelect,
+                      this.formConfig.voiceStyleSelect,
+                      this.formConfig.role,
+                      (this.formConfig.speed - 1) * 100,
+                      (this.formConfig.pitch - 1) * 50
+                    );
+                    buffer = Buffer.concat([buffer, buffers]);
+                    ipcRenderer.send(
+                      "log.info",
+                      `第${index + 1}次转换完成，此时Buffer长度为：${
+                        buffer.length
+                      }`
+                    );
+                  } catch (error) {
+                    console.error(error);
+                    resFlag = false;
+                    ipcRenderer.send("log.error", error);
+                    this.isLoading = false;
+                    ElMessage({
+                      message: "转换失败\n" + String(error),
+                      type: "error",
+                      duration: 3000,
+                    });
+                    if (buffer.length > 0) {
+                      fs.writeFileSync(filePath, buffer);
+                      this.setDoneStatus(item.filePath);
+                    }
+                    return;
+                  }
                 }
 
                 fs.writeFileSync(filePath, buffer);
                 this.setDoneStatus(item.filePath);
-                ElMessage({
-                  message: "成功，正在写入" + filePath,
-                  type: "success",
-                  duration: 2000,
-                });
+                if (resFlag) {
+                  ElMessage({
+                    message: "成功，正在写入" + filePath,
+                    type: "success",
+                    duration: 2000,
+                  });
+                }
+
                 this.isLoading = false;
               } else {
                 await getTTSData(
@@ -306,7 +358,12 @@ export const useTtsStore = defineStore("ttsStore", {
                   })
                   .catch((err) => {
                     this.isLoading = false;
-                    console.log(err);
+                    console.error(err);
+                    ElMessage({
+                      message: "转换失败\n" + String(err),
+                      type: "error",
+                      duration: 3000,
+                    });
                   });
               }
             }
