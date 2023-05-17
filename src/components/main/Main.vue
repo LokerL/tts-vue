@@ -129,7 +129,6 @@ var path = require("path");
 const store = useTtsStore();
 const { inputs, page, tableData, currMp3Url, config, formConfig, audioPlayer } =
   storeToRefs(store);
-
 // SSML内容和文本框内容同步
 watch(
   () => inputs.value.inputValue,

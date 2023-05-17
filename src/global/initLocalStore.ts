@@ -2,16 +2,16 @@ const Store = require("electron-store");
 const store = new Store();
 const { ipcRenderer } = require("electron");
 export default function initStore() {
-  if (!store.has("FormConfig.默认")) {
-    store.set("FormConfig.默认", {
-      languageSelect: "Chinese (Mandarin, Simplified)",
-      voiceSelect: "zh-CN-XiaoxiaoNeural",
-      voiceStyleSelect: "General",
-      role: "Default",
-      speed: 1.0,
-      pitch: 1.0,
-    });
-  }
+
+  store.set("FormConfig.默认", {
+    languageSelect: "zh-CN",
+    voiceSelect: "zh-CN-XiaoxiaoNeural",
+    voiceStyleSelect: "Default",
+    role: "",
+    speed: 1.0,
+    pitch: 1.0,
+  });
+  
   if (!store.has("savePath")) {
     store.set("savePath", ipcRenderer.sendSync("getDesktopPath"));
   }
