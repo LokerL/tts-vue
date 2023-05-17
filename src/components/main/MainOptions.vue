@@ -44,7 +44,6 @@
           v-model="formConfig.voiceStyleSelect"
           placeholder="选择说话风格"
         >
-          <el-option label="General">General</el-option>
           <el-option
             v-for="item in voiceStyleSelectList"
             :key="item"
@@ -62,18 +61,17 @@
       </el-form-item>
       <el-form-item label="角色扮演">
         <el-select v-model="formConfig.role" placeholder="选择角色">
-          <el-option label="Default">Default</el-option>
           <el-option
             v-for="item in rolePlayList"
             :key="item"
-            :label="getRoleDes(item)?.word"
+            :label="getRoleDes(item)?.word || item "
             :value="item"
           >
             <div style="display: flex; justify-content: start">
               <span style="margin-right: 5px">{{
                 getRoleDes(item)?.emoji
               }}</span>
-              <span>{{ getRoleDes(item)?.word }}</span>
+              <span>{{ getRoleDes(item)?.word || item }}</span>
             </div>
           </el-option>
         </el-select>
@@ -158,11 +156,11 @@ watch(formConfig.value, (newValue) => {
   inputs.value.ssmlValue = `<speak xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="http://www.w3.org/2001/mstts" xmlns:emo="http://www.w3.org/2009/10/emotionml" version="1.0" xml:lang="en-US">
         <voice name="${newValue.voiceSelect}">
             <mstts:express-as  ${
-              newValue.voiceStyleSelect != "General"
+              newValue.voiceStyleSelect != ""
                 ? 'style="' + newValue.voiceStyleSelect + '"'
                 : ""
             } ${
-    newValue.role != "Default" ? 'role="' + newValue.role + '"' : ""
+    newValue.role != "" ? 'role="' + newValue.role + '"' : ""
   }>
                 <prosody rate="${(
                   (newValue.speed - 1) *
@@ -217,32 +215,47 @@ const saveConfig = () => {
     });
 };
 
+
+const strToArr = (str: string) => {
+  if (str) {
+    const obj = JSON.parse(str);
+    return Object.keys(obj).sort((a, b) => obj[a] - obj[b]);
+  }
+  return []
+}
+
 const voiceSelectList = ref(
   oc.findVoicesByLocaleName(formConfig.value.languageSelect)
 );
 const languageSelectChange = (value: string) => {
   formConfig.value.voiceSelect = "";
-  formConfig.value.voiceStyleSelect = "General";
-  formConfig.value.role = "Default";
+  formConfig.value.voiceStyleSelect = "";
+  formConfig.value.role = "";
   voiceSelectList.value = oc.findVoicesByLocaleName(value);
 };
-const voiceStyleSelectListInit = voiceSelectList.value.find(
+
+const defaultVoice = voiceSelectList.value.find(
   (item: any) => item.ShortName == formConfig.value.voiceSelect
-)?.StyleList;
+)
+
+const voiceStyleSelectListInit = strToArr(defaultVoice?.VoiceStyleNameDefinitions);
 const voiceStyleSelectList: any = ref(voiceStyleSelectListInit);
-const rolePlayList: any = ref([]);
+
+const rolePlayListInit = strToArr(defaultVoice?.VoiceRoleNameDefinitions);
+const rolePlayList: any = ref(rolePlayListInit);
+
 const voiceSelectChange = (value: string) => {
-  formConfig.value.voiceStyleSelect = "General";
-  formConfig.value.role = "Default";
+  
   const voice = voiceSelectList.value.find(
     (item: any) => item.ShortName == formConfig.value.voiceSelect
   );
-  voiceStyleSelectList.value = voice?.StyleList;
-  rolePlayList.value = voice?.RolePlayList;
+  voiceStyleSelectList.value = strToArr(voice?.VoiceStyleNameDefinitions);
+  rolePlayList.value = strToArr(voice?.VoiceRoleNameDefinitions);
+  formConfig.value.voiceStyleSelect = voiceStyleSelectList.value.length > 0 ? voiceStyleSelectList.value[0] : "";
+  formConfig.value.role = rolePlayList.value.length > 0 ? rolePlayList.value[0] : "";
 };
 const configChange = (val: string) => {
   formConfig.value = config.value.formConfigJson[val];
-  console.log(formConfig.value);
 };
 
 const startBtn = () => {
@@ -261,18 +274,6 @@ const startBtn = () => {
       duration: 2000,
     });
     return;
-  }
-  for (const key in formConfig.value) {
-    if (Object.prototype.hasOwnProperty.call(formConfig.value, key)) {
-      if (!formConfig.value[key]) {
-        ElMessage({
-          message: "有空选项。",
-          type: "warning",
-          duration: 2000,
-        });
-        return;
-      }
-    }
   }
   if (isLoading.value) {
     ElMessage({

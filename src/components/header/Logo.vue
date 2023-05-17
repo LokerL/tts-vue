@@ -13,8 +13,6 @@
 
 <script setup lang="ts">
 const { winStyle } = defineProps(["winStyle"]);
-
-console.log("props.winStyle", winStyle);
 </script>
 
 <style scoped>

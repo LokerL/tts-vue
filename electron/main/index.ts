@@ -167,9 +167,13 @@ ipcMain.on("getDesktopPath", async (event) => {
   event.returnValue = app.getPath("desktop");
 });
 
-// Get desktop path
 ipcMain.handle("speech", async (event, ssml) => {
   const res = api.speechApi(ssml);
+  return res;
+});
+
+ipcMain.handle("voices", async (event) => {
+  const res = api.voicesApi();
   return res;
 });
 
