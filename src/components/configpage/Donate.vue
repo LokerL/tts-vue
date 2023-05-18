@@ -6,19 +6,8 @@
         欢迎<span>Star</span>、<span>Fork</span>和<span>PR</span>。你的Star是对作者最好的鼓励：）
       </h3>
       <p style="margin: 0 10px; font-size: 11px">
-        有问题请在
-        <a href="https://jq.qq.com/?_wv=1027&k=bMNZfGxs" target="_blank"
-          >QQ群(752801820)</a
-        >
-        、
-        <a href="https://github.com/LokerL/tts-vue/issues" target="_blank"
-          >GitHub Issues</a
-        >
-        或者
-        <a href="https://gitee.com/LGW_space/tts-vue/issues" target="_blank"
-          >Gitee Issues</a
-        >
-        进行提问或反馈。
+        <p>使用遇到问题请仔细阅读【文档】→【使用指南】中的【功能介绍】和【常见问题】。</p>
+        <p>其他意见或建议可以在【文档】→【加入Q群】中艾特或私聊群主或者管理，也可以在github或者gitee提出issues。</p>
       </p>
     </div>
 
@@ -61,6 +50,9 @@ import GithubBtn from "./GithubBtn.vue";
 </script>
 
 <style scoped>
+.donate {
+  width: 400px;
+}
 .donate .des {
   margin-bottom: 10px;
 }
@@ -68,7 +60,9 @@ h3 {
   margin: 1px 10px;
   font-size: 1em;
 }
-
+.des p {
+  margin: 0;
+}
 .btns {
   margin-top: 10px;
   display: flex;

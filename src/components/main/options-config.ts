@@ -1,5 +1,4 @@
-const { ipcRenderer } = require("electron");
-const fs = require("fs");
+import { voices } from './../../global/voices';
 let lang = {
   AF_ZA: "南非荷兰语(南非)",
   AM_ET: "阿姆哈拉语(埃塞俄比亚)",
@@ -170,12 +169,10 @@ let lang = {
 };
 
 let msVoicesList;
-try {
-  msVoicesList = await ipcRenderer.invoke("voices");
-  localStorage.setItem("msVoicesList", JSON.stringify(msVoicesList));
-} catch (error) {
-  console.error("获取语言列表网络请求失败(使用缓存列表):", error);
+if (localStorage.getItem("msVoicesList") !== null) {
   msVoicesList = JSON.parse(localStorage.getItem("msVoicesList") || "[]");
+} else {
+  msVoicesList = voices;
 }
 
 const voicesList = msVoicesList.map((item: any) => {
@@ -195,21 +192,11 @@ const list = voicesList
   })
   .sort((a: any, b: any) => b.label.localeCompare(a.label, "en"));
 
-// const set = new Set(list);
-// const languageSelect = [...set].map((item: any) => {
-//   if (item.locale != "" && item.localeZH != "") {
-//     return {
-//       value: item.locale,
-//       label: item.localeZH,
-//     }
-//   }
-// });
 const tempMap = new Map();
 const languageSelect = list.filter(
   (item: any) => !tempMap.has(item.value) && tempMap.set(item.value, 1)
 );
 
-console.log(languageSelect);
 const findVoicesByLocaleName = (localeName: any) => {
   const voices = voicesList.filter((item: any) => item.locale == localeName);
   return voices;
