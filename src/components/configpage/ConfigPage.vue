@@ -107,7 +107,7 @@
         </el-form-item>
       </el-form>
 
-      <Donate></Donate>
+      <Donate class="donate"></Donate>
     </div>
   </div>
 </template>
@@ -220,11 +220,13 @@ const updateTitleStyle = () => {
   display: flex;
   justify-content: space-around;
 }
-
+.donate {
+  width: 420px;
+}
 .el-form {
   margin-top: 7px;
   border-right: 1px solid #dcdfe6;
-  width: 60%;
+  width: calc(100% - 410px);
   padding-left: 10px;
 }
 :deep(.input-path .el-input-group__append) {

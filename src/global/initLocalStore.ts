@@ -1,7 +1,18 @@
+import { voices } from './voices';
 const Store = require("electron-store");
 const store = new Store();
 const { ipcRenderer } = require("electron");
-export default function initStore() {
+
+export default async function initStore() {
+  try {
+    const msVoicesList = await ipcRenderer.invoke("voices");
+    localStorage.setItem("msVoicesList", JSON.stringify(msVoicesList));
+  } catch (error) {
+    // 如果网络请求失败并且localStorage的msVoicesList为空
+    if (localStorage.getItem("msVoicesList") == null) {
+      localStorage.setItem("msVoicesList", JSON.stringify(voices));
+    }
+  }
 
   store.set("FormConfig.默认", {
     languageSelect: "zh-CN",
