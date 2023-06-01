@@ -46,6 +46,6 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: tts-vue
-          path: release/*/*.dmg | release/*/*.exe
+          name: tts-vue-${{ matrix. os }}
+          path: release/
           retention-days: 30
