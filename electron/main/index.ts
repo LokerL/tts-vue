@@ -2,6 +2,7 @@ import { app, BrowserWindow, shell, ipcMain, dialog } from "electron";
 import { release } from "os";
 import { join } from "path";
 import api from "../utils/api";
+import edgeApi from "../utils/edge-api";
 
 import logger from "../utils/log";
 
@@ -174,6 +175,11 @@ ipcMain.handle("speech", async (event, ssml) => {
 
 ipcMain.handle("voices", async (event) => {
   const res = api.voicesApi();
+  return res;
+});
+
+ipcMain.handle("edgeApi", async (event, ssml) => {
+  const res = edgeApi(ssml)
   return res;
 });
 
