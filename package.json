@@ -21,8 +21,7 @@
     "vite": "^2.9.13",
     "vite-plugin-electron": "^0.8.1",
     "vue": "^3.2.37",
-    "vue-tsc": "^0.38.3",
-    "ws": "^8.13.0"
+    "vue-tsc": "^0.38.3"
   },
   "env": {
     "VITE_DEV_SERVER_HOST": "127.0.0.1",
@@ -42,6 +41,7 @@
     "electron-store": "^8.0.2",
     "element-plus": "2.2.9",
     "nodejs-websocket": "^1.7.2",
+    "ws": "^8.13.0",
     "pinia": "^2.0.17",
     "uuid": "^8.3.2"
   }
