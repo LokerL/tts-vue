@@ -8,10 +8,11 @@ async function getTTSData(
   express: string,
   role: string,
   rate = 0,
-  pitch = 0
+  pitch = 0,
+  api = true
 ) {
   let SSML = "";
-  if (inps.activeIndex == "1") {
+  if (inps.activeIndex == "1" && api) {
     SSML = `
     <speak xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="http://www.w3.org/2001/mstts" xmlns:emo="http://www.w3.org/2009/10/emotionml" version="1.0" xml:lang="en-US">
         <voice name="${voice}">
@@ -25,12 +26,29 @@ async function getTTSData(
         </voice>
     </speak>
     `;
-  } else {
+  }
+  else if(inps.activeIndex == "1" && !api) {
+    SSML = `
+    <speak xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="http://www.w3.org/2001/mstts" xmlns:emo="http://www.w3.org/2009/10/emotionml" version="1.0" xml:lang="en-US">
+        <voice name="${voice}">
+            <prosody rate="${rate}%" pitch="${pitch}%">
+            ${inps.inputValue}
+            </prosody>
+        </voice>
+    </speak>
+    `;
+  }
+  else {
     SSML = inps.inputValue;
   }
   ipcRenderer.send("log.info", SSML);
   console.log(SSML);
-  const result = await ipcRenderer.invoke("speech", SSML);
-  return result;
+  if (api) {
+    const result = await ipcRenderer.invoke("speech", SSML);
+    return result;
+  } else {
+    const result = await ipcRenderer.invoke("edgeApi", SSML);
+    return result;
+  }
 }
 export default getTTSData;

@@ -124,7 +124,7 @@ export const useTtsStore = defineStore("ttsStore", {
               ? this.inputs.inputValue
               : this.inputs.ssmlValue,
         };
-        if (this.page.tabIndex == "1" && this.inputs.inputValue.length > 400) {
+        if (this.page.tabIndex == "1" && this.formConfig.api && this.inputs.inputValue.length > 400) {
           const delimiters = "，。？,.?".split("");
           const maxSize = 300;
           ipcRenderer.send("log.info", "字数过多，正在对文本切片。。。");
@@ -164,7 +164,8 @@ export const useTtsStore = defineStore("ttsStore", {
                 this.formConfig.voiceStyleSelect,
                 this.formConfig.role,
                 (this.formConfig.speed - 1) * 100,
-                (this.formConfig.pitch - 1) * 50
+                (this.formConfig.pitch - 1) * 50,
+                this.formConfig.api
               );
               this.currMp3Buffer = Buffer.concat([this.currMp3Buffer, buffers]);
               ipcRenderer.send(
@@ -204,7 +205,8 @@ export const useTtsStore = defineStore("ttsStore", {
             this.formConfig.voiceStyleSelect,
             this.formConfig.role,
             (this.formConfig.speed - 1) * 100,
-            (this.formConfig.pitch - 1) * 50
+            (this.formConfig.pitch - 1) * 50,
+            this.formConfig.api
           )
             .then((mp3buffer: any) => {
               this.currMp3Buffer = mp3buffer;
@@ -259,7 +261,7 @@ export const useTtsStore = defineStore("ttsStore", {
               inps.inputValue = datastr;
               let buffer = Buffer.alloc(0);
 
-              if (datastr.length > 400) {
+              if (datastr.length > 400 && this.formConfig.api) {
                 const delimiters = "，。？,.? ".split("");
                 const maxSize = 300;
                 ipcRenderer.send("log.info", "字数过多，正在对文本切片。。。");
@@ -299,7 +301,8 @@ export const useTtsStore = defineStore("ttsStore", {
                       this.formConfig.voiceStyleSelect,
                       this.formConfig.role,
                       (this.formConfig.speed - 1) * 100,
-                      (this.formConfig.pitch - 1) * 50
+                      (this.formConfig.pitch - 1) * 50,
+                      this.formConfig.api
                     );
                     buffer = Buffer.concat([buffer, buffers]);
                     ipcRenderer.send(
@@ -325,7 +328,6 @@ export const useTtsStore = defineStore("ttsStore", {
                     return;
                   }
                 }
-
                 fs.writeFileSync(filePath, buffer);
                 this.setDoneStatus(item.filePath);
                 if (resFlag) {
@@ -344,7 +346,8 @@ export const useTtsStore = defineStore("ttsStore", {
                   this.formConfig.voiceStyleSelect,
                   this.formConfig.role,
                   (this.formConfig.speed - 1) * 100,
-                  (this.formConfig.pitch - 1) * 50
+                  (this.formConfig.pitch - 1) * 50,
+                  this.formConfig.api
                 )
                   .then((mp3buffer: any) => {
                     fs.writeFileSync(filePath, mp3buffer);
@@ -406,7 +409,8 @@ export const useTtsStore = defineStore("ttsStore", {
         this.formConfig.voiceStyleSelect,
         this.formConfig.role,
         (this.formConfig.speed - 1) * 100,
-        (this.formConfig.pitch - 1) * 50
+        (this.formConfig.pitch - 1) * 50,
+        this.formConfig.api
       )
         .then((mp3buffer: any) => {
           this.currMp3Buffer = mp3buffer;

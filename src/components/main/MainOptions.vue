@@ -1,6 +1,18 @@
 <template>
   <div class="options">
     <el-form :model="formConfig" label-width="120px" label-position="top">
+      <el-form-item label="接口">
+        <el-switch
+          style="display: block"
+          v-model="formConfig.api"
+          active-color="#13ce66"
+          inactive-color="#ff4949"
+          active-text="微软TTS"
+          inactive-text="Edge朗读"
+          @change="apiChange"
+          :disabled="apiDisable">
+        </el-switch>
+      </el-form-item>
       <el-form-item label="语言">
         <el-select-v2
           class="languageSelect"
@@ -43,6 +55,7 @@
         <el-select
           v-model="formConfig.voiceStyleSelect"
           placeholder="选择说话风格"
+          :disabled="!formConfig.api"
         >
           <el-option
             v-for="item in voiceStyleSelectList"
@@ -60,7 +73,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="角色扮演">
-        <el-select v-model="formConfig.role" placeholder="选择角色">
+        <el-select v-model="formConfig.role" placeholder="选择角色" :disabled="!formConfig.api">
           <el-option
             v-for="item in rolePlayList"
             :key="item"
@@ -131,7 +144,7 @@ import { ref, reactive, watch } from "vue";
 import { optionsConfig as oc } from "./options-config";
 import { getStyleDes, getRoleDes } from "./emoji-config";
 import Loading from "./Loading.vue";
-import { ElMessage, ElMessageBox } from "element-plus";
+import { ElMessage, ElMessageBox, arrowMiddleware } from "element-plus";
 import { useTtsStore } from "@/store/store";
 import { storeToRefs } from "pinia";
 
@@ -147,6 +160,21 @@ const {
 } = storeToRefs(ttsStore);
 const Store = require("electron-store");
 const store = new Store();
+
+if (!formConfig.value.hasOwnProperty("api")) {
+  formConfig.value.api = true;
+}
+
+const apiChange = (res:boolean) => {
+  if (!res) {
+    ElMessage({
+      message: `edge接口不支持自动切片，最长支持文本长度未知。请根据自身需求手动预处理文本。`,
+      type: "warning",
+      duration: 4000,
+    });
+  }
+  
+}
 
 const audition = (value: string) => {
   ttsStore.audition(value);
@@ -215,6 +243,16 @@ const saveConfig = () => {
     });
 };
 
+// 如果SSML标签页的话锁定
+let apiDisable = ref(false);
+watch(page.value, (newValue) => {
+  if (newValue.tabIndex === '2') {
+    apiDisable.value = true;
+    formConfig.value.api = true;
+  } else {
+    apiDisable.value = false;
+  }
+});
 
 const strToArr = (str: string) => {
   if (str) {
@@ -308,6 +346,7 @@ const startBtn = () => {
 }
 .el-form-item {
   width: 270px;
+  margin-bottom: 10px
 }
 .el-slider {
   margin-left: 5px;
@@ -336,6 +375,11 @@ const startBtn = () => {
   padding: 0 !important;
   margin: 0 !important;
 }
+
+:deep(.el-switch__label.is-active) {
+  font-weight: bold;
+}
+
 /* From uiverse.io by @Zena4L */
 .startBtn {
   margin-bottom: 0 !important;
