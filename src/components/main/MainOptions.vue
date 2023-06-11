@@ -276,10 +276,12 @@ const defaultVoice = voiceSelectList.value.find(
   (item: any) => item.ShortName == formConfig.value.voiceSelect
 )
 
-const voiceStyleSelectListInit = strToArr(defaultVoice?.VoiceStyleNameDefinitions);
+// const voiceStyleSelectListInit = strToArr(defaultVoice?.VoiceStyleNameDefinitions);
+const voiceStyleSelectListInit = defaultVoice?.VoiceStyleNames.split(",");
 const voiceStyleSelectList: any = ref(voiceStyleSelectListInit);
 
-const rolePlayListInit = strToArr(defaultVoice?.VoiceRoleNameDefinitions);
+// const rolePlayListInit = strToArr(defaultVoice?.VoiceRoleNameDefinitions);
+const rolePlayListInit = defaultVoice?.VoiceRoleNames.split(",");
 const rolePlayList: any = ref(rolePlayListInit);
 
 const voiceSelectChange = (value: string) => {
@@ -287,8 +289,10 @@ const voiceSelectChange = (value: string) => {
   const voice = voiceSelectList.value.find(
     (item: any) => item.ShortName == formConfig.value.voiceSelect
   );
-  voiceStyleSelectList.value = strToArr(voice?.VoiceStyleNameDefinitions);
-  rolePlayList.value = strToArr(voice?.VoiceRoleNameDefinitions);
+  // voiceStyleSelectList.value = strToArr(voice?.VoiceStyleNameDefinitions);
+  voiceStyleSelectList.value = voice?.VoiceStyleNames.split(",");
+  // rolePlayList.value = strToArr(voice?.VoiceRoleNameDefinitions);
+  rolePlayList.value = voice?.VoiceRoleNames.split(",");
   formConfig.value.voiceStyleSelect = voiceStyleSelectList.value.length > 0 ? voiceStyleSelectList.value[0] : "";
   formConfig.value.role = rolePlayList.value.length > 0 ? rolePlayList.value[0] : "";
 };
