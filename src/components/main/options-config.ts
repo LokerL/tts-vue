@@ -178,8 +178,13 @@ if (localStorage.getItem("msVoicesList") !== null) {
 const voicesList = msVoicesList.map((item: any) => {
   item.properties.locale = item.locale;
   // ZH_CN_SHANDONG有BUG很奇怪
-  item.properties.localeZH =
+  if (lang.hasOwnProperty(item.locale.toUpperCase().replace("-", "_").replace("-", "_"))){
+    item.properties.localeZH =
     lang[item.locale.toUpperCase().replace("-", "_").replace("-", "_")];
+  } else {
+    item.properties.localeZH = item.locale
+  }
+  
   return item.properties;
 });
 
@@ -190,7 +195,7 @@ const list = voicesList
       label: item.localeZH,
     };
   })
-  .sort((a: any, b: any) => b.label.localeCompare(a.label, "en"));
+  .sort((a: any, b: any) => b.value.localeCompare(a.value, "en"));
 
 const tempMap = new Map();
 const languageSelect = list.filter(
