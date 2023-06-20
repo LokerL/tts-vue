@@ -17,6 +17,7 @@
           :src="currMp3Url"
           :autoplay="config.autoplay"
           controls
+          controlslist="nodownload"
           style="width: 100%"
         ></audio>
       </div>
