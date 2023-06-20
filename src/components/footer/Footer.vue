@@ -9,6 +9,7 @@
           :disabled="currMp3Url == ''"
           :loading="isLoading"
           :icon="Download"
+          title="下载音频"
         />
       </div>
       <div class="paly-bar-process">
