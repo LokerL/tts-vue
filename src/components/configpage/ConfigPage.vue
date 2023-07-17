@@ -14,6 +14,23 @@
             </template>
           </el-input>
         </el-form-item>
+        <el-form-item label="SpeechKey">
+            <el-input
+              v-model="config.speechKey"
+              size="small"
+              class="input-path"
+              @change="setSpeechKey"
+              password
+              />
+        </el-form-item>
+        <el-form-item label="ServiceRegion">
+            <el-input
+              v-model="config.serviceRegion"
+              size="small"
+              class="input-path"
+              @change="setServiceRegion"
+              />
+        </el-form-item>
         <el-form-item label="自动播放(仅单文本模式)">
           <el-switch
             v-model="config.autoplay"
@@ -206,6 +223,24 @@ const updateTitleStyle = () => {
     duration: 2000,
   });
 };
+
+const setSpeechKey = () => {
+  ttsStore.setSpeechKey();
+  ElMessage({
+    message: "保存成功，请点击“刷新配置”立即应用。。",
+    type: "success",
+    duration: 2000,
+  });
+};
+
+const setServiceRegion = () => {
+  ttsStore.setServiceRegion();
+  ElMessage({
+    message: "保存成功，请点击“刷新配置”立即应用。。",
+    type: "success",
+    duration: 2000,
+  });
+};
 </script>
 
 <style scoped>
@@ -226,8 +261,9 @@ const updateTitleStyle = () => {
 .el-form {
   margin-top: 7px;
   border-right: 1px solid #dcdfe6;
-  width: calc(100% - 410px);
+  width: calc(100% - 395px);
   padding-left: 10px;
+  overflow-x: scroll;
 }
 :deep(.input-path .el-input-group__append) {
   display: inline-flex;
@@ -265,7 +301,7 @@ const updateTitleStyle = () => {
 .btns {
   width: 100%;
   box-sizing: border-box;
-  padding-right: 10px;
+  padding-right: 2px;
 }
 :deep(.btns .el-form-item__content) {
   justify-content: space-between;
