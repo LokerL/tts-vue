@@ -21,6 +21,9 @@ export default async function initStore() {
     role: "",
     speed: 1.0,
     pitch: 1.0,
+    api: 1,
+    specchKey: "",
+    serviceRegion: "",
   });
   
   if (!store.has("savePath")) {

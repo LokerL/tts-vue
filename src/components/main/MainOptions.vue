@@ -2,16 +2,18 @@
   <div class="options">
     <el-form :model="formConfig" label-width="120px" label-position="top">
       <el-form-item label="接口">
-        <el-switch
-          style="display: block"
+        <el-select
           v-model="formConfig.api"
-          active-color="#13ce66"
-          inactive-color="#ff4949"
-          active-text="微软TTS"
-          inactive-text="Edge朗读"
+          placeholder="选择接口"
           @change="apiChange"
-          :disabled="apiDisable">
-        </el-switch>
+          >
+          <el-option
+            v-for="item in oc.apiSelect"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+            />
+        </el-select>
       </el-form-item>
       <el-form-item label="语言">
         <el-select-v2
@@ -55,7 +57,7 @@
         <el-select
           v-model="formConfig.voiceStyleSelect"
           placeholder="选择说话风格"
-          :disabled="!formConfig.api"
+          :disabled="apiEdge"
         >
           <el-option
             v-for="item in voiceStyleSelectList"
@@ -73,7 +75,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="角色扮演">
-        <el-select v-model="formConfig.role" placeholder="选择角色" :disabled="!formConfig.api">
+        <el-select v-model="formConfig.role" placeholder="选择角色" :disabled="apiEdge">
           <el-option
             v-for="item in rolePlayList"
             :key="item"
@@ -161,19 +163,31 @@ const {
 const Store = require("electron-store");
 const store = new Store();
 
-if (!formConfig.value.hasOwnProperty("api")) {
-  formConfig.value.api = true;
-}
+// if (!formConfig.value.hasOwnProperty("api")) {
+//   formConfig.value.api = true;
+// }
 
-const apiChange = (res:boolean) => {
-  if (!res) {
+const apiEdge = ref(false);
+
+const apiChange = (res:number) => {
+  if (res === 2) {
+    apiEdge.value = true;
     ElMessage({
       message: `edge接口不支持自动切片，最长支持文本长度未知。请根据自身需求手动预处理文本。`,
       type: "warning",
       duration: 4000,
     });
+  } else {
+    if (res === 3 && (config.value.speechKey === "" || config.value.serviceRegion === "")) {
+      ElMessage({
+        message: `请先配置Azure的Speech服务密钥和区域。`,
+        type: "warning",
+        duration: 4000,
+      });
+        return;
+    }
+    apiEdge.value = false;
   }
-  
 }
 
 const audition = (value: string) => {
