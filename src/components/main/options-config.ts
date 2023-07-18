@@ -207,8 +207,24 @@ const findVoicesByLocaleName = (localeName: any) => {
   return voices;
 };
 
+const apiSelect = [
+    {
+        value: 1,
+        label: "Microsoft Speech API",
+    },
+    {
+        value: 2,
+        label: "Edge Speech API",
+    },
+    {
+        value: 3,
+        label: "Azure Speech API",
+    },
+];
+
 export const optionsConfig = {
   voicesList,
   languageSelect,
   findVoicesByLocaleName,
+  apiSelect,
 };

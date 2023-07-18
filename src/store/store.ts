@@ -35,6 +35,9 @@ export const useTtsStore = defineStore("ttsStore", {
         autoplay: store.get("autoplay"),
         updateNotification: store.get("updateNotification"),
         titleStyle: store.get("titleStyle"),
+        api: store.get("api"),
+        speechKey: store.get("speechKey"),
+        serviceRegion: store.get("serviceRegion"),
       },
       isLoading: false,
       currMp3Buffer: Buffer.alloc(0),
@@ -90,6 +93,12 @@ export const useTtsStore = defineStore("ttsStore", {
     setAutoPlay() {
       store.set("autoplay", this.config.autoplay);
     },
+    setSpeechKey() {
+        store.set("speechKey", this.config.speechKey);
+    },
+    setServiceRegion() {
+        store.set("serviceRegion", this.config.serviceRegion);
+    },
     addFormConfig() {
       this.config.formConfigJson[this.currConfigName] = this.formConfig;
       this.genFormConfig();
@@ -124,7 +133,7 @@ export const useTtsStore = defineStore("ttsStore", {
               ? this.inputs.inputValue
               : this.inputs.ssmlValue,
         };
-        if (this.page.tabIndex == "1" && this.formConfig.api && this.inputs.inputValue.length > 400) {
+        if (this.page.tabIndex == "1" && this.formConfig.api == 1 && this.inputs.inputValue.length > 400) {
           const delimiters = "，。？,.?".split("");
           const maxSize = 300;
           ipcRenderer.send("log.info", "字数过多，正在对文本切片。。。");
@@ -165,7 +174,9 @@ export const useTtsStore = defineStore("ttsStore", {
                 this.formConfig.role,
                 (this.formConfig.speed - 1) * 100,
                 (this.formConfig.pitch - 1) * 50,
-                this.formConfig.api
+                this.formConfig.api,
+                this.config.speechKey,
+                this.config.serviceRegion
               );
               this.currMp3Buffer = Buffer.concat([this.currMp3Buffer, buffers]);
               ipcRenderer.send(
@@ -206,7 +217,9 @@ export const useTtsStore = defineStore("ttsStore", {
             this.formConfig.role,
             (this.formConfig.speed - 1) * 100,
             (this.formConfig.pitch - 1) * 50,
-            this.formConfig.api
+            this.formConfig.api,
+            this.config.speechKey,
+            this.config.serviceRegion
           )
             .then((mp3buffer: any) => {
               this.currMp3Buffer = mp3buffer;
@@ -261,7 +274,7 @@ export const useTtsStore = defineStore("ttsStore", {
               inps.inputValue = datastr;
               let buffer = Buffer.alloc(0);
 
-              if (datastr.length > 400 && this.formConfig.api) {
+              if (datastr.length > 400 && this.formConfig.api == 1) {
                 const delimiters = "，。？,.? ".split("");
                 const maxSize = 300;
                 ipcRenderer.send("log.info", "字数过多，正在对文本切片。。。");
@@ -302,7 +315,9 @@ export const useTtsStore = defineStore("ttsStore", {
                       this.formConfig.role,
                       (this.formConfig.speed - 1) * 100,
                       (this.formConfig.pitch - 1) * 50,
-                      this.formConfig.api
+                      this.formConfig.api,
+                      this.config.speechKey,
+                      this.config.serviceRegion
                     );
                     buffer = Buffer.concat([buffer, buffers]);
                     ipcRenderer.send(
@@ -347,7 +362,9 @@ export const useTtsStore = defineStore("ttsStore", {
                   this.formConfig.role,
                   (this.formConfig.speed - 1) * 100,
                   (this.formConfig.pitch - 1) * 50,
-                  this.formConfig.api
+                  this.formConfig.api,
+                  this.config.speechKey,
+                  this.config.serviceRegion
                 )
                   .then((mp3buffer: any) => {
                     fs.writeFileSync(filePath, mp3buffer);
@@ -410,7 +427,9 @@ export const useTtsStore = defineStore("ttsStore", {
         this.formConfig.role,
         (this.formConfig.speed - 1) * 100,
         (this.formConfig.pitch - 1) * 50,
-        this.formConfig.api
+        this.formConfig.api,
+        this.config.speechKey,
+        this.config.serviceRegion
       )
         .then((mp3buffer: any) => {
           this.currMp3Buffer = mp3buffer;
