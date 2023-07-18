@@ -22,8 +22,6 @@ export default async function initStore() {
     speed: 1.0,
     pitch: 1.0,
     api: 1,
-    specchKey: "",
-    serviceRegion: "",
   });
   
   if (!store.has("savePath")) {
@@ -43,5 +41,11 @@ export default async function initStore() {
   }
   if (!store.has("titleStyle")) {
     store.set("titleStyle", true);
+  }
+  if (!store.has("speechKey")) {
+    store.set("speechKey", "");
+  }
+  if (!store.has("serviceRegion")) {
+    store.set("serviceRegion", "");
   }
 }
