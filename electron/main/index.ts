@@ -3,7 +3,7 @@ import { release } from "os";
 import { join } from "path";
 import api from "../utils/api";
 import edgeApi from "../utils/edge-api";
-
+import azureApi from "../utils/azure-api";
 import logger from "../utils/log";
 
 // Disable GPU Acceleration for Windows 7
@@ -181,6 +181,11 @@ ipcMain.handle("voices", async (event) => {
 ipcMain.handle("edgeApi", async (event, ssml) => {
   const res = edgeApi(ssml)
   return res;
+});
+
+ipcMain.handle("azureApi", async (event, ssml, key, region) => {
+    const res = azureApi(ssml, key, region)
+    return res;
 });
 
 ipcMain.handle("openFolderSelector", async (event) => {

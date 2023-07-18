@@ -9,10 +9,12 @@ async function getTTSData(
   role: string,
   rate = 0,
   pitch = 0,
-  api = true
+  api: number,
+  key: string,
+  region: string
 ) {
   let SSML = "";
-  if (inps.activeIndex == "1" && api) {
+  if (inps.activeIndex == "1" && (api == 1 || api == 3)) {
     SSML = `
     <speak xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="http://www.w3.org/2001/mstts" xmlns:emo="http://www.w3.org/2009/10/emotionml" version="1.0" xml:lang="en-US">
         <voice name="${voice}">
@@ -27,7 +29,7 @@ async function getTTSData(
     </speak>
     `;
   }
-  else if(inps.activeIndex == "1" && !api) {
+  else if (inps.activeIndex == "1" && api == 2) {
     SSML = `
     <speak xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="http://www.w3.org/2001/mstts" xmlns:emo="http://www.w3.org/2009/10/emotionml" version="1.0" xml:lang="en-US">
         <voice name="${voice}">
@@ -43,11 +45,14 @@ async function getTTSData(
   }
   ipcRenderer.send("log.info", SSML);
   console.log(SSML);
-  if (api) {
+  if (api == 1) {
     const result = await ipcRenderer.invoke("speech", SSML);
     return result;
-  } else {
+  } else if (api == 2) {
     const result = await ipcRenderer.invoke("edgeApi", SSML);
+    return result;
+  } else {
+    const result = await ipcRenderer.invoke("azureApi", SSML, key, region);
     return result;
   }
 }
