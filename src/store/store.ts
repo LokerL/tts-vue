@@ -2,7 +2,7 @@
 
 import { defineStore } from "pinia";
 import getTTSData from "./play";
-import { ElMessage } from "element-plus";
+import { ElMessage, ElMessageBox } from "element-plus";
 import { h } from "vue";
 const fs = require("fs");
 const path = require("path");
@@ -29,7 +29,7 @@ export const useTtsStore = defineStore("ttsStore", {
       config: {
         formConfigJson: store.get("FormConfig"),
         formConfigList: <any>[],
-        configLable: <any>[],
+        configLabel: <any>[],
         savePath: store.get("savePath"),
         audition: store.get("audition"),
         autoplay: store.get("autoplay"),
@@ -38,6 +38,7 @@ export const useTtsStore = defineStore("ttsStore", {
         api: store.get("api"),
         speechKey: store.get("speechKey"),
         serviceRegion: store.get("serviceRegion"),
+        disclaimers: store.get("disclaimers"),
       },
       isLoading: false,
       currMp3Buffer: Buffer.alloc(0),
@@ -111,7 +112,7 @@ export const useTtsStore = defineStore("ttsStore", {
           content: this.config.formConfigJson[item],
         })
       );
-      this.config.configLable = Object.keys(this.config.formConfigJson).map(
+      this.config.configLabel = Object.keys(this.config.formConfigJson).map(
         (item) => ({
           value: item,
           label: item,
@@ -444,5 +445,20 @@ export const useTtsStore = defineStore("ttsStore", {
     showItemInFolder(filePath: string) {
       ipcRenderer.send("showItemInFolder", filePath);
     },
+    showDisclaimers() {
+      if (!this.config.disclaimers) {
+        ElMessageBox.confirm(
+          '该软件以及代码仅为个人学习测试使用，请在下载后24小时内删除，不得用于商业用途，否则后果自负。任何违规使用造成的法律后果与本人无关。该软件也永远不会收费，如果您使用该软件前支付了额外费用，或付费获得源码以及成品软件，那么你一定被骗了！',
+          '注意！',
+          {
+            confirmButtonText: '我已确认，不再弹出',
+            cancelButtonText: '取消',
+            type: 'warning',
+          }
+        ).then(() => {
+          store.set('disclaimers', true)
+        })
+      }
+    }
   },
 });

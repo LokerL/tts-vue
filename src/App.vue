@@ -9,6 +9,7 @@ import Footer from "./components/footer/Footer.vue";
 const ttsStore = useTtsStore();
 ttsStore.genFormConfig();
 ttsStore.setSSMLValue();
+ttsStore.showDisclaimers();
 </script>
 
 <template>

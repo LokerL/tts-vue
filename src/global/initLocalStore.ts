@@ -48,4 +48,7 @@ export default async function initStore() {
   if (!store.has("serviceRegion")) {
     store.set("serviceRegion", "");
   }
+  if (!store.has("disclaimers")) {
+    store.set("disclaimers", false);
+  }
 }

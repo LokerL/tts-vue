@@ -126,7 +126,7 @@
             v-model="currConfigName"
             placeholder="选择配置"
             filterable
-            :options="config.configLable"
+            :options="config.configLabel"
             @change="configChange"
           ></el-select-v2>
         </div>
@@ -398,7 +398,6 @@ const startBtn = () => {
   font-weight: bold;
 }
 
-/* From uiverse.io by @Zena4L */
 .startBtn {
   margin-bottom: 0 !important;
   flex: 1;
