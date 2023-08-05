@@ -21,7 +21,7 @@
           </h3>
           <img
             class="subtitle-img"
-            src="../../assets/wx.jpg"
+            src="https://cdn.staticaly.com/gh/LokerL/picx-images-hosting@master/wx.webp"
             alt=""
             srcset=""
           />
@@ -34,7 +34,7 @@
           </h3>
           <img
             class="subtitle-img"
-            src="../../assets/zfb.jpg"
+            src="https://cdn.staticaly.com/gh/LokerL/picx-images-hosting@master/zfb.webp"
             alt=""
             srcset=""
           />
@@ -52,6 +52,7 @@ import GithubBtn from "./GithubBtn.vue";
 <style scoped>
 .donate {
   width: 400px;
+  margin-bottom: 1px;
 }
 .donate .des {
   margin-bottom: 10px;
