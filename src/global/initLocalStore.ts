@@ -51,4 +51,10 @@ export default async function initStore() {
   if (!store.has("disclaimers")) {
     store.set("disclaimers", false);
   }
+  if (!store.has("retryCount")) {
+    store.set("retryCount", 10);
+  }
+  if (!store.has("retryInterval")) {
+    store.set("retryInterval", 3);
+  }
 }
