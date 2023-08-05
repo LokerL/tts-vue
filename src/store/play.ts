@@ -11,7 +11,9 @@ async function getTTSData(
   pitch = 0,
   api: number,
   key: string,
-  region: string
+  region: string,
+  retryCount: number,
+  retryInterval = 1,
 ) {
   let SSML = "";
   if (inps.activeIndex == "1" && (api == 1 || api == 3)) {
@@ -46,7 +48,7 @@ async function getTTSData(
   ipcRenderer.send("log.info", SSML);
   console.log(SSML);
   if (api == 1) {
-    const result = await ipcRenderer.invoke("speech", SSML);
+    const result = await retrySpeechInvocation(SSML, retryCount, retryInterval * 1000);
     return result;
   } else if (api == 2) {
     const result = await ipcRenderer.invoke("edgeApi", SSML);
@@ -56,4 +58,23 @@ async function getTTSData(
     return result;
   }
 }
+async function retrySpeechInvocation(SSML: string, retryCount: number, delay: number) {
+  let retry = 0;
+  while (retry < retryCount) {
+    try {
+      console.log("Speech invocation attempt", retry + 1);
+      const result = await ipcRenderer.invoke("speech", SSML);
+      return result; // 执行成功，返回结果
+    } catch (error) {
+      console.error("Speech invocation failed:", error);
+      await sleep(delay); // 暂停一段时间后再重试
+    }
+    retry++;
+  }
+  throw new Error(`Speech invocation failed after ${retryCount} retries`); // 重试次数用尽，抛出异常
+}
+function sleep(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 export default getTTSData;

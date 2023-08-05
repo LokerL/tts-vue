@@ -39,6 +39,8 @@ export const useTtsStore = defineStore("ttsStore", {
         speechKey: store.get("speechKey"),
         serviceRegion: store.get("serviceRegion"),
         disclaimers: store.get("disclaimers"),
+        retryCount: store.get("retryCount"),
+        retryInterval: store.get("retryInterval"),
       },
       isLoading: false,
       currMp3Buffer: Buffer.alloc(0),
@@ -95,10 +97,16 @@ export const useTtsStore = defineStore("ttsStore", {
       store.set("autoplay", this.config.autoplay);
     },
     setSpeechKey() {
-        store.set("speechKey", this.config.speechKey);
+      store.set("speechKey", this.config.speechKey);
     },
     setServiceRegion() {
-        store.set("serviceRegion", this.config.serviceRegion);
+      store.set("serviceRegion", this.config.serviceRegion);
+    },
+    setRetryCount() {
+      store.set("retryCount", parseInt(this.config.retryCount));
+    },
+    setRetryInterval() {
+      store.set("retryInterval", parseInt(this.config.retryInterval));
     },
     addFormConfig() {
       this.config.formConfigJson[this.currConfigName] = this.formConfig;
@@ -134,8 +142,12 @@ export const useTtsStore = defineStore("ttsStore", {
               ? this.inputs.inputValue
               : this.inputs.ssmlValue,
         };
-        if (this.page.tabIndex == "1" && this.formConfig.api == 1 && this.inputs.inputValue.length > 400) {
-          const delimiters = "，。？,.?".split("");
+        if (
+          this.page.tabIndex == "1" &&
+          this.formConfig.api == 1 &&
+          this.inputs.inputValue.length > 400
+        ) {
+          const delimiters = ["，", "。", "？", ",", ".", "?", "\n"];
           const maxSize = 300;
           ipcRenderer.send("log.info", "字数过多，正在对文本切片。。。");
 
@@ -177,7 +189,8 @@ export const useTtsStore = defineStore("ttsStore", {
                 (this.formConfig.pitch - 1) * 50,
                 this.formConfig.api,
                 this.config.speechKey,
-                this.config.serviceRegion
+                this.config.serviceRegion,
+                this.config.retryCount,
               );
               this.currMp3Buffer = Buffer.concat([this.currMp3Buffer, buffers]);
               ipcRenderer.send(
@@ -220,7 +233,8 @@ export const useTtsStore = defineStore("ttsStore", {
             (this.formConfig.pitch - 1) * 50,
             this.formConfig.api,
             this.config.speechKey,
-            this.config.serviceRegion
+            this.config.serviceRegion,
+            this.config.retryCount,
           )
             .then((mp3buffer: any) => {
               this.currMp3Buffer = mp3buffer;
@@ -318,7 +332,8 @@ export const useTtsStore = defineStore("ttsStore", {
                       (this.formConfig.pitch - 1) * 50,
                       this.formConfig.api,
                       this.config.speechKey,
-                      this.config.serviceRegion
+                      this.config.serviceRegion,
+                      this.config.retryCount,
                     );
                     buffer = Buffer.concat([buffer, buffers]);
                     ipcRenderer.send(
@@ -365,7 +380,8 @@ export const useTtsStore = defineStore("ttsStore", {
                   (this.formConfig.pitch - 1) * 50,
                   this.formConfig.api,
                   this.config.speechKey,
-                  this.config.serviceRegion
+                  this.config.serviceRegion,
+                  this.config.retryCount,
                 )
                   .then((mp3buffer: any) => {
                     fs.writeFileSync(filePath, mp3buffer);
@@ -430,7 +446,8 @@ export const useTtsStore = defineStore("ttsStore", {
         (this.formConfig.pitch - 1) * 50,
         this.formConfig.api,
         this.config.speechKey,
-        this.config.serviceRegion
+        this.config.serviceRegion,
+        this.config.retryCount,
       )
         .then((mp3buffer: any) => {
           this.currMp3Buffer = mp3buffer;
@@ -448,16 +465,16 @@ export const useTtsStore = defineStore("ttsStore", {
     showDisclaimers() {
       if (!this.config.disclaimers) {
         ElMessageBox.confirm(
-          '该软件以及代码仅为个人学习测试使用，请在下载后24小时内删除，不得用于商业用途，否则后果自负。任何违规使用造成的法律后果与本人无关。该软件也永远不会收费，如果您使用该软件前支付了额外费用，或付费获得源码以及成品软件，那么你一定被骗了！',
-          '注意！',
+          "该软件以及代码仅为个人学习测试使用，请在下载后24小时内删除，不得用于商业用途，否则后果自负。任何违规使用造成的法律后果与本人无关。该软件也永远不会收费，如果您使用该软件前支付了额外费用，或付费获得源码以及成品软件，那么你一定被骗了！",
+          "注意！",
           {
-            confirmButtonText: '我已确认，不再弹出',
-            cancelButtonText: '取消',
-            type: 'warning',
+            confirmButtonText: "我已确认，不再弹出",
+            cancelButtonText: "取消",
+            type: "warning"
           }
         ).then(() => {
-          store.set('disclaimers', true)
-        })
+          store.set("disclaimers", true);
+        });
       }
     }
   },

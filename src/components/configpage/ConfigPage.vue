@@ -1,7 +1,7 @@
 <template>
   <div class="config-page">
-    <div class="config-side">
-      <el-form :model="config" label-position="top">
+    <div class="config-side" label-position="right">
+      <el-form :model="config" >
         <el-form-item label="下载路径">
           <el-input
             v-model="config.savePath"
@@ -13,6 +13,24 @@
               <el-button type="primary" @click="savePathConfig">确认</el-button>
             </template>
           </el-input>
+        </el-form-item>
+        <el-form-item label="重试次数">
+            <el-input
+              type="number"
+              v-model="config.retryCount"
+              size="small"
+              class="input-path"
+              @change="setRetryCount"
+              />
+        </el-form-item>
+        <el-form-item label="重试间隔(s)">
+            <el-input
+              type="number"
+              v-model="config.retryInterval"
+              size="small"
+              class="input-path"
+              @change="setRetryInterval"
+              />
         </el-form-item>
         <el-form-item label="SpeechKey">
             <el-input
@@ -31,7 +49,7 @@
               @change="setServiceRegion"
               />
         </el-form-item>
-        <el-form-item label="自动播放(仅单文本模式)">
+        <el-form-item label="自动播放">
           <el-switch
             v-model="config.autoplay"
             active-text="是"
@@ -40,7 +58,7 @@
             @change="switchChange"
           />
         </el-form-item>
-        <el-form-item label="版本更新弹窗提醒">
+        <el-form-item label="新版本提醒">
           <el-switch
             v-model="config.updateNotification"
             active-text="是"
@@ -188,6 +206,7 @@ const savePathConfig = () => {
     duration: 2000,
   });
 };
+
 const auditionConfig = () => {
   ttsStore.setAuditionConfig();
   ElMessage({
@@ -235,6 +254,24 @@ const setSpeechKey = () => {
 
 const setServiceRegion = () => {
   ttsStore.setServiceRegion();
+  ElMessage({
+    message: "保存成功，请点击“刷新配置”立即应用。。",
+    type: "success",
+    duration: 2000,
+  });
+};
+
+const setRetryCount = () => {
+  ttsStore.setRetryCount();
+  ElMessage({
+    message: "保存成功，请点击“刷新配置”立即应用。。",
+    type: "success",
+    duration: 2000,
+  });
+};
+
+const setRetryInterval = () => {
+  ttsStore.setRetryInterval();
   ElMessage({
     message: "保存成功，请点击“刷新配置”立即应用。。",
     type: "success",
