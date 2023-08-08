@@ -84,7 +84,8 @@ const voicesApi = () => {
        'x-ms-useragent': 'SpeechStudio/2021.05.001', 
        'content-type': 'application/json'
     },
-    data : data
+    data : data,
+    timeout: 1500,
  };
  return new Promise((resolve, reject) => {
   axios(config)
