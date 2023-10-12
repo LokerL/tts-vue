@@ -15,6 +15,13 @@ async function getTTSData(
   retryCount: number,
   retryInterval = 1,
 ) {
+  // 判断retryCount是否为0或者null，如果是则不重试
+  if (!retryCount) {
+    retryCount = 1;
+  }
+  if (!retryInterval) {
+    retryInterval = 1;
+  }
   let SSML = "";
   if (inps.activeIndex == "1" && (api == 1 || api == 3)) {
     SSML = `
@@ -62,7 +69,7 @@ async function retrySpeechInvocation(SSML: string, retryCount: number, delay: nu
   let retry = 0;
   while (retry < retryCount) {
     try {
-      console.log("Speech invocation attempt", retry + 1);
+      console.log("语音调用尝试:", retry + 1);
       const result = await ipcRenderer.invoke("speech", SSML);
       return result; // 执行成功，返回结果
     } catch (error) {
@@ -71,7 +78,7 @@ async function retrySpeechInvocation(SSML: string, retryCount: number, delay: nu
     }
     retry++;
   }
-  throw new Error(`Speech invocation failed after ${retryCount} retries`); // 重试次数用尽，抛出异常
+  throw new Error(`${retryCount} 次重试后仍转换失败。`); // 重试次数用尽，抛出异常
 }
 function sleep(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms));
