@@ -18,6 +18,7 @@
             <el-input
               type="number"
               v-model="config.retryCount"
+              min="1"
               size="small"
               class="input-path"
               @change="setRetryCount"
@@ -27,6 +28,7 @@
             <el-input
               type="number"
               v-model="config.retryInterval"
+              min="0"
               size="small"
               class="input-path"
               @change="setRetryInterval"
@@ -38,7 +40,6 @@
               size="small"
               class="input-path"
               @change="setSpeechKey"
-              password
               />
         </el-form-item>
         <el-form-item label="ServiceRegion">
@@ -47,6 +48,7 @@
               size="small"
               class="input-path"
               @change="setServiceRegion"
+              placeholder="请填写ServiceRegion，如：westus"
               />
         </el-form-item>
         <el-form-item label="自动播放">
@@ -262,6 +264,9 @@ const setServiceRegion = () => {
 };
 
 const setRetryCount = () => {
+  if (config.value.retryCount == '' || config.value.retryCount < 0) {
+    config.value.retryCount = 1;
+  }
   ttsStore.setRetryCount();
   ElMessage({
     message: "保存成功，请点击“刷新配置”立即应用。。",
@@ -271,6 +276,9 @@ const setRetryCount = () => {
 };
 
 const setRetryInterval = () => {
+  if (config.value.retryInterval== '' || config.value.retryInterval < 0) {
+    config.value.retryInterval = 0;
+  }
   ttsStore.setRetryInterval();
   ElMessage({
     message: "保存成功，请点击“刷新配置”立即应用。。",
@@ -300,7 +308,7 @@ const setRetryInterval = () => {
   border-right: 1px solid #dcdfe6;
   width: calc(100% - 395px);
   padding-left: 10px;
-  overflow-x: scroll;
+  overflow-x: hidden;
 }
 :deep(.input-path .el-input-group__append) {
   display: inline-flex;
