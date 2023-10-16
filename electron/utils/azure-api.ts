@@ -1,7 +1,7 @@
 import logger from "../utils/log";
+var sdk = require("microsoft-cognitiveservices-speech-sdk");
 
 const azureApi = (ssml: string, key: string, region: string) => {
-    var sdk = require("microsoft-cognitiveservices-speech-sdk");
     const speechConfig = sdk.SpeechConfig.fromSubscription(key, region);
     speechConfig.setProperty(sdk.PropertyId.SpeechServiceResponse_RequestSentenceBoundary, "true");
     var audio_config = sdk.AudioConfig.fromDefaultSpeakerOutput();

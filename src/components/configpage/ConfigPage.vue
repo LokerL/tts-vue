@@ -171,6 +171,14 @@ const openFolderSelector = async () => {
   }
 };
 
+const successMessage = () => {
+  ElMessage({
+    message: "保存成功，请点击“刷新配置”立即应用。",
+    type: "success",
+    duration: 2000,
+  });
+};
+
 const handleDelete = (index: any, row: any) => {
   delete config.value.formConfigJson[row.tagName];
   store.set("FormConfig", config.value.formConfigJson);
@@ -202,65 +210,37 @@ const openLogFolder = () => {
 
 const savePathConfig = () => {
   ttsStore.setSavePath();
-  ElMessage({
-    message: "保存成功，请点击“刷新配置”立即应用。",
-    type: "success",
-    duration: 2000,
-  });
+  successMessage();
 };
 
 const auditionConfig = () => {
   ttsStore.setAuditionConfig();
-  ElMessage({
-    message: "保存成功，请点击“刷新配置”立即应用。",
-    type: "success",
-    duration: 2000,
-  });
+  successMessage();
 };
 
 const switchChange = () => {
   ttsStore.setAutoPlay();
-  ElMessage({
-    message: "保存成功，请点击“刷新配置”立即应用。。",
-    type: "success",
-    duration: 2000,
-  });
+  successMessage();
 };
 
 const updateNotificationChange = () => {
   ttsStore.updateNotificationChange();
-  ElMessage({
-    message: "保存成功，请点击“刷新配置”立即应用。。",
-    type: "success",
-    duration: 2000,
-  });
+  successMessage();
 };
 
 const updateTitleStyle = () => {
   ttsStore.updateTitleStyle();
-  ElMessage({
-    message: "保存成功，请点击“刷新配置”立即应用。。",
-    type: "success",
-    duration: 2000,
-  });
+  successMessage();
 };
 
 const setSpeechKey = () => {
   ttsStore.setSpeechKey();
-  ElMessage({
-    message: "保存成功，请点击“刷新配置”立即应用。。",
-    type: "success",
-    duration: 2000,
-  });
+  successMessage();
 };
 
 const setServiceRegion = () => {
   ttsStore.setServiceRegion();
-  ElMessage({
-    message: "保存成功，请点击“刷新配置”立即应用。。",
-    type: "success",
-    duration: 2000,
-  });
+  successMessage();
 };
 
 const setRetryCount = () => {
@@ -268,11 +248,7 @@ const setRetryCount = () => {
     config.value.retryCount = 1;
   }
   ttsStore.setRetryCount();
-  ElMessage({
-    message: "保存成功，请点击“刷新配置”立即应用。。",
-    type: "success",
-    duration: 2000,
-  });
+  successMessage();
 };
 
 const setRetryInterval = () => {
@@ -280,11 +256,7 @@ const setRetryInterval = () => {
     config.value.retryInterval = 0;
   }
   ttsStore.setRetryInterval();
-  ElMessage({
-    message: "保存成功，请点击“刷新配置”立即应用。。",
-    type: "success",
-    duration: 2000,
-  });
+  successMessage();
 };
 </script>
 

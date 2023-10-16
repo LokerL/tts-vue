@@ -1,5 +1,3 @@
-const axios = require("axios");
-
 const { ipcRenderer } = require("electron");
 
 async function getTTSData(
