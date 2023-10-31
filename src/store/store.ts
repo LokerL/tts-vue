@@ -8,6 +8,20 @@ const fs = require("fs");
 const path = require("path");
 const Store = require("electron-store");
 const { ipcRenderer } = require("electron");
+const ffmpeg = require("fluent-ffmpeg");
+const ffmpegInstaller = require('@ffmpeg-installer/ffmpeg');
+const { Readable } = require('stream');
+
+if (process.env.NODE_ENV === 'development') {
+  // 处于开发状态
+  console.log('开发状态');
+  ffmpeg.setFfmpegPath(ffmpegInstaller.path);
+} else if (process.env.NODE_ENV === 'production') {
+  // 处于打包状态
+  console.log('打包状态');
+  ffmpeg.setFfmpegPath(ffmpegInstaller.path.replace("app.asar", "app.asar.unpacked"));
+}
+
 const store = new Store();
 // 定义并导出容器，第一个参数是容器id，必须唯一，用来将所有的容器
 // 挂载到根容器上
@@ -36,6 +50,7 @@ export const useTtsStore = defineStore("ttsStore", {
         updateNotification: store.get("updateNotification"),
         titleStyle: store.get("titleStyle"),
         api: store.get("api"),
+        formatType: store.get("formatType"),
         speechKey: store.get("speechKey"),
         serviceRegion: store.get("serviceRegion"),
         disclaimers: store.get("disclaimers"),
@@ -92,6 +107,9 @@ export const useTtsStore = defineStore("ttsStore", {
     },
     updateTitleStyle() {
       store.set("titleStyle", this.config.titleStyle);
+    },
+    setFormatType() {
+      store.set("formatType", this.config.formatType);
     },
     setAutoPlay() {
       store.set("autoplay", this.config.autoplay);
@@ -411,26 +429,84 @@ export const useTtsStore = defineStore("ttsStore", {
     },
     writeFileSync() {
       const currTime = new Date().getTime().toString();
-      const filePath = path.join(this.config.savePath, currTime + ".mp3");
-      fs.writeFileSync(path.resolve(filePath), this.currMp3Buffer);
-      ElMessage({
-        dangerouslyUseHTMLString: true,
-        message: h("p", null, [
-          h("span", null, "下载完成："),
-          h(
-            "span",
-            {
-              on: {
-                click: this.showItemInFolder(filePath),
+
+      console.log('当前设置的格式:', this.config.formatType);
+
+//-------------------------------------------------------------------------------------------------------------------------------------
+ 
+      const filePath = path.join(this.config.savePath, currTime + this.config.formatType);
+      if (this.config.formatType == ".mp3") {
+        fs.writeFileSync(path.resolve(filePath), this.currMp3Buffer);
+        ElMessage({
+          dangerouslyUseHTMLString: true,
+          message: h("p", null, [
+            h("span", null, "下载完成："),
+            h(
+              "span",
+              {
+                on: {
+                  click: this.showItemInFolder(filePath),
+                },
               },
-            },
-            filePath
-          ),
-        ]),
-        type: "success",
-        duration: 4000,
-      });
-      ipcRenderer.send("log.info", `下载完成:${filePath}`);
+              filePath
+            ),
+          ]),
+          type: "success",
+          duration: 4000,
+        });
+        ipcRenderer.send("log.info", `下载完成:${filePath}`);
+      }
+      else {
+       // 将 this.currMp3Buffer 转换为可读流
+        const inputStream = new Readable();
+        inputStream.push(this.currMp3Buffer);
+        inputStream.push(null); // 结束流
+        // 使用 fluent-ffmpeg 进行转码
+        ffmpeg(inputStream)
+          .output(filePath)
+          .audioCodec('pcm_s16le') // 示例：使用 PCM 16位音频编码
+          .audioChannels(2) // 示例：设置音频通道数为2
+          .audioFrequency(44100) // 示例：设置音频采样率为44100Hz
+          .on('end', () => {
+            console.log('转码完成！音频已保存为文件:', filePath);
+            ipcRenderer.send("showItemInFolder", filePath);
+
+            ElMessage({
+              dangerouslyUseHTMLString: true,
+              message: h("p", null, [
+                h("span", null, "下载完成："),
+                h(
+                  "span",
+                  {
+                    on: {
+                      click: this.showItemInFolder(filePath),
+                    },
+                  },
+                  filePath
+                ),
+              ]),
+              type: "success",
+              duration: 4000,
+            });
+
+          })
+          .on('error', (err: any) => {
+            console.error('转码出错:', err);
+
+            ElMessage({
+              dangerouslyUseHTMLString: true,
+              message: h("p", null, [
+                h("span", null, "转码失败！！！：" + err)
+              ]),
+              type: "error",
+              duration: 10000,
+            });
+
+          })
+          .run();
+      }
+//-------------------------------------------------------------------------------------------------------------------------------------
+
     },
     async audition(val: string) {
       const inps = {
