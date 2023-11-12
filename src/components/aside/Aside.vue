@@ -7,19 +7,19 @@
     >
       <el-menu-item index="1">
         <el-icon><document /></el-icon>
-        <span>文本</span>
+        <span>{{ t('aside.text') }}</span>
       </el-menu-item>
       <el-menu-item index="2">
         <el-icon><Files /></el-icon>
-        <span>批量</span>
+        <span>{{ t('aside.batch') }}</span>
       </el-menu-item>
       <el-menu-item index="3">
         <el-icon><Setting /></el-icon>
-        <span>设置</span>
+        <span>{{ t('aside.setting') }}</span>
       </el-menu-item>
       <el-menu-item index="4">
         <el-icon><Notebook /></el-icon>
-        <span>文档</span>
+        <span>{{ t('aside.documents') }}</span>
       </el-menu-item>
     </el-menu>
     <Version />
@@ -29,6 +29,8 @@
 <script setup lang="ts">
 import { useTtsStore } from "@/store/store";
 import { storeToRefs } from "pinia";
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
 import Version from "./Version.vue";
 
 const ttsStore = useTtsStore();

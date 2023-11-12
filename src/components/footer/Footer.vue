@@ -9,7 +9,7 @@
           :disabled="currMp3Url == ''"
           :loading="isLoading"
           :icon="Download"
-          title="下载音频"
+          :title="t('footer.downloadAudio')"
         />
       </div>
       <div class="paly-bar-process">
@@ -30,6 +30,8 @@
 import { useTtsStore } from "@/store/store";
 import { storeToRefs } from "pinia";
 import { Download } from "@element-plus/icons-vue";
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();  
 
 const ttsStore = useTtsStore();
 const { config, currMp3Url, isLoading, audioPlayer } = storeToRefs(ttsStore);

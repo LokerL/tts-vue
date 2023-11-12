@@ -12,6 +12,8 @@ import pkg from "../../../package.json";
 import { ref, h } from "vue";
 import { ElNotification, ElMessageBox } from "element-plus";
 import type { Action } from "element-plus";
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();  
 
 const Store = require("electron-store");
 const store = new Store();
@@ -42,10 +44,10 @@ getLatestVsersion().then(({ latestVsersion }) => {
     hasUpdate.value = true;
     if (updateNotification) {
       ElNotification({
-        title: "发现新版本",
+        title: t('version.updateAvailable'),
         message: h("strong", [
           h("div", [
-            "发现新版本：",
+            t('version.updateAvailable') + ": ",
             h(
               "i",
               { style: "color: teal;margin-right: 5px;" },
@@ -58,7 +60,7 @@ getLatestVsersion().then(({ latestVsersion }) => {
                 target: "_blank",
                 style: "margin-bottom: 20px;",
               },
-              "前往查看"
+              t('version.goToView')
             ),
           ]),
           h("div", latestVsersion.body),
@@ -69,20 +71,21 @@ getLatestVsersion().then(({ latestVsersion }) => {
   }
 });
 
+
 const checkUpdate = async () => {
   getLatestVsersion().then(({ latestVsersion }) => {
     let versionInfo = "";
     if (version == latestVsersion.tag_name) {
-      versionInfo = `<p class="version-info version-info-success">当前为最新版本，无需更新。</p>`;
+      versionInfo = `<p class="version-info version-info-success">${t('version.noUpdate')}</p>`;
     } else {
-      versionInfo = `<p class="version-info version-info-warning">发现新版本，请手动更新。</p>`;
+      versionInfo = `<p class="version-info version-info-warning">${t('version.updateAvailable')}</p>`;
     }
     const htmlMsg = `
       <div>
-      ${versionInfo}
-        <p>当前版本：<span>${version}</span></p>
-        <p>最新版本：<span>${latestVsersion.tag_name}</span></p>
-        <p>下载地址：
+        ${versionInfo}
+        <p>${t('version.currentVersion')}<span>${version}</span></p>
+        <p>${t('version.latestVersion')}<span>${latestVsersion.tag_name}</span></p>
+        <p>${t('version.downloadLinks')}:
           <ul style="margin: 0;">
             <li><a href="https://github.com/LokerL/tts-vue/releases/latest" target="_blank">GitHub</a></li>
             <li><a href="https://gitee.com/LGW_space/tts-vue/releases/latest" target="_blank">Gitee</a></li>
@@ -111,8 +114,8 @@ const checkUpdate = async () => {
       </div>
     `;
 
-    ElMessageBox.alert(htmlMsg, "版本信息", {
-      confirmButtonText: "确定",
+    ElMessageBox.alert(htmlMsg, t('version.updateInfo'), {
+      confirmButtonText: t('version.confirm'),
       closeOnClickModal: true,
       dangerouslyUseHTMLString: true,
       callback: (action: Action) => {

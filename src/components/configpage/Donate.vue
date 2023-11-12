@@ -1,13 +1,13 @@
 <template>
   <div class="donate">
     <div class="des">
-      <h3>如果你觉得这个项目还不错，</h3>
+      <h3>{{ t('donate.appreciation') }}</h3>
       <h3>
-        欢迎<span>Star</span>、<span>Fork</span>和<span>PR</span>。你的Star是对作者最好的鼓励：）
+        {{ t('donate.encouragement') }}
       </h3>
       <p style="margin: 0 10px; font-size: 11px">
-        <p>使用遇到问题请仔细阅读【文档】→【使用指南】中的【功能介绍】和【常见问题】。</p>
-        <p>其他意见或建议可以在【文档】→【加入Q群】中艾特或私聊群主或者管理，也可以在github或者gitee提出issues。</p>
+        <p>{{ t('donate.guideReminder') }}</p>
+        <p>{{ t('donate.feedback') }}</p>
       </p>
     </div>
 
@@ -15,9 +15,9 @@
     <div class="card">
       <div class="content">
         <div class="front">
-          <h3 class="title">请作者喝杯冰阔落🍻</h3>
+          <h3 class="title">{{ t('donate.buyCoffeeTitle') }}</h3>
           <h3 class="title-pay">
-            使用微信支付 <span>鼠标悬停使用支付宝支付</span>
+            {{ t('donate.wechatPayment') }} <span>{{ t('donate.hoverForAlipay') }}</span>
           </h3>
           <img
             class="subtitle-img"
@@ -28,9 +28,9 @@
         </div>
 
         <div class="back">
-          <h3 class="title">请作者喝杯咖啡☕️</h3>
+          <h3 class="title">{{ t('donate.buyDrinkTitle') }}</h3>
           <h3 class="title-pay">
-            使用支付宝支付 <span>移开鼠标使用微信支付</span>
+            {{ t('donate.alipayPayment') }} <span>{{ t('donate.hoverForWechat') }}</span>
           </h3>
           <img
             class="subtitle-img"
@@ -47,6 +47,8 @@
 <script setup lang="ts">
 import GiteeBtn from "./GiteeBtn.vue";
 import GithubBtn from "./GithubBtn.vue";
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();  
 </script>
 
 <style scoped>
