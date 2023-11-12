@@ -2,7 +2,7 @@
   <div class="config-page">
     <div class="config-side" label-position="right">
       <el-form :model="config" >
-        <el-form-item label="下载路径">
+        <el-form-item :label="t('configPage.downloadPath')">
           <el-input
             v-model="config.savePath"
             size="small"
@@ -14,7 +14,7 @@
             </template>
           </el-input>
         </el-form-item>
-        <el-form-item label="重试次数">
+        <el-form-item :label="t('configPage.retryCount')">
             <el-input
               type="number"
               v-model="config.retryCount"
@@ -24,7 +24,7 @@
               @change="setRetryCount"
               />
         </el-form-item>
-        <el-form-item label="重试间隔(s)">
+        <el-form-item :label="t('configPage.retryInterval')">
             <el-input
               type="number"
               v-model="config.retryInterval"
@@ -34,7 +34,7 @@
               @change="setRetryInterval"
               />
         </el-form-item>
-        <el-form-item label="SpeechKey">
+        <el-form-item :label="t('configPage.speechKey')">
             <el-input
               v-model="config.speechKey"
               size="small"
@@ -42,7 +42,7 @@
               @change="setSpeechKey"
               />
         </el-form-item>
-        <el-form-item label="ServiceRegion">
+        <el-form-item :label="t('configPage.serviceRegion')">
             <el-input
               v-model="config.serviceRegion"
               size="small"
@@ -51,7 +51,7 @@
               placeholder="请填写ServiceRegion，如：westus"
               />
         </el-form-item>
-        <el-form-item label="自动播放">
+        <el-form-item :label="t('configPage.autoplay')">
           <el-switch
             v-model="config.autoplay"
             active-text="是"
@@ -60,7 +60,7 @@
             @change="switchChange"
           />
         </el-form-item>
-        <el-form-item label="新版本提醒">
+        <el-form-item :label="t('configPage.updateNotification')">
           <el-switch
             v-model="config.updateNotification"
             active-text="是"
@@ -69,7 +69,7 @@
             @change="updateNotificationChange"
           />
         </el-form-item>
-        <el-form-item label="标题栏样式">
+        <el-form-item :label="t('configPage.titleStyle')">
           <el-switch
             v-model="config.titleStyle"
             active-text="MacOS"
@@ -77,20 +77,20 @@
             @change="updateTitleStyle"
           />
         </el-form-item>
-        <el-form-item label="试听文本">
+        <el-form-item :label="t('configPage.auditionText')">
           <el-input v-model="config.audition" size="small" class="input-path">
             <template #append>
               <el-button type="primary" @click="auditionConfig">确认</el-button>
             </template>
           </el-input>
         </el-form-item>
-        <el-form-item label="模板编辑">
+        <el-form-item :label="t('configPage.templateEdit')">
           <el-table
             :data="config.formConfigList"
             style="width: 100%"
             height="calc(100vh - 560px)"
           >
-            <el-table-column prop="tagName" label="名字">
+          <el-table-column :prop="t('configPage.name')" label="t('configPage.name')">
               <template #default="scope">
                 <el-popover
                   effect="light"
@@ -112,7 +112,7 @@
                 </el-popover>
               </template>
             </el-table-column>
-            <el-table-column label="操作">
+            <el-table-column :label="t('configPage.action')">
               <template #default="scope">
                 <el-button
                   size="small"
@@ -126,17 +126,17 @@
         </el-form-item>
         <el-form-item class="btns">
           <el-button type="primary" @click="ipcRenderer.send('reload')"
-            ><el-icon><Refresh /></el-icon>刷新配置</el-button
+            ><el-icon><Refresh /></el-icon>{{ t('configPage.refreshConfig') }}</el-button
           >
           <el-button type="warning" @click="openConfigFile"
-            ><el-icon><Document /></el-icon>配置文件</el-button
+            ><el-icon><Document /></el-icon>{{ t('configPage.configFile') }}</el-button
           >
           <el-dropdown split-button type="success" @click="openLogs">
-            <el-icon><Finished /></el-icon>打开日志
+            <el-icon><Finished /></el-icon>{{ t('configPage.openLogs') }}
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item @click="openLogFolder"
-                  ><el-icon><FolderDelete /></el-icon>清理日志
+                  ><el-icon><FolderDelete /></el-icon>{{ t('configPage.clearLogs') }}
                 </el-dropdown-item>
               </el-dropdown-menu>
             </template>
@@ -155,6 +155,8 @@ import { ElMessage } from "element-plus";
 import { useTtsStore } from "@/store/store";
 import { storeToRefs } from "pinia";
 import Donate from "./Donate.vue";
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();  
 
 const { ipcRenderer, shell } = require("electron");
 

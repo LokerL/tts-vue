@@ -8,15 +8,15 @@
           default-active="1"
           :ellipsis="false"
         >
-          <el-menu-item index="1">文本</el-menu-item>
-          <el-menu-item index="2">SSML</el-menu-item>
+          <el-menu-item index="1">{{ t('main.textTab') }}</el-menu-item>
+          <el-menu-item index="2">{{ t('main.ssmlTab') }}</el-menu-item>
         </el-menu>
       </div>
       <div class="text-area" v-show="page.tabIndex == '1'">
         <el-input
           v-model="inputs.inputValue"
           type="textarea"
-          placeholder="Please input"
+          :placeholder="t('main.placeholder')"
         />
       </div>
       <div class="text-area2" v-show="page.tabIndex == '2'">
@@ -31,39 +31,40 @@
       >
         <el-table-column
           prop="fileName"
-          label="文件名"
+          :label="t('main.fileName')"
           show-overflow-tooltip="true"
         />
         <el-table-column
           prop="filePath"
-          label="文件路径"
+          :label="t('main.filePath')"
           show-overflow-tooltip="true"
         />
         <el-table-column
           prop="fileSize"
-          label="字数"
+          :label="t('main.fileSize')"
           width="60"
           show-overflow-tooltip="true"
         />
-        <el-table-column prop="status" label="状态" width="60">
+        <el-table-column prop="status" :label="t('main.status')"
+        width="60">
           <template #default="scope">
             <div>
               <el-tag
                 class="ml-2"
-                :type="scope.row.status == 'ready' ? 'info' : 'success'"
+                :type="scope.row.status == 'ready' ? t('main.ready') : t('main.play')"
                 >{{ scope.row.status }}</el-tag
               >
             </div>
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column :label="t('main.action')">
           <template #default="scope">
             <template v-if="scope.row.status == 'ready'">
               <el-button
                 size="small"
                 type="danger"
                 @click="handleDelete(scope.$index, scope.row)"
-                >移除</el-button
+                >{{t('main.remove')}}</el-button
               >
             </template>
             <template v-else>
@@ -92,15 +93,15 @@
           multiple
         >
           <template #trigger>
-            <el-button type="primary">选择文件</el-button>
+            <el-button type="primary">{{ t('main.selectFiles') }}</el-button>
           </template>
 
           <template #tip>
-            <div class="el-upload__tip">文本格式为： *.txt</div>
+            <div class="el-upload__tip">{{ t('main.fileFormatTip') }}</div>
           </template>
         </el-upload>
         <el-button type="warning" @click="clearAll"
-          ><el-icon><DeleteFilled /></el-icon>清空</el-button
+          ><el-icon><DeleteFilled /></el-icon>{{ t('main.clearAll') }}</el-button
         >
       </div>
     </div>
@@ -126,6 +127,8 @@ import { useTtsStore } from "@/store/store";
 import { storeToRefs } from "pinia";
 const { shell } = require("electron");
 var path = require("path");
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();  
 const store = useTtsStore();
 const { inputs, page, tableData, currMp3Url, config, formConfig, audioPlayer } =
   storeToRefs(store);
