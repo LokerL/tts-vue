@@ -14,14 +14,14 @@
     "node": ">=14.17.0"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^2.3.3",
-    "electron": "^19.1.9",
-    "electron-builder": "^23.1.0",
-    "typescript": "^4.7.4",
-    "vite": "^2.9.13",
-    "vite-plugin-electron": "^0.8.1",
-    "vue": "^3.2.37",
-    "vue-tsc": "^0.38.3"
+    "@vitejs/plugin-vue": "2.3.3",
+    "electron": "19.1.9",
+    "electron-builder": "23.1.0",
+    "typescript": "4.7.4",
+    "vite": "2.9.13",
+    "vite-plugin-electron": "0.8.1",
+    "vue": "3.2.37",
+    "vue-tsc": "0.38.3"
   },
   "env": {
     "VITE_DEV_SERVER_HOST": "127.0.0.1",
@@ -35,16 +35,16 @@
     "vue"
   ],
   "dependencies": {
-    "@types/ws": "^8.5.4",
-    "axios": "^0.27.2",
-    "electron-log": "^4.4.8",
-    "electron-store": "^8.0.2",
+    "@types/ws": "8.5.4",
+    "axios": "0.27.2",
+    "electron-log": "4.4.8",
+    "electron-store": "8.0.2",
     "element-plus": "2.2.9",
-    "microsoft-cognitiveservices-speech-sdk": "^1.30.1",
-    "nodejs-websocket": "^1.7.2",
-    "pinia": "^2.0.17",
-    "uuid": "^8.3.2",
-    "vue-i18n": "^9.6.5",
-    "ws": "^8.13.0"
+    "microsoft-cognitiveservices-speech-sdk": "1.30.1",
+    "nodejs-websocket": "1.7.2",
+    "pinia": "2.0.17",
+    "uuid": "8.3.2",
+    "vue-i18n": "9.6.5",
+    "ws": "8.13.0"
   }
 }
