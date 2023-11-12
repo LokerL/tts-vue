@@ -996,8 +996,8 @@ const messages = {
 
 const i18n = createI18n({
   legacy: false, // Usa la Composition API
-  locale: 'es', // Idioma por defecto
-  fallbackLocale: 'en', // Idioma de reserva
+  locale: 'en', // Idioma por defecto
+  fallbackLocale: 'es', // Idioma de reserva
   messages,
 });
 // const i18nLegacy = createI18n({
