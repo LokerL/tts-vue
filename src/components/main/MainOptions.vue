@@ -335,7 +335,7 @@ const startBtn = () => {
   }
   if (isLoading.value) {
     ElMessage({
-      message: t('messages.waitMessage'),
+      message: "请稍候。。。",
       type: "warning",
       duration: 2000,
     });

@@ -48,14 +48,14 @@
               size="small"
               class="input-path"
               @change="setServiceRegion"
-              placeholder="请填写ServiceRegion，如：westus"
+              :placeholder="t('configPage.serviceRegionPlaceHolder')"
               />
         </el-form-item>
         <el-form-item :label="t('configPage.autoplay')">
           <el-switch
             v-model="config.autoplay"
-            active-text="是"
-            inactive-text="否"
+            :active-text="t('configPage.yes')"
+            :inactive-text="t('configPage.no')"
             inline-prompt
             @change="switchChange"
           />
@@ -63,8 +63,8 @@
         <el-form-item :label="t('configPage.updateNotification')">
           <el-switch
             v-model="config.updateNotification"
-            active-text="是"
-            inactive-text="否"
+            :active-text="t('configPage.yes')"
+            :inactive-text="t('configPage.no')"
             inline-prompt
             @change="updateNotificationChange"
           />
@@ -80,7 +80,7 @@
         <el-form-item :label="t('configPage.auditionText')">
           <el-input v-model="config.audition" size="small" class="input-path">
             <template #append>
-              <el-button type="primary" @click="auditionConfig">确认</el-button>
+              <el-button type="primary" @click="auditionConfig">{{ t('configPage.confirm') }}</el-button>
             </template>
           </el-input>
         </el-form-item>
@@ -90,7 +90,7 @@
             style="width: 100%"
             height="calc(100vh - 560px)"
           >
-          <el-table-column :prop="t('configPage.name')" label="t('configPage.name')">
+          <el-table-column :prop="t('configPage.name')" :label="t('configPage.name')">
               <template #default="scope">
                 <el-popover
                   effect="light"
@@ -99,12 +99,19 @@
                   width="auto"
                 >
                   <template #default>
-                    <div>语言: {{ scope.row.content.languageSelect }}</div>
+                    <!-- <div>语言: {{ scope.row.content.languageSelect }}</div>
                     <div>语音: {{ scope.row.content.voiceSelect }}</div>
                     <div>风格: {{ scope.row.content.voiceStyleSelect }}</div>
                     <div>角色: {{ scope.row.content.role }}</div>
                     <div>语速: {{ scope.row.content.speed }}</div>
-                    <div>音调: {{ scope.row.content.pitch }}</div>
+                    <div>音调: {{ scope.row.content.pitch }}</div> -->
+                    <div>{{ t('configPage.language') }}: {{ scope.row.content.languageSelect }}</div>
+                    <div>{{ t('configPage.voice') }}: {{ scope.row.content.voiceSelect }}</div>
+                    <div>{{ t('configPage.style') }}: {{ scope.row.content.voiceStyleSelect }}</div>
+                    <div>{{ t('configPage.role') }}: {{ scope.row.content.role }}</div>
+                    <div>{{ t('configPage.speed') }}: {{ scope.row.content.speed }}</div>
+                    <div>{{ t('configPage.pitch') }}: {{ scope.row.content.pitch }}</div>
+
                   </template>
                   <template #reference>
                     <el-tag>{{ scope.row.tagName }}</el-tag>
@@ -118,7 +125,7 @@
                   size="small"
                   type="danger"
                   @click="handleDelete(scope.$index, scope.row)"
-                  >删除</el-button
+                  >{{ t('configPage.remove') }}</el-button
                 >
               </template>
             </el-table-column>

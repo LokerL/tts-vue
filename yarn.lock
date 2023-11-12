@@ -1036,10 +1036,10 @@ electron-store@^8.0.2:
     conf "^10.1.2"
     type-fest "^2.12.2"
 
-electron@^19.0.8:
-  version "19.0.9"
-  resolved "https://registry.npmjs.org/electron/-/electron-19.0.9.tgz"
-  integrity sha512-ooEwrv8Y7NSzdhKcl6kPCYecnzcg5nFWuS5ryG+VFH3MMBR8zXh9nW2wLsZrBz6OGUxXrcc5BKBC7dA8C6RhGQ==
+electron@^19.1.9:
+  version "19.1.9"
+  resolved "https://registry.npmjs.org/electron/-/electron-19.1.9.tgz"
+  integrity sha512-XT5LkTzIHB+ZtD3dTmNnKjVBWrDWReCKt9G1uAFLz6uJMEVcIUiYO+fph5pLXETiBw/QZBx8egduMEfIccLx+g==
   dependencies:
     "@electron/get" "^1.14.1"
     "@types/node" "^16.11.26"

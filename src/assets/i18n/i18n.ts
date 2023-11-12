@@ -1,4 +1,4 @@
-// src/i18n.js
+// src/assets/i18n/i18n.ts
 import { createI18n } from 'vue-i18n';
 
 const messages = {
@@ -42,6 +42,17 @@ const messages = {
       configFile: 'Configuration File',
       openLogs: 'Open Logs',
       clearLogs: 'Clear Logs',
+      yes: 'Yes',
+      no: 'No',
+      serviceRegionPlaceHolder: "Fill in the service region, such as: westus",
+      confirm: 'OK',
+      language: 'Language',
+      voice: 'Voice',
+      style: 'Style',
+      role: 'Role',
+      speed: 'Speed',
+      pitch: 'Pitch',
+      remove: 'Remove',
       // Otras traducciones...
     },
     donate: {
@@ -318,7 +329,7 @@ const messages = {
       echnologiesUsed: "Language technologies used",
       InPreview: "Language in preview",
     },
-    initialLocalStore:{
+    initialLocalStore: {
       audition: "If you think this project is good, Star, Fork and PR are welcome. Your Star is the best encouragement to the author."
     }
   },
@@ -374,6 +385,17 @@ const messages = {
       configFile: 'Archivo de Configuración',
       openLogs: 'Abrir Registros',
       clearLogs: 'Limpiar Registros',
+      yes: 'Sí',
+      no: 'No',
+      serviceRegionPlaceHolder: "Complete la región de servicio, como por ejemplo: westus",
+      confirm: 'OK',
+      language: 'Idioma',
+      voice: 'Voz',
+      style: 'Estilo',
+      role: 'Rol',
+      speed: 'Velocidad',
+      pitch: 'Tono',
+      remove: 'Eliminar',
       // Otras traducciones...
     },
     footer: {
@@ -433,6 +455,7 @@ const messages = {
       fileName: "Nombre de Archivo",
       filePath: "Ruta de Archivo",
       fileSize: "Conteo de Palabras",
+      fileFormatTip: "El formato de texto: *.txt",
       status: "Estado",
       ready: "Listo",
       remove: "Eliminar",
@@ -633,8 +656,8 @@ const messages = {
       esource: "Recurso de idioma",
       echnologiesUsed: "Tecnologías lingüísticas utilizadas",
       InPreview: "Idioma en vista previa",
-   },
-    initialLocalStore:{
+    },
+    initialLocalStore: {
       audition: "Si piensas que este proyecto es bueno, Star, Fork y PR son bienvenidos. Tu Star es el mejor ánimo para el autor."
     }
   },
@@ -678,6 +701,17 @@ const messages = {
       configFile: '配置文件',
       openLogs: '打开日志',
       clearLogs: '清理日志',
+      yes: '是',
+      no: '否',
+      serviceRegionPlaceHolder: "请填写ServiceRegion，如：westus",
+      confirm: '确认',
+      language: '语言',
+      voice: '语音',
+      style: '风格',
+      role: '角色',
+      speed: '语速',
+      pitch: '音调',
+      remove: '删除',
       // Otras traducciones...
     },
     donate: {
@@ -749,6 +783,7 @@ const messages = {
       fileName: "文件名",
       filePath: "文件路径",
       fileSize: "字数统计",
+      fileFormatTip: "文本格式：*.txt",
       status: "状态",
       ready: "就绪",
       remove: "移除",
@@ -951,8 +986,8 @@ const messages = {
       echnologiesUsed: "使用的语言技术",
       InPreview: "预览中的语言",
     },
-    initialLocalStore:{
-      audition:  "如果你觉得这个项目还不错， 欢迎Star、Fork和PR。你的Star是对作者最好的鼓励。"
+    initialLocalStore: {
+      audition: "如果你觉得这个项目还不错， 欢迎Star、Fork和PR。你的Star是对作者最好的鼓励。"
     }
 
   },
@@ -962,8 +997,13 @@ const messages = {
 const i18n = createI18n({
   legacy: false, // Usa la Composition API
   locale: 'es', // Idioma por defecto
-  fallbackLocale: 'es', // Idioma de reserva
+  fallbackLocale: 'en', // Idioma de reserva
   messages,
 });
+// const i18nLegacy = createI18n({
+//   locale: 'es', // Idioma por defecto
+//   fallbackLocale: 'en', // Idioma de reserva
+//   messages,
+// });
 
 export default i18n;
