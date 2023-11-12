@@ -1,6 +1,9 @@
+
+// import { useI18n } from 'vue-i18n';
+import i18n from '@/assets/i18n/i18n';
 import { voices } from './../../global/voices';
-import { useI18n } from 'vue-i18n';
-const { t } = useI18n();  
+const { t } = i18n.global;
+// const { t } = useI18n();  
 // let lang = {
 //   AF_ZA: "南非荷兰语(南非)",
 //   AM_ET: "阿姆哈拉语(埃塞俄比亚)",
@@ -171,6 +174,7 @@ const { t } = useI18n();
 // };
 
 let lang = t('lang');
+console.log(lang);
 
 let msVoicesList;
 if (localStorage.getItem("msVoicesList") !== null) {
@@ -182,13 +186,14 @@ if (localStorage.getItem("msVoicesList") !== null) {
 const voicesList = msVoicesList.map((item: any) => {
   item.properties.locale = item.locale;
   // ZH_CN_SHANDONG有BUG很奇怪
-  if (lang.hasOwnProperty(item.locale.toUpperCase().replace("-", "_").replace("-", "_"))){
-    item.properties.localeZH =
-    lang[item.locale.toUpperCase().replace("-", "_").replace("-", "_")];
-  } else {
-    item.properties.localeZH = item.locale
-  }
-  
+  // if (lang.hasOwnProperty(item.locale.toUpperCase().replace("-", "_").replace("-", "_"))) {
+  //   item.properties.localeZH =
+  //     lang[item.locale.toUpperCase().replace("-", "_").replace("-", "_")];
+  // } else {
+  //   item.properties.localeZH = item.locale
+  // }
+  item.properties.localeZH = t('lang.' + item.locale.toUpperCase().replace("-", "_").replace("-", "_"));
+
   return item.properties;
 });
 
@@ -207,23 +212,25 @@ const languageSelect = list.filter(
 );
 
 const findVoicesByLocaleName = (localeName: any) => {
+  console.log("voicesList", voicesList);
   const voices = voicesList.filter((item: any) => item.locale == localeName);
+  console.log("voices", voices);
   return voices;
 };
 
 const apiSelect = [
-    {
-        value: 1,
-        label: "Microsoft Speech API",
-    },
-    {
-        value: 2,
-        label: "Edge Speech API",
-    },
-    {
-        value: 3,
-        label: "Azure Speech API",
-    },
+  {
+    value: 1,
+    label: "Microsoft Speech API",
+  },
+  {
+    value: 2,
+    label: "Edge Speech API",
+  },
+  {
+    value: 3,
+    label: "Azure Speech API",
+  },
 ];
 
 export const optionsConfig = {

@@ -184,8 +184,8 @@ ipcMain.handle("edgeApi", async (event, ssml) => {
 });
 
 ipcMain.handle("azureApi", async (event, ssml, key, region) => {
-    const res = azureApi(ssml, key, region)
-    return res;
+  const res = azureApi(ssml, key, region)
+  return res;
 });
 
 ipcMain.handle("openFolderSelector", async (event) => {

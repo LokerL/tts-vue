@@ -118,6 +118,7 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import MainOptions from "./MainOptions.vue";
 import ConfigPage from "../configpage/ConfigPage.vue";
 
@@ -127,7 +128,6 @@ import { useTtsStore } from "@/store/store";
 import { storeToRefs } from "pinia";
 const { shell } = require("electron");
 var path = require("path");
-import { useI18n } from 'vue-i18n';
 const { t } = useI18n();  
 const store = useTtsStore();
 const { inputs, page, tableData, currMp3Url, config, formConfig, audioPlayer } =

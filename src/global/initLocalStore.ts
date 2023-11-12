@@ -1,9 +1,11 @@
+// import { useI18n } from 'vue-i18n';
+// const { t } = useI18n();  
+import i18n from '@/assets/i18n/i18n';
 import { voices } from './voices';
 const Store = require("electron-store");
 const store = new Store();
 const { ipcRenderer } = require("electron");
-import { useI18n } from 'vue-i18n';
-const { t } = useI18n();  
+const { t } = i18n.global;
 
 export default async function initStore() {
   try {

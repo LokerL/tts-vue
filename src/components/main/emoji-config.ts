@@ -1,6 +1,8 @@
 
-import { useI18n } from 'vue-i18n';
-const { t } = useI18n();  
+// import { useI18n } from 'vue-i18n';
+// const { t } = useI18n();  
+import i18n from '@/assets/i18n/i18n';
+const { t } = i18n.global;
 const styleDes = [
   { keyword: "assistant", emoji: "🔊", word: t('assistant') },
   { keyword: "chat", emoji: "🔊", word: t('chat') },

@@ -15,7 +15,7 @@
       </el-menu-item>
       <el-menu-item index="3">
         <el-icon><Setting /></el-icon>
-        <span>{{ t('aside.setting') }}</span>
+        <span>{{ t('aside.settings') }}</span>
       </el-menu-item>
       <el-menu-item index="4">
         <el-icon><Notebook /></el-icon>
@@ -30,9 +30,9 @@
 import { useTtsStore } from "@/store/store";
 import { storeToRefs } from "pinia";
 import { useI18n } from 'vue-i18n';
-const { t } = useI18n();
 import Version from "./Version.vue";
 
+const { t } = useI18n();
 const ttsStore = useTtsStore();
 const { page, config } = storeToRefs(ttsStore);
 
