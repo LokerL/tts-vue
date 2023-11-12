@@ -2,6 +2,21 @@
   <div class="config-page">
     <div class="config-side" label-position="right">
       <el-form :model="config" >
+        <el-form-item :label="t('configPage.language')">
+          <el-select
+            v-model="config.language"
+            size="small"
+            class="input-path"
+            @change="saveLanguageConfig"
+          >
+            <el-option
+              v-for="lang in languages"
+              :key="lang.value"
+              :label="lang.label"
+              :value="lang.value"
+            ></el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item :label="t('configPage.downloadPath')">
           <el-input
             v-model="config.savePath"
@@ -163,6 +178,7 @@ import { useTtsStore } from "@/store/store";
 import { storeToRefs } from "pinia";
 import Donate from "./Donate.vue";
 import { useI18n } from 'vue-i18n';
+import i18n from "@/assets/i18n/i18n";
 const { t } = useI18n();  
 
 const { ipcRenderer, shell } = require("electron");
@@ -172,6 +188,23 @@ const store = new Store();
 
 const ttsStore = useTtsStore();
 const { config } = storeToRefs(ttsStore);
+
+
+const languages = [
+  // Agrega más idiomas según sea necesario  
+  { label: 'English', value: 'en' },
+  { label: 'Español', value: 'es' },
+  { label: '中文', value: 'zh' },
+];
+
+const saveLanguageConfig = () => {
+  // Actualiza el idioma en i18n y guarda la configuración
+  i18n.global.locale.value = config.value.language;
+  // Llama a cualquier método necesario para guardar la configuración
+  // Por ejemplo, puedes llamar a 'savePathConfig' si también guarda el idioma, o crear un nuevo método.
+  savePathConfig(); // o tu método personalizado para guardar la configuración del idioma
+};
+
 
 const openFolderSelector = async () => {
   const path = await ipcRenderer.invoke("openFolderSelector");
