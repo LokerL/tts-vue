@@ -39,7 +39,7 @@ const indexHtml = join(ROOT_PATH.dist, "index.html");
 
 async function createWindow() {
   win = new BrowserWindow({
-    width: 900,
+    width: 1200,
     minWidth: 900,
     minHeight: 650,
     height: 650,

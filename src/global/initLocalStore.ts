@@ -38,6 +38,9 @@ export default async function initStore() {
       t("initialLocalStore.audition")
     );
   }
+  if (!store.has("language")) {
+    store.set("language", "en");
+  }
   if (!store.has("autoplay")) {
     store.set("autoplay", true);
   }

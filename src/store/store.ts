@@ -27,6 +27,7 @@ export const useTtsStore = defineStore("ttsStore", {
       tableData: <any>[], // 文件列表的数据
       currConfigName: "默认", // 当前配置的名字
       config: {
+        language: store.get("language"),
         formConfigJson: store.get("FormConfig"),
         formConfigList: <any>[],
         configLabel: <any>[],
