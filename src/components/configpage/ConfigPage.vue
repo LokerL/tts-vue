@@ -191,7 +191,8 @@ const { config } = storeToRefs(ttsStore);
 
 
 const languages = [
-  // Agrega más idiomas según sea necesario  
+  // Agrega más idiomas según sea necesario
+  
   { label: 'English', value: 'en' },
   { label: 'Español', value: 'es' },
   { label: '中文', value: 'zh' },
@@ -200,9 +201,8 @@ const languages = [
 const saveLanguageConfig = () => {
   // Actualiza el idioma en i18n y guarda la configuración
   i18n.global.locale.value = config.value.language;
-  // Llama a cualquier método necesario para guardar la configuración
-  // Por ejemplo, puedes llamar a 'savePathConfig' si también guarda el idioma, o crear un nuevo método.
-  savePathConfig(); // o tu método personalizado para guardar la configuración del idioma
+  ttsStore.setLanguage();
+  successMessage();
 };
 
 

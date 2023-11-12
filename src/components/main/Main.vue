@@ -119,6 +119,7 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import i18n from '@/assets/i18n/i18n';
 import MainOptions from "./MainOptions.vue";
 import ConfigPage from "../configpage/ConfigPage.vue";
 
@@ -133,6 +134,8 @@ const store = useTtsStore();
 const { inputs, page, tableData, currMp3Url, config, formConfig, audioPlayer } =
   storeToRefs(store);
 // SSML内容和文本框内容同步
+
+i18n.global.locale.value = config.value.language;
 watch(
   () => inputs.value.inputValue,
   (newValue) => {
