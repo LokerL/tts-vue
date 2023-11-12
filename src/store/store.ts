@@ -85,6 +85,9 @@ export const useTtsStore = defineStore("ttsStore", {
     setSavePath() {
       store.set("savePath", this.config.savePath);
     },
+    setLanguage() {
+      store.set("language", this.config.language);
+    },
     setAuditionConfig() {
       store.set("audition", this.config.audition);
     },
