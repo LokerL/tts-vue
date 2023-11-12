@@ -180,12 +180,7 @@
   resolved "https://registry.npmjs.org/@types/web-bluetooth/-/web-bluetooth-0.0.14.tgz"
   integrity sha512-5d2RhCard1nQUC3aHcq/gHzWYO6K0WJmAbjO7mQJgCQKtZpgXxv1rOM6O/dBDhDYYVutk1sciOgNSe+5YyfM8A==
 
-"@types/webrtc@^0.0.37":
-  version "0.0.37"
-  resolved "https://registry.npmjs.org/@types/webrtc/-/webrtc-0.0.37.tgz"
-  integrity sha512-JGAJC/ZZDhcrrmepU4sPLQLIOIAgs5oIK+Ieq90K8fdaNMhfdfqmYatJdgif1NDQtvrSlTOGJDUYHIDunuufOg==
-
-"@types/ws@^8.5.4":
+"@types/ws@8.5.4":
   version "8.5.4"
   resolved "https://registry.npmmirror.com/@types/ws/-/ws-8.5.4.tgz"
   integrity sha512-zdQDHKUgcX/zBc4GrwsE/7dVdAD8JR4EuiAXiiUhhfyIJXXb2+PrGshFyeXWQPMmmZ2XxgaqclgpIC7eTXc1mg==
@@ -204,42 +199,42 @@
   dependencies:
     "@types/yargs-parser" "*"
 
-"@vitejs/plugin-vue@^2.3.3":
+"@vitejs/plugin-vue@2.3.3":
   version "2.3.3"
   resolved "https://registry.npmjs.org/@vitejs/plugin-vue/-/plugin-vue-2.3.3.tgz"
   integrity sha512-SmQLDyhz+6lGJhPELsBdzXGc+AcaT8stgkbiTFGpXPe8Tl1tJaBw1A6pxDqDuRsVkD8uscrkx3hA7QDOoKYtyw==
 
-"@volar/code-gen@0.38.9":
-  version "0.38.9"
-  resolved "https://registry.npmjs.org/@volar/code-gen/-/code-gen-0.38.9.tgz"
-  integrity sha512-n6LClucfA+37rQeskvh9vDoZV1VvCVNy++MAPKj2dT4FT+Fbmty/SDQqnsEBtdEe6E3OQctFvA/IcKsx3Mns0A==
+"@volar/code-gen@0.38.3":
+  version "0.38.3"
+  resolved "https://registry.npmjs.org/@volar/code-gen/-/code-gen-0.38.3.tgz"
+  integrity sha512-0yCkDtaxffyfC9e2dSLGXJmG3b0rCfTa6vqxjr70ZFTtcf/VytmMBwboFicnm+Zoen9EI8wUNfw4upw9Slz5RQ==
   dependencies:
-    "@volar/source-map" "0.38.9"
+    "@volar/source-map" "0.38.3"
 
-"@volar/source-map@0.38.9":
-  version "0.38.9"
-  resolved "https://registry.npmjs.org/@volar/source-map/-/source-map-0.38.9.tgz"
-  integrity sha512-ba0UFoHDYry+vwKdgkWJ6xlQT+8TFtZg1zj9tSjj4PykW1JZDuM0xplMotLun4h3YOoYfY9K1huY5gvxmrNLIw==
+"@volar/source-map@0.38.3":
+  version "0.38.3"
+  resolved "https://registry.npmjs.org/@volar/source-map/-/source-map-0.38.3.tgz"
+  integrity sha512-8aVM+r4lsHnLjhvnjQ6kn4J++3I6VXtJblcGzWuIOn9M8pJmRGW6Si/eOVjayLWfvPCxXUM7e3sg4Nm2tufTmg==
 
-"@volar/vue-code-gen@0.38.9":
-  version "0.38.9"
-  resolved "https://registry.npmjs.org/@volar/vue-code-gen/-/vue-code-gen-0.38.9.tgz"
-  integrity sha512-tzj7AoarFBKl7e41MR006ncrEmNPHALuk8aG4WdDIaG387X5//5KhWC5Ff3ZfB2InGSeNT+CVUd74M0gS20rjA==
+"@volar/vue-code-gen@0.38.3":
+  version "0.38.3"
+  resolved "https://registry.npmjs.org/@volar/vue-code-gen/-/vue-code-gen-0.38.3.tgz"
+  integrity sha512-euVuKtwV/KurRSVwNz5bZbCBJLwVOE56+Uh2PhsHcAM5Wzlt82cwLj07FbFagCftoC3IC/bsn43yuLc2I+ZjAQ==
   dependencies:
-    "@volar/code-gen" "0.38.9"
-    "@volar/source-map" "0.38.9"
+    "@volar/code-gen" "0.38.3"
+    "@volar/source-map" "0.38.3"
     "@vue/compiler-core" "^3.2.37"
     "@vue/compiler-dom" "^3.2.37"
     "@vue/shared" "^3.2.37"
 
-"@volar/vue-typescript@0.38.9":
-  version "0.38.9"
-  resolved "https://registry.npmjs.org/@volar/vue-typescript/-/vue-typescript-0.38.9.tgz"
-  integrity sha512-iJMQGU91ADi98u8V1vXd2UBmELDAaeSP0ZJaFjwosClQdKlJQYc6MlxxKfXBZisHqfbhdtrGRyaryulnYtliZw==
+"@volar/vue-typescript@0.38.3":
+  version "0.38.3"
+  resolved "https://registry.npmjs.org/@volar/vue-typescript/-/vue-typescript-0.38.3.tgz"
+  integrity sha512-rXh4RQBZrNfkiSnpBYbHrsxg7vBbZeYsGFgE/n8FVLcZfGlelsdXFIINsr/aZGUCJre9I15wQ44eEmXnc4+qww==
   dependencies:
-    "@volar/code-gen" "0.38.9"
-    "@volar/source-map" "0.38.9"
-    "@volar/vue-code-gen" "0.38.9"
+    "@volar/code-gen" "0.38.3"
+    "@volar/source-map" "0.38.3"
+    "@volar/vue-code-gen" "0.38.3"
     "@vue/compiler-sfc" "^3.2.37"
     "@vue/reactivity" "^3.2.37"
 
@@ -522,7 +517,7 @@ atomically@^1.7.0:
   resolved "https://registry.npmjs.org/atomically/-/atomically-1.7.0.tgz"
   integrity sha512-Xcz9l0z7y9yQ9rdDaxlmaI4uJHf/T8g9hOEzJcsEqX2SjCj4J20uK7+ldkDHMbpJDK76wF7xEIgxc/vSlsfw5w==
 
-axios@^0.27.2:
+axios@0.27.2:
   version "0.27.2"
   resolved "https://registry.npmjs.org/axios/-/axios-0.27.2.tgz"
   integrity sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==
@@ -980,7 +975,7 @@ ejs@^3.1.7:
   dependencies:
     jake "^10.8.5"
 
-electron-builder@^23.1.0:
+electron-builder@23.1.0:
   version "23.1.0"
   resolved "https://registry.npmjs.org/electron-builder/-/electron-builder-23.1.0.tgz"
   integrity sha512-UEblaQY8N9m8/HriOwl7jgFJ4olpWDXwdDBqwUkQiRHVNRnCfrA0u8LV03li5ZYhma6zFWzfIZbHd+uk8y//lQ==
@@ -998,7 +993,7 @@ electron-builder@^23.1.0:
     update-notifier "^5.1.0"
     yargs "^17.0.1"
 
-electron-log@^4.4.8:
+electron-log@4.4.8:
   version "4.4.8"
   resolved "https://registry.npmmirror.com/electron-log/-/electron-log-4.4.8.tgz"
   integrity sha512-QQ4GvrXO+HkgqqEOYbi+DHL7hj5JM+nHi/j+qrN9zeeXVKy8ZABgbu4CnG+BBqDZ2+tbeq9tUC4DZfIWFU5AZA==
@@ -1028,7 +1023,7 @@ electron-publish@23.0.9:
     lazy-val "^1.0.5"
     mime "^2.5.2"
 
-electron-store@^8.0.2:
+electron-store@8.0.2:
   version "8.0.2"
   resolved "https://registry.npmjs.org/electron-store/-/electron-store-8.0.2.tgz"
   integrity sha512-9GwUMv51w8ydbkaG7X0HrPlElXLApg63zYy1/VZ/a08ndl0gfm4iCoD3f0E1JvP3V16a+7KxqriCI0c122stiA==
@@ -1036,7 +1031,7 @@ electron-store@^8.0.2:
     conf "^10.1.2"
     type-fest "^2.12.2"
 
-electron@^19.1.9:
+electron@19.1.9:
   version "19.1.9"
   resolved "https://registry.npmjs.org/electron/-/electron-19.1.9.tgz"
   integrity sha512-XT5LkTzIHB+ZtD3dTmNnKjVBWrDWReCKt9G1uAFLz6uJMEVcIUiYO+fph5pLXETiBw/QZBx8egduMEfIccLx+g==
@@ -1711,12 +1706,11 @@ memoize-one@^6.0.0:
   resolved "https://registry.npmjs.org/memoize-one/-/memoize-one-6.0.0.tgz"
   integrity sha512-rkpe71W0N0c0Xz6QD0eJETuWAJGnJ9afsl1srmwPrI+yBCkge5EycXXbYRyvL29zZVUWQCY7InPRCv3GDXuZNw==
 
-microsoft-cognitiveservices-speech-sdk@^1.30.1:
-  version "1.33.1"
-  resolved "https://registry.npmjs.org/microsoft-cognitiveservices-speech-sdk/-/microsoft-cognitiveservices-speech-sdk-1.33.1.tgz"
-  integrity sha512-mVXgU98dd1nvK2xHNpXimqe7VmA5QdMAn8kAkqSouoCo1MU3BhRpb6ueuYRn5kvxSfPHypud2knQBh+PItVcdw==
+microsoft-cognitiveservices-speech-sdk@1.30.1:
+  version "1.30.1"
+  resolved "https://registry.npmjs.org/microsoft-cognitiveservices-speech-sdk/-/microsoft-cognitiveservices-speech-sdk-1.30.1.tgz"
+  integrity sha512-pR/abkc55hvUOG1TSmJ79Mt+A+/9R5TVeuvMaJCcvHYroIPVdG5eXqzIiZNxuy5P0x+YICYnPSOQMoHyPgtN1Q==
   dependencies:
-    "@types/webrtc" "^0.0.37"
     agent-base "^6.0.1"
     bent "^7.3.12"
     https-proxy-agent "^4.0.0"
@@ -1823,7 +1817,7 @@ nanoid@^3.3.4:
   resolved "https://registry.npmjs.org/nanoid/-/nanoid-3.3.4.tgz"
   integrity sha512-MqBkQh/OHTS2egovRtLk45wEyNXwF+cokD+1YPf9u5VfJiRdAiRwB2froX5Co9Rh20xs4siNPm8naNotSD6RBw==
 
-nodejs-websocket@^1.7.2:
+nodejs-websocket@1.7.2:
   version "1.7.2"
   resolved "https://registry.npmjs.org/nodejs-websocket/-/nodejs-websocket-1.7.2.tgz"
   integrity sha512-PFX6ypJcCNDs7obRellR0DGTebfUhw1SXGKe2zpB+Ng1DQJhdzbzx1ob+AvJCLzy2TJF4r8cCDqMQqei1CZdPQ==
@@ -1934,7 +1928,7 @@ pify@^3.0.0:
   resolved "https://registry.npmjs.org/pify/-/pify-3.0.0.tgz"
   integrity sha512-C3FsVNH1udSEX48gGX1xfvwTWfsYWj5U+8/uK15BGzIGrKoUpghX8hWZwa/OFnakBiiVNmBvemTJR5mcy7iPcg==
 
-pinia@^2.0.17:
+pinia@2.0.17:
   version "2.0.17"
   resolved "https://registry.npmjs.org/pinia/-/pinia-2.0.17.tgz"
   integrity sha512-AtwLwEWQgIjofjgeFT+nxbnK5lT2QwQjaHNEDqpsi2AiCwf/NY78uWTeHUyEhiiJy8+sBmw0ujgQMoQbWiZDfA==
@@ -2355,7 +2349,7 @@ typedarray@^0.0.6:
   resolved "https://registry.npmjs.org/typedarray/-/typedarray-0.0.6.tgz"
   integrity sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==
 
-typescript@*, typescript@^4.7.4, typescript@>=4.4.4:
+typescript@*, typescript@>=4.4.4, typescript@4.7.4:
   version "4.7.4"
   resolved "https://registry.npmjs.org/typescript/-/typescript-4.7.4.tgz"
   integrity sha512-C0WQT0gezHuw6AdY1M2jxUO83Rjf0HP7Sk1DtXj6j1EwkQNZrHAg2XPWlq62oqEhYvONq5pkC2Y9oPljWToLmQ==
@@ -2421,32 +2415,32 @@ util-deprecate@~1.0.1:
   resolved "https://registry.npmjs.org/util-deprecate/-/util-deprecate-1.0.2.tgz"
   integrity sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==
 
-uuid@^8.3.2:
-  version "8.3.2"
-  resolved "https://registry.npmjs.org/uuid/-/uuid-8.3.2.tgz"
-  integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
-
 uuid@^9.0.0:
   version "9.0.1"
   resolved "https://registry.npmjs.org/uuid/-/uuid-9.0.1.tgz"
   integrity sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==
+
+uuid@8.3.2:
+  version "8.3.2"
+  resolved "https://registry.npmjs.org/uuid/-/uuid-8.3.2.tgz"
+  integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
 
 vite-plugin-electron-renderer@0.8.1:
   version "0.8.1"
   resolved "https://registry.npmjs.org/vite-plugin-electron-renderer/-/vite-plugin-electron-renderer-0.8.1.tgz"
   integrity sha512-NrpthnaxBfuoToI2XGu4HVwzSgie9QpU4SPSDcQquIidZspSNUkNAgUQN5I9rQ38hAAWDX8/CQv2LTGEZ7uYsQ==
 
-vite-plugin-electron@^0.8.1:
-  version "0.8.3"
-  resolved "https://registry.npmjs.org/vite-plugin-electron/-/vite-plugin-electron-0.8.3.tgz"
-  integrity sha512-yBYGyJfSL4Sx98SgoAJC46LhLYCukN2nYfU+tWPDz7CkfAMFeeaoeyJ7h1Vozs6VGz9Dbx7QZ4AyfniVLt2aAg==
+vite-plugin-electron@0.8.1:
+  version "0.8.1"
+  resolved "https://registry.npmjs.org/vite-plugin-electron/-/vite-plugin-electron-0.8.1.tgz"
+  integrity sha512-so13n0ytqaeWxK7bCza8G/qMxJSKYSunyAv4sNlPV9ahxyKmZMNaflWZ5mKBhTp2p7j3VJ0SapTzUDrHN/TjJQ==
   dependencies:
     vite-plugin-electron-renderer "0.8.1"
 
-vite@^2.5.10, vite@^2.9.13:
-  version "2.9.14"
-  resolved "https://registry.npmjs.org/vite/-/vite-2.9.14.tgz"
-  integrity sha512-P/UCjSpSMcE54r4mPak55hWAZPlyfS369svib/gpmz8/01L822lMPOJ/RYW6tLCe1RPvMvOsJ17erf55bKp4Hw==
+vite@^2.5.10, vite@2.9.13:
+  version "2.9.13"
+  resolved "https://registry.npmjs.org/vite/-/vite-2.9.13.tgz"
+  integrity sha512-AsOBAaT0AD7Mhe8DuK+/kE4aWYFMx/i0ZNi98hJclxb4e0OhQcZYUrvLjIaQ8e59Ui7txcvKMiJC1yftqpQoDw==
   dependencies:
     esbuild "^0.14.27"
     postcss "^8.4.13"
@@ -2460,7 +2454,7 @@ vue-demi@*:
   resolved "https://registry.npmjs.org/vue-demi/-/vue-demi-0.13.5.tgz"
   integrity sha512-tO3K2bML3AwiHmVHeKCq6HLef2st4zBXIV5aEkoJl6HZ+gJWxWv2O8wLH8qrA3SX3lDoTDHNghLX1xZg83MXvw==
 
-vue-i18n@^9.6.5:
+vue-i18n@9.6.5:
   version "9.6.5"
   resolved "https://registry.npmjs.org/vue-i18n/-/vue-i18n-9.6.5.tgz"
   integrity sha512-dpUEjKHg7pEsaS7ZPPxp1CflaR7bGmsvZJEhnszHPKl9OTNyno5j/DvMtMSo41kpddq4felLA7GK2prjpnXVlw==
@@ -2469,14 +2463,14 @@ vue-i18n@^9.6.5:
     "@intlify/shared" "9.6.5"
     "@vue/devtools-api" "^6.5.0"
 
-vue-tsc@^0.38.3:
-  version "0.38.9"
-  resolved "https://registry.npmjs.org/vue-tsc/-/vue-tsc-0.38.9.tgz"
-  integrity sha512-Yoy5phgvGqyF98Fb4mYqboR4Q149jrdcGv5kSmufXJUq++RZJ2iMVG0g6zl+v3t4ORVWkQmRpsV4x2szufZ0LQ==
+vue-tsc@0.38.3:
+  version "0.38.3"
+  resolved "https://registry.npmjs.org/vue-tsc/-/vue-tsc-0.38.3.tgz"
+  integrity sha512-mWlneSF+PG2kXYGJI12N4XEAG4ljAkae7IcB93fspqSkEt/oKwDbWy3DzcPSgUm0LsXqOUprTMaZkwDVSRBIvw==
   dependencies:
-    "@volar/vue-typescript" "0.38.9"
+    "@volar/vue-typescript" "0.38.3"
 
-"vue@^2.6.0 || ^3.2.0", "vue@^2.6.14 || ^3.2.0", vue@^3.0.0, "vue@^3.0.0-0 || ^2.6.0", vue@^3.2.0, vue@^3.2.25, vue@^3.2.37, vue@3.2.37:
+"vue@^2.6.0 || ^3.2.0", "vue@^2.6.14 || ^3.2.0", vue@^3.0.0, "vue@^3.0.0-0 || ^2.6.0", vue@^3.2.0, vue@^3.2.25, vue@3.2.37:
   version "3.2.37"
   resolved "https://registry.npmjs.org/vue/-/vue-3.2.37.tgz"
   integrity sha512-bOKEZxrm8Eh+fveCqS1/NkG/n6aMidsI6hahas7pa0w/l7jkbssJVsRhVDs07IdDq7h9KHswZOgItnwJAgtVtQ==
@@ -2530,7 +2524,7 @@ ws@^7.5.6:
   resolved "https://registry.npmjs.org/ws/-/ws-7.5.9.tgz"
   integrity sha512-F+P9Jil7UiSKSkppIiD94dN07AwvFixvLIj1Og1Rl9GGMuNipJnV9JzjD6XuqmAeiswGvUmNLjr5cFuXwNS77Q==
 
-ws@^8.13.0:
+ws@8.13.0:
   version "8.13.0"
   resolved "https://registry.npmmirror.com/ws/-/ws-8.13.0.tgz"
   integrity sha512-x9vcZYTrFPC7aSIbj7sRCYo7L/Xb8Iy+pW0ng0wt2vCJv7M9HOMy0UoN3rr+IFC7hb7vXoqS+P9ktyLLLhO+LA==
