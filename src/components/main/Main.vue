@@ -8,6 +8,7 @@
           default-active="1"
           :ellipsis="false"
         >
+          <el-button @click="dialogVisible = true"><el-icon><MagicStick /></el-icon></el-button>
           <el-menu-item index="1">{{ t('main.textTab') }}</el-menu-item>
           <el-menu-item index="2">{{ t('main.ssmlTab') }}</el-menu-item>
         </el-menu>
@@ -22,7 +23,33 @@
       <div class="text-area2" v-show="page.tabIndex == '2'">
         <el-input v-model="inputs.ssmlValue" type="textarea" />
       </div>
+      
     </div>
+    
+    <!-- <el-dialog title="Enviar a ChatGPT" :visible.sync="showModal">
+      <el-input v-model="modalInput" placeholder="Escribe algo aquí"></el-input>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="showModal = false">Cancelar</el-button>
+        <el-button type="primary" @click="sendToChatGPT">Enviar</el-button>
+      </span>
+    </el-dialog> -->
+  
+    <el-dialog v-model="dialogVisible" :title="t('main.titleChatGPT')" width="30%" draggable style="padding: 0px !important;">
+      <span>{{ t('main.chatGPT') }}</span>
+      <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; padding: 10px;">
+        <el-input v-model="modalInput" :placeholder="t('main.placeholderChatGPT')"></el-input>
+        <el-button type="primary" @click="sendToChatGPT"><el-icon><ChatLineSquare /></el-icon></el-button>
+      </div>
+      <!-- <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="dialogVisible = false">Cancel</el-button>
+          <el-button type="primary" @click="dialogVisible = false">
+            Confirm
+          </el-button>
+        </span>
+      </template> -->
+    </el-dialog>
+
     <div class="input-area" v-show="page.asideIndex == '2'">
       <el-table
         :data="tableData"
@@ -142,6 +169,22 @@ watch(
     store.setSSMLValue(newValue);
   }
 );
+
+const showModal = ref(false);
+const modalInput = ref('');
+
+const sendToChatGPT = async () => {
+  if (!modalInput.value) return;
+  // const response = await chatGPTFunction(modalInput.value); // Reemplaza 'chatGPTFunction' con la función real
+  // inputs.value.inputValue = response; // Asumiendo que 'inputs.value.inputValue' es tu textarea principal
+  showModal.value = false;
+  store.startChatGPT(modalInput.value);
+};
+
+import { ElButton, ElDialog } from 'element-plus'
+const dialogVisible = ref(false)
+
+const visible = ref(false)
 
 const tabChange = (index: number) => {
   page.value.tabIndex = index.toString();
@@ -264,5 +307,11 @@ const openInFolder = (val: any) => {
   width: 100%;
   height: 100%;
   border: medium none;
+}
+
+.my-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 </style>

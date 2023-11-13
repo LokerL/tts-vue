@@ -187,6 +187,11 @@ ipcMain.handle("azureApi", async (event, ssml, key, region) => {
   const res = azureApi(ssml, key, region)
   return res;
 });
+//  const result = await ipcRenderer.invoke("promptGPT", promptGPT, model, key);
+ipcMain.handle("promptGPT", async (event, promptGPT, model, key) => {
+  const res = api.promptGPT(promptGPT, model, key);
+  return res;
+});
 
 ipcMain.handle("openFolderSelector", async (event) => {
   const path = dialog.showOpenDialogSync(win, {
