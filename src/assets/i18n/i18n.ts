@@ -28,9 +28,9 @@ const messages = {
       downloadPath: 'Download Path',
       retryCount: 'Retry Count',
       retryInterval: 'Retry Interval (s)',
-      speechKey: 'SpeechKey',
-      serviceRegion: 'ServiceRegion',
-      autoplay: 'Autoplay',      
+      speechKey: 'SpeechKey Azure',
+      serviceRegion: 'ServiceRegion Azure',
+      autoplay: 'Autoplay',
       language: 'Language',
       updateNotification: 'Update Notification',
       titleStyle: 'Title Bar Style',
@@ -70,6 +70,7 @@ const messages = {
 
     footer: {
       downloadAudio: 'Download Audio',
+      format: 'Format',
       // Otras traducciones...
     },
     styles: {
@@ -371,8 +372,8 @@ const messages = {
       downloadPath: 'Ruta de Descarga',
       retryCount: 'Número de Intentos',
       retryInterval: 'Intervalo de Reintentos (s)',
-      speechKey: 'Clave de Voz',
-      serviceRegion: 'Región del Servicio',
+      speechKey: 'SpeechKey Azure',
+      serviceRegion: 'ServiceRegion Azure',
       language: 'Idioma',
       autoplay: 'Reproducción Automática',
       updateNotification: 'Notificación de Actualización',
@@ -383,7 +384,7 @@ const messages = {
       action: 'Acción',
       delete: 'Eliminar',
       refreshConfig: 'Refrescar Configuración',
-      configFile: 'Archivo de Configuración',
+      configFile: 'Archivo Configuración',
       openLogs: 'Abrir Registros',
       clearLogs: 'Limpiar Registros',
       yes: 'Sí',
@@ -400,6 +401,7 @@ const messages = {
     },
     footer: {
       downloadAudio: 'Download Audio',
+      format: 'Format',
       // Otras traducciones...
     },
     styles: {
@@ -449,12 +451,13 @@ const messages = {
       Narrator: "Narrador"
     },
     main: {
+      action: "Acción",
       textTab: "Texto",
       ssmlTab: "SSML",
       placeholder: "Por favor ingrese",
       fileName: "Nombre de Archivo",
       filePath: "Ruta de Archivo",
-      fileSize: "Conteo de Palabras",
+      fileSize: "Palabras",
       fileFormatTip: "El formato de texto: *.txt",
       status: "Estado",
       ready: "Listo",
@@ -687,9 +690,9 @@ const messages = {
       downloadPath: '下载路径',
       retryCount: '重试次数',
       retryInterval: '重试间隔(s)',
-      speechKey: 'SpeechKey',
-      serviceRegion: 'ServiceRegion',
-      autoplay: '自动播放',      
+      speechKey: 'SpeechKey Azure',
+      serviceRegion: 'ServiceRegion Azure',
+      autoplay: '自动播放',
       language: '语言',
       updateNotification: '新版本提醒',
       titleStyle: '标题栏样式',
@@ -728,6 +731,7 @@ const messages = {
     },
     footer: {
       downloadAudio: 'Download Audio',
+      format: 'Format',
       // Otras traducciones...
     },
     "styles": {
