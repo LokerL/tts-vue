@@ -149,6 +149,7 @@ import { useI18n } from 'vue-i18n';
 import i18n from '@/assets/i18n/i18n';
 import MainOptions from "./MainOptions.vue";
 import ConfigPage from "../configpage/ConfigPage.vue";
+import { ElButton, ElDialog } from 'element-plus'
 
 import { ref, watch } from "vue";
 import type { UploadInstance, UploadProps, UploadUserFile } from "element-plus";
@@ -181,7 +182,6 @@ const sendToChatGPT = async () => {
   store.startChatGPT(modalInput.value);
 };
 
-import { ElButton, ElDialog } from 'element-plus'
 const dialogVisible = ref(false)
 
 const visible = ref(false)
