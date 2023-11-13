@@ -53,6 +53,8 @@ const messages = {
       speed: 'Speed',
       pitch: 'Pitch',
       remove: 'Remove',
+      openAIKey: 'OpenAI Key',
+      gptModel: 'Model GPT',
       // Otras traducciones...
     },
     donate: {
@@ -120,6 +122,9 @@ const messages = {
       Narrator: "Narrator"
     },
     main: {
+      titleGenerateTextGPT: "Generate Text with GPT",
+      descriptionGenerateTextGPT: "Generate text with GPT-3 or GPT-4, the most powerful AI model in the world.",
+      placeholderGPT: "Please enter the prompt text",
       action: "Action",
       textTab: "Text",
       ssmlTab: "SSML",
@@ -397,11 +402,13 @@ const messages = {
       speed: 'Velocidad',
       pitch: 'Tono',
       remove: 'Eliminar',
+      openAIKey: 'OpenAI key',
+      gptModel: 'Modelo GPT',
       // Otras traducciones...
     },
     footer: {
-      downloadAudio: 'Download Audio',
-      format: 'Format',
+      downloadAudio: 'Descargar Audio',
+      format: 'Formato',
       // Otras traducciones...
     },
     styles: {
@@ -451,6 +458,9 @@ const messages = {
       Narrator: "Narrador"
     },
     main: {
+      titleGenerateTextGPT: "Genera Texto con GPT",
+      descriptionGenerateTextGPT: "Genera texto con GPT-3 o GPT-4, el modelo de IA más potente del mundo.",
+      placeholderGPT: "Por favor ingrese el texto de la sugerencia",
       action: "Acción",
       textTab: "Texto",
       ssmlTab: "SSML",
@@ -715,6 +725,8 @@ const messages = {
       speed: '语速',
       pitch: '音调',
       remove: '删除',
+      openAIKey: '打开AIKey',
+      gptModel: '模型GPT',
       // Otras traducciones...
     },
     donate: {
@@ -781,6 +793,9 @@ const messages = {
       Narrator: "旁白"
     },
     main: {
+      titleGenerateTextGPT: "生成文本GPT",
+      descriptionGenerateTextGPT: "使用GPT-3或GPT-4，世界上最强大的AI模型，生成文本。",
+      placeholderGPT: "请输入提示文本",
       textTab: "文本",
       ssmlTab: "SSML",
       placeholder: "请输入",

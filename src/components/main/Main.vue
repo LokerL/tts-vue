@@ -34,10 +34,10 @@
       </span>
     </el-dialog> -->
   
-    <el-dialog v-model="dialogVisible" :title="t('main.titleChatGPT')" width="30%" draggable style="padding: 0px !important;">
-      <span>{{ t('main.chatGPT') }}</span>
+    <el-dialog v-model="dialogVisible" :title="t('main.titleGenerateTextGPT')" width="30%" draggable style="padding: 0px !important;">
+      <span>{{ t('main.descriptionGenerateTextGPT') }}</span>
       <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; padding: 10px;">
-        <el-input v-model="modalInput" :placeholder="t('main.placeholderChatGPT')"></el-input>
+        <el-input v-model="modalInput" :placeholder="t('main.placeholderGPT')"></el-input>
         <el-button type="primary" @click="sendToChatGPT"><el-icon><ChatLineSquare /></el-icon></el-button>
       </div>
       <!-- <template #footer>

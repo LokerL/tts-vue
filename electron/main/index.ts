@@ -5,6 +5,7 @@ import api from "../utils/api";
 import edgeApi from "../utils/edge-api";
 import azureApi from "../utils/azure-api";
 import logger from "../utils/log";
+import { gptApi } from "../utils/gpt-api";
 
 // Disable GPU Acceleration for Windows 7
 //if (release().startsWith("6.1")) app.disableHardwareAcceleration();
@@ -189,7 +190,7 @@ ipcMain.handle("azureApi", async (event, ssml, key, region) => {
 });
 //  const result = await ipcRenderer.invoke("promptGPT", promptGPT, model, key);
 ipcMain.handle("promptGPT", async (event, promptGPT, model, key) => {
-  const res = api.promptGPT(promptGPT, model, key);
+  const res = gptApi(promptGPT, model, key);
   return res;
 });
 
