@@ -1,6 +1,23 @@
 <template>
   <div class="footer">
     <div class="play-bar">
+
+      <div class="format-bar-options">
+        <span style="color:#1677ff;font-size: 14px;">{{t('footer.format')}}:&nbsp&nbsp;</span>
+        <el-select
+          v-model="config.formatType"
+          style="width: 120px;"
+          @change="setFormatType"
+        >
+          <el-option
+            v-for="format in formatOptions"
+            :key="format.value"
+            :label="format.label"
+            :value="format.value"
+          ></el-option>
+        </el-select>
+      </div>
+
       <div class="paly-bar-options">
         <el-button
           type="success"
@@ -36,8 +53,19 @@ const { t } = useI18n();
 const ttsStore = useTtsStore();
 const { config, currMp3Url, isLoading, audioPlayer } = storeToRefs(ttsStore);
 
+const formatOptions = [
+  { label: 'MP3', value: '.mp3' },
+  { label: 'WAV', value: '.wav' },
+  { label: 'WMA', value: '.wma' },
+  { label: 'AIFF', value: '.aiff' },
+  // Agrega más formatos según sea necesario
+];
+
 const download = () => {
   ttsStore.writeFileSync();
+};
+const setFormatType = () => {
+  ttsStore.setFormatType(); 
 };
 </script>
 
@@ -54,6 +82,13 @@ const download = () => {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.format-bar-options {
+  width: 150px;
+  justify-content: center;
+  align-items:center;
+  display: inline-flex;
+  margin-right: 5px;
 }
 .paly-bar-options {
   width: 70px;

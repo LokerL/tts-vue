@@ -42,11 +42,11 @@
         <el-table-column
           prop="fileSize"
           :label="t('main.fileSize')"
-          width="60"
+          width="80"
           show-overflow-tooltip="true"
         />
         <el-table-column prop="status" :label="t('main.status')"
-        width="60">
+        width="70">
           <template #default="scope">
             <div>
               <el-tag
