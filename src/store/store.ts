@@ -57,6 +57,8 @@ export const useTtsStore = defineStore("ttsStore", {
         disclaimers: store.get("disclaimers"),
         retryCount: store.get("retryCount"),
         retryInterval: store.get("retryInterval"),
+        openAIKey: store.get("openAIKey"),
+        gptModel: store.get("gptModel"),
       },
       isLoading: false,
       currMp3Buffer: Buffer.alloc(0),
@@ -120,6 +122,12 @@ export const useTtsStore = defineStore("ttsStore", {
     setSpeechKey() {
       store.set("speechKey", this.config.speechKey);
     },
+    setOpenAIKey() {
+      store.set("openAIKey", this.config.openAIKey);
+    },
+    setGPTModel() {
+      store.set("gptModel", this.config.gptModel);
+    },
     setServiceRegion() {
       store.set("serviceRegion", this.config.serviceRegion);
     },
@@ -152,8 +160,8 @@ export const useTtsStore = defineStore("ttsStore", {
       await getDataGPT(
         {
           promptGPT: promptGPT,
-          key: this.config.speechKey,
-          model: this.config.serviceRegion,
+          key: this.config.openAIKey,
+          model: this.config.gptModel,
           retryCount: this.config.retryCount,
           retryInterval: this.config.retryInterval,
         }
@@ -161,6 +169,12 @@ export const useTtsStore = defineStore("ttsStore", {
         .then((res: any) => {
           this.inputs.inputValue = res;
           this.setSSMLValue();
+          console.log(res);
+          ElMessage({
+            message: "Response Success!",
+            type: "success",
+            duration: 2000,
+          });
           // this.start();
         })
         .catch((err: any) => {

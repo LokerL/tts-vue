@@ -66,6 +66,29 @@
               :placeholder="t('configPage.serviceRegionPlaceHolder')"
               />
         </el-form-item>
+        <el-form-item :label="t('configPage.openAIKey')">
+            <el-input
+              v-model="config.openAIKey"
+              size="small"
+              class="input-path"
+              @change="setOpenAIKey"
+              />
+        </el-form-item>
+        <el-form-item :label="t('configPage.gptModel')">
+          <el-select
+            v-model="config.gptModel"
+            size="small"
+            class="input-path"
+            @change="setGPTModel"
+          >
+            <el-option
+              v-for="model in gptModels"
+              :key="model.value"
+              :label="model.label"
+              :value="model.value"
+            ></el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item :label="t('configPage.autoplay')">
           <el-switch
             v-model="config.autoplay"
@@ -198,6 +221,15 @@ const languages = [
   { label: '中文', value: 'zh' },
 ];
 
+const gptModels = [
+  { label: 'GPT-3.5 Turbo', value: 'gpt-3.5-turbo'},
+  { label: 'GPT-3.5 Turbo 16k', value: 'gpt-3.5-turbo-16k'},
+  { label: 'GPT-3.5 Turbo Instruct', value: 'gpt-3.5-turbo-instruct'},
+  { label: 'GPT 4 8k', value: 'gpt-4'},
+  { label: 'GPT 4 32k', value: 'gpt-4-32k'},
+  // Agrega más modelos según sea necesario
+];
+
 const saveLanguageConfig = () => {
   // Actualiza el idioma en i18n y guarda la configuración
   i18n.global.locale.value = config.value.language;
@@ -282,6 +314,16 @@ const setSpeechKey = () => {
 
 const setServiceRegion = () => {
   ttsStore.setServiceRegion();
+  successMessage();
+};
+
+const setOpenAIKey = () => {
+  ttsStore.setOpenAIKey();
+  successMessage();
+};
+
+const setGPTModel = () => {
+  ttsStore.setGPTModel();
   successMessage();
 };
 
