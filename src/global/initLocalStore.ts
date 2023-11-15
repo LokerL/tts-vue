@@ -1,7 +1,11 @@
+// import { useI18n } from 'vue-i18n';
+// const { t } = useI18n();  
+import i18n from '@/assets/i18n/i18n';
 import { voices } from './voices';
 const Store = require("electron-store");
 const store = new Store();
 const { ipcRenderer } = require("electron");
+const { t } = i18n.global;
 
 export default async function initStore() {
   try {
@@ -15,8 +19,9 @@ export default async function initStore() {
   }
 
   store.set("FormConfig.默认", {
-    languageSelect: "zh-CN",
-    voiceSelect: "zh-CN-XiaoxiaoNeural",
+    languageSelect: "es-MX",
+    //Dalia
+    voiceSelect: "es-MX-DaliaNeural",
     voiceStyleSelect: "Default",
     role: "",
     speed: 1.0,
@@ -30,8 +35,11 @@ export default async function initStore() {
   if (!store.has("audition")) {
     store.set(
       "audition",
-      "如果你觉得这个项目还不错， 欢迎Star、Fork和PR。你的Star是对作者最好的鼓励。"
+      t("initialLocalStore.audition")
     );
+  }
+  if (!store.has("language")) {
+    store.set("language", "en");
   }
   if (!store.has("autoplay")) {
     store.set("autoplay", true);

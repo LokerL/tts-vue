@@ -6,13 +6,15 @@
           <img src="https://www.bilibili.com/favicon.ico?v=1" alt="" />
         </div>
       </div>
-      <span style="font-weight: 700">前往三连</span>
+      <span style="font-weight: 700">{{ t('bilibtn.goToBilibili') }}</span>
     </button>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 const { shell } = require("electron");
+const { t } = useI18n();
 const bilibili = () => {
   shell.openExternal("https://space.bilibili.com/19149591");
 };

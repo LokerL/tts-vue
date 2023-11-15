@@ -1,10 +1,10 @@
 <template>
   <div class="options">
     <el-form :model="formConfig" label-width="120px" label-position="top">
-      <el-form-item label="接口">
+      <el-form-item :label="t('options.api')">
         <el-select
           v-model="formConfig.api"
-          placeholder="选择接口"
+          :placeholder="t('options.selectApi')"
           @change="apiChange"
           >
           <el-option
@@ -15,21 +15,21 @@
             />
         </el-select>
       </el-form-item>
-      <el-form-item label="语言">
+      <el-form-item :label="t('options.language')">
         <el-select-v2
           class="languageSelect"
           v-model="formConfig.languageSelect"
-          placeholder="选择语言"
+          :placeholder="t('options.selectLanguage')"
           filterable
           :options="oc.languageSelect"
           @change="languageSelectChange"
         >
         </el-select-v2>
       </el-form-item>
-      <el-form-item label="语音">
+      <el-form-item :label="t('options.voice')">
         <el-select
           v-model="formConfig.voiceSelect"
-          placeholder="选择语音"
+          :placeholder="t('options.selectVoice')"
           @change="voiceSelectChange"
         >
           <el-option
@@ -53,10 +53,10 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="说话风格">
+      <el-form-item :label="t('options.speakingStyle')">
         <el-select
           v-model="formConfig.voiceStyleSelect"
-          placeholder="选择说话风格"
+          :placeholder="t('options.selectSpeakingStyle')"
           :disabled="apiEdge"
         >
           <el-option
@@ -74,8 +74,8 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="角色扮演">
-        <el-select v-model="formConfig.role" placeholder="选择角色" :disabled="apiEdge">
+      <el-form-item :label="t('options.rolePlaying')">
+        <el-select v-model="formConfig.role" :placeholder="t('options.selectRole')" :disabled="apiEdge">
           <el-option
             v-for="item in rolePlayList"
             :key="item"
@@ -91,7 +91,7 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="语速">
+      <el-form-item :label="t('options.speed')">
         <el-slider
           v-model="formConfig.speed"
           show-input
@@ -101,7 +101,7 @@
           :step="0.01"
         />
       </el-form-item>
-      <el-form-item label="音调">
+      <el-form-item :label="t('options.pitch')">
         <el-slider
           v-model="formConfig.pitch"
           show-input
@@ -119,12 +119,12 @@
             plain
             size="small"
             @click="saveConfig"
-            >保存配置</el-button
+            >{{ t('options.saveConfig') }}</el-button
           >
           <el-select-v2
             class="get-cfg"
             v-model="currConfigName"
-            placeholder="选择配置"
+            :placeholder="t('options.selectConfig')"
             filterable
             :options="config.configLabel"
             @change="configChange"
@@ -134,7 +134,7 @@
           <template v-if="isLoading">
             <Loading></Loading>
           </template>
-          <template v-else> 开始转换 </template>
+          <template v-else> {{ t('options.startConversion') }} </template>
         </a>
       </el-form-item>
     </el-form>
@@ -149,6 +149,8 @@ import Loading from "./Loading.vue";
 import { ElMessage, ElMessageBox, arrowMiddleware } from "element-plus";
 import { useTtsStore } from "@/store/store";
 import { storeToRefs } from "pinia";
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();  
 
 const ttsStore = useTtsStore();
 const {
@@ -173,14 +175,14 @@ const apiChange = (res:number) => {
   if (res === 2) {
     apiEdge.value = true;
     ElMessage({
-      message: `edge接口不支持自动切片，最长支持文本长度未知。请根据自身需求手动预处理文本。`,
+      message: t('messages.edgeApiWarning'),
       type: "warning",
       duration: 4000,
     });
   } else {
     if (res === 3 && (config.value.speechKey === "" || config.value.serviceRegion === "")) {
       ElMessage({
-        message: `请先配置Azure的Speech服务密钥和区域。`,
+        message: t('messages.configureAzure'),
         type: "warning",
         duration: 4000,
       });
@@ -221,12 +223,12 @@ watch(formConfig.value, (newValue) => {
 
 const saveConfig = () => {
   ElMessageBox.prompt(
-    `<p>给此配置起一个简单的名字吧:)</p><br>默认显示的配置名：<strong>默认</strong>`,
-    "保存配置",
+      t('messages.saveConfigPrompt'),
+      t('messages.saveConfig'),
     {
       dangerouslyUseHTMLString: true,
-      confirmButtonText: "确定",
-      cancelButtonText: "取消",
+      confirmButtonText: t('buttons.confirm'),
+      cancelButtonText: t('buttons.cancel'),
       inputValidator: (value: any) => {
         if (value == null || value == "" || value == undefined) {
           return false;
@@ -234,7 +236,7 @@ const saveConfig = () => {
           return true;
         }
       },
-      inputErrorMessage: "错误的输入",
+      inputErrorMessage: t('messages.invalidInput'),
     }
   )
     .then(({ value }) => {
@@ -243,14 +245,14 @@ const saveConfig = () => {
       store.set("FormConfig." + value, formConfig.value);
       ttsStore.genFormConfig();
       ElMessage({
-        message: "保存成功。",
+        message: t('messages.saveSuccess'),
         type: "success",
         duration: 2000,
       });
     })
     .catch(() => {
       ElMessage({
-        message: "取消保存",
+      message: t('messages.cancelSave'),
         type: "info",
         duration: 2000,
       });
@@ -317,7 +319,7 @@ const configChange = (val: string) => {
 const startBtn = () => {
   if (page.value.asideIndex == "1" && inputs.value.inputValue == "") {
     ElMessage({
-      message: "请输入文字内容。",
+      message: t('messages.inputWarning'),
       type: "warning",
       duration: 2000,
     });
@@ -325,7 +327,7 @@ const startBtn = () => {
   }
   if (page.value.asideIndex == "2" && tableData.value.length == 0) {
     ElMessage({
-      message: "列表内容为空。",
+      message: t('messages.emptyListWarning'),
       type: "warning",
       duration: 2000,
     });

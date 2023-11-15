@@ -5,6 +5,7 @@ import api from "../utils/api";
 import edgeApi from "../utils/edge-api";
 import azureApi from "../utils/azure-api";
 import logger from "../utils/log";
+import { gptApi } from "../utils/gpt-api";
 
 // Disable GPU Acceleration for Windows 7
 //if (release().startsWith("6.1")) app.disableHardwareAcceleration();
@@ -39,7 +40,7 @@ const indexHtml = join(ROOT_PATH.dist, "index.html");
 
 async function createWindow() {
   win = new BrowserWindow({
-    width: 900,
+    width: 1200,
     minWidth: 900,
     minHeight: 650,
     height: 650,
@@ -184,8 +185,13 @@ ipcMain.handle("edgeApi", async (event, ssml) => {
 });
 
 ipcMain.handle("azureApi", async (event, ssml, key, region) => {
-    const res = azureApi(ssml, key, region)
-    return res;
+  const res = azureApi(ssml, key, region)
+  return res;
+});
+//  const result = await ipcRenderer.invoke("promptGPT", promptGPT, model, key);
+ipcMain.handle("promptGPT", async (event, promptGPT, model, key) => {
+  const res = gptApi(promptGPT, model, key);
+  return res;
 });
 
 ipcMain.handle("openFolderSelector", async (event) => {

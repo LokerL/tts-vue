@@ -2,7 +2,22 @@
   <div class="config-page">
     <div class="config-side" label-position="right">
       <el-form :model="config" >
-        <el-form-item label="下载路径">
+        <el-form-item :label="t('configPage.language')">
+          <el-select
+            v-model="config.language"
+            size="small"
+            class="input-path"
+            @change="saveLanguageConfig"
+          >
+            <el-option
+              v-for="lang in languages"
+              :key="lang.value"
+              :label="lang.label"
+              :value="lang.value"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item :label="t('configPage.downloadPath')">
           <el-input
             v-model="config.savePath"
             size="small"
@@ -14,7 +29,7 @@
             </template>
           </el-input>
         </el-form-item>
-        <el-form-item label="重试次数">
+        <el-form-item :label="t('configPage.retryCount')">
             <el-input
               type="number"
               v-model="config.retryCount"
@@ -24,7 +39,7 @@
               @change="setRetryCount"
               />
         </el-form-item>
-        <el-form-item label="重试间隔(s)">
+        <el-form-item :label="t('configPage.retryInterval')">
             <el-input
               type="number"
               v-model="config.retryInterval"
@@ -34,7 +49,7 @@
               @change="setRetryInterval"
               />
         </el-form-item>
-        <el-form-item label="SpeechKey">
+        <el-form-item :label="t('configPage.speechKey')">
             <el-input
               v-model="config.speechKey"
               size="small"
@@ -42,34 +57,57 @@
               @change="setSpeechKey"
               />
         </el-form-item>
-        <el-form-item label="ServiceRegion">
+        <el-form-item :label="t('configPage.serviceRegion')">
             <el-input
               v-model="config.serviceRegion"
               size="small"
               class="input-path"
               @change="setServiceRegion"
-              placeholder="请填写ServiceRegion，如：westus"
+              :placeholder="t('configPage.serviceRegionPlaceHolder')"
               />
         </el-form-item>
-        <el-form-item label="自动播放">
+        <el-form-item :label="t('configPage.openAIKey')">
+            <el-input
+              v-model="config.openAIKey"
+              size="small"
+              class="input-path"
+              @change="setOpenAIKey"
+              />
+        </el-form-item>
+        <el-form-item :label="t('configPage.gptModel')">
+          <el-select
+            v-model="config.gptModel"
+            size="small"
+            class="input-path"
+            @change="setGPTModel"
+          >
+            <el-option
+              v-for="model in gptModels"
+              :key="model.value"
+              :label="model.label"
+              :value="model.value"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item :label="t('configPage.autoplay')">
           <el-switch
             v-model="config.autoplay"
-            active-text="是"
-            inactive-text="否"
+            :active-text="t('configPage.yes')"
+            :inactive-text="t('configPage.no')"
             inline-prompt
             @change="switchChange"
           />
         </el-form-item>
-        <el-form-item label="新版本提醒">
+        <el-form-item :label="t('configPage.updateNotification')">
           <el-switch
             v-model="config.updateNotification"
-            active-text="是"
-            inactive-text="否"
+            :active-text="t('configPage.yes')"
+            :inactive-text="t('configPage.no')"
             inline-prompt
             @change="updateNotificationChange"
           />
         </el-form-item>
-        <el-form-item label="标题栏样式">
+        <el-form-item :label="t('configPage.titleStyle')">
           <el-switch
             v-model="config.titleStyle"
             active-text="MacOS"
@@ -77,20 +115,20 @@
             @change="updateTitleStyle"
           />
         </el-form-item>
-        <el-form-item label="试听文本">
+        <el-form-item :label="t('configPage.auditionText')">
           <el-input v-model="config.audition" size="small" class="input-path">
             <template #append>
-              <el-button type="primary" @click="auditionConfig">确认</el-button>
+              <el-button type="primary" @click="auditionConfig">{{ t('configPage.confirm') }}</el-button>
             </template>
           </el-input>
         </el-form-item>
-        <el-form-item label="模板编辑">
+        <el-form-item :label="t('configPage.templateEdit')">
           <el-table
             :data="config.formConfigList"
             style="width: 100%"
             height="calc(100vh - 560px)"
           >
-            <el-table-column prop="tagName" label="名字">
+          <el-table-column :prop="t('configPage.name')" :label="t('configPage.name')">
               <template #default="scope">
                 <el-popover
                   effect="light"
@@ -99,12 +137,19 @@
                   width="auto"
                 >
                   <template #default>
-                    <div>语言: {{ scope.row.content.languageSelect }}</div>
+                    <!-- <div>语言: {{ scope.row.content.languageSelect }}</div>
                     <div>语音: {{ scope.row.content.voiceSelect }}</div>
                     <div>风格: {{ scope.row.content.voiceStyleSelect }}</div>
                     <div>角色: {{ scope.row.content.role }}</div>
                     <div>语速: {{ scope.row.content.speed }}</div>
-                    <div>音调: {{ scope.row.content.pitch }}</div>
+                    <div>音调: {{ scope.row.content.pitch }}</div> -->
+                    <div>{{ t('configPage.language') }}: {{ scope.row.content.languageSelect }}</div>
+                    <div>{{ t('configPage.voice') }}: {{ scope.row.content.voiceSelect }}</div>
+                    <div>{{ t('configPage.style') }}: {{ scope.row.content.voiceStyleSelect }}</div>
+                    <div>{{ t('configPage.role') }}: {{ scope.row.content.role }}</div>
+                    <div>{{ t('configPage.speed') }}: {{ scope.row.content.speed }}</div>
+                    <div>{{ t('configPage.pitch') }}: {{ scope.row.content.pitch }}</div>
+
                   </template>
                   <template #reference>
                     <el-tag>{{ scope.row.tagName }}</el-tag>
@@ -112,13 +157,13 @@
                 </el-popover>
               </template>
             </el-table-column>
-            <el-table-column label="操作">
+            <el-table-column :label="t('configPage.action')">
               <template #default="scope">
                 <el-button
                   size="small"
                   type="danger"
                   @click="handleDelete(scope.$index, scope.row)"
-                  >删除</el-button
+                  >{{ t('configPage.remove') }}</el-button
                 >
               </template>
             </el-table-column>
@@ -126,17 +171,17 @@
         </el-form-item>
         <el-form-item class="btns">
           <el-button type="primary" @click="ipcRenderer.send('reload')"
-            ><el-icon><Refresh /></el-icon>刷新配置</el-button
+            ><el-icon><Refresh /></el-icon>{{ t('configPage.refreshConfig') }}</el-button
           >
           <el-button type="warning" @click="openConfigFile"
-            ><el-icon><Document /></el-icon>配置文件</el-button
+            ><el-icon><Document /></el-icon>{{ t('configPage.configFile') }}</el-button
           >
           <el-dropdown split-button type="success" @click="openLogs">
-            <el-icon><Finished /></el-icon>打开日志
+            <el-icon><Finished /></el-icon>{{ t('configPage.openLogs') }}
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item @click="openLogFolder"
-                  ><el-icon><FolderDelete /></el-icon>清理日志
+                  ><el-icon><FolderDelete /></el-icon>{{ t('configPage.clearLogs') }}
                 </el-dropdown-item>
               </el-dropdown-menu>
             </template>
@@ -155,6 +200,9 @@ import { ElMessage } from "element-plus";
 import { useTtsStore } from "@/store/store";
 import { storeToRefs } from "pinia";
 import Donate from "./Donate.vue";
+import { useI18n } from 'vue-i18n';
+import i18n from "@/assets/i18n/i18n";
+const { t } = useI18n();  
 
 const { ipcRenderer, shell } = require("electron");
 
@@ -163,6 +211,32 @@ const store = new Store();
 
 const ttsStore = useTtsStore();
 const { config } = storeToRefs(ttsStore);
+
+
+const languages = [
+  // Agrega más idiomas según sea necesario
+  
+  { label: 'English', value: 'en' },
+  { label: 'Español', value: 'es' },
+  { label: '中文', value: 'zh' },
+];
+
+const gptModels = [
+  { label: 'GPT-3.5 Turbo', value: 'gpt-3.5-turbo'},
+  { label: 'GPT-3.5 Turbo 16k', value: 'gpt-3.5-turbo-16k'},
+  { label: 'GPT-3.5 Turbo Instruct', value: 'gpt-3.5-turbo-instruct'},
+  { label: 'GPT 4 8k', value: 'gpt-4'},
+  { label: 'GPT 4 32k', value: 'gpt-4-32k'},
+  // Agrega más modelos según sea necesario
+];
+
+const saveLanguageConfig = () => {
+  // Actualiza el idioma en i18n y guarda la configuración
+  i18n.global.locale.value = config.value.language;
+  ttsStore.setLanguage();
+  successMessage();
+};
+
 
 const openFolderSelector = async () => {
   const path = await ipcRenderer.invoke("openFolderSelector");
@@ -240,6 +314,16 @@ const setSpeechKey = () => {
 
 const setServiceRegion = () => {
   ttsStore.setServiceRegion();
+  successMessage();
+};
+
+const setOpenAIKey = () => {
+  ttsStore.setOpenAIKey();
+  successMessage();
+};
+
+const setGPTModel = () => {
+  ttsStore.setGPTModel();
   successMessage();
 };
 
