@@ -1,7 +1,7 @@
 // @/store/firstStore.js
 
 import { defineStore } from "pinia";
-import getTTSData from "./play";
+import { getTTSData, getDataGPT } from "./play";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { h } from "vue";
 const fs = require("fs");
@@ -41,6 +41,7 @@ export const useTtsStore = defineStore("ttsStore", {
       tableData: <any>[], // 文件列表的数据
       currConfigName: "默认", // 当前配置的名字
       config: {
+        language: store.get("language"),
         formConfigJson: store.get("FormConfig"),
         formConfigList: <any>[],
         configLabel: <any>[],
@@ -56,6 +57,8 @@ export const useTtsStore = defineStore("ttsStore", {
         disclaimers: store.get("disclaimers"),
         retryCount: store.get("retryCount"),
         retryInterval: store.get("retryInterval"),
+        openAIKey: store.get("openAIKey"),
+        gptModel: store.get("gptModel"),
       },
       isLoading: false,
       currMp3Buffer: Buffer.alloc(0),
@@ -85,9 +88,8 @@ export const useTtsStore = defineStore("ttsStore", {
 
       this.inputs.ssmlValue = `<speak xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="http://www.w3.org/2001/mstts" xmlns:emo="http://www.w3.org/2009/10/emotionml" version="1.0" xml:lang="en-US">
         <voice name="${voice}">
-            <mstts:express-as  ${
-              express != "General" ? 'style="' + express + '"' : ""
-            } ${role != "Default" ? 'role="' + role + '"' : ""}>
+            <mstts:express-as  ${express != "General" ? 'style="' + express + '"' : ""
+        } ${role != "Default" ? 'role="' + role + '"' : ""}>
                 <prosody rate="${rate}%" pitch="${pitch}%">
                 ${text}
                 </prosody>
@@ -98,6 +100,9 @@ export const useTtsStore = defineStore("ttsStore", {
     },
     setSavePath() {
       store.set("savePath", this.config.savePath);
+    },
+    setLanguage() {
+      store.set("language", this.config.language);
     },
     setAuditionConfig() {
       store.set("audition", this.config.audition);
@@ -116,6 +121,12 @@ export const useTtsStore = defineStore("ttsStore", {
     },
     setSpeechKey() {
       store.set("speechKey", this.config.speechKey);
+    },
+    setOpenAIKey() {
+      store.set("openAIKey", this.config.openAIKey);
+    },
+    setGPTModel() {
+      store.set("gptModel", this.config.gptModel);
     },
     setServiceRegion() {
       store.set("serviceRegion", this.config.serviceRegion);
@@ -144,6 +155,36 @@ export const useTtsStore = defineStore("ttsStore", {
           label: item,
         })
       );
+    },
+    async startChatGPT(promptGPT: string) {
+      await getDataGPT(
+        {
+          promptGPT: promptGPT,
+          key: this.config.openAIKey,
+          model: this.config.gptModel,
+          retryCount: this.config.retryCount,
+          retryInterval: this.config.retryInterval,
+        }
+      )
+        .then((res: any) => {
+          this.inputs.inputValue = res;
+          this.setSSMLValue();
+          console.log(res);
+          ElMessage({
+            message: "Response Success!",
+            type: "success",
+            duration: 2000,
+          });
+          // this.start();
+        })
+        .catch((err: any) => {
+          console.error(err);
+          ElMessage({
+            message: "转换失败\n" + String(err),
+            type: "error",
+            duration: 3000,
+          });
+        });
     },
     async start() {
       console.log("清空缓存中");
@@ -213,8 +254,7 @@ export const useTtsStore = defineStore("ttsStore", {
               this.currMp3Buffer = Buffer.concat([this.currMp3Buffer, buffers]);
               ipcRenderer.send(
                 "log.info",
-                `第${index + 1}次转换完成，此时Buffer长度为：${
-                  this.currMp3Buffer.length
+                `第${index + 1}次转换完成，此时Buffer长度为：${this.currMp3Buffer.length
                 }`
               );
             } catch (error) {
@@ -356,8 +396,7 @@ export const useTtsStore = defineStore("ttsStore", {
                     buffer = Buffer.concat([buffer, buffers]);
                     ipcRenderer.send(
                       "log.info",
-                      `第${index + 1}次转换完成，此时Buffer长度为：${
-                        buffer.length
+                      `第${index + 1}次转换完成，此时Buffer长度为：${buffer.length
                       }`
                     );
                   } catch (error) {
@@ -432,8 +471,8 @@ export const useTtsStore = defineStore("ttsStore", {
 
       console.log('当前设置的格式:', this.config.formatType);
 
-//-------------------------------------------------------------------------------------------------------------------------------------
- 
+      //-------------------------------------------------------------------------------------------------------------------------------------
+
       const filePath = path.join(this.config.savePath, currTime + this.config.formatType);
       if (this.config.formatType == ".mp3") {
         fs.writeFileSync(path.resolve(filePath), this.currMp3Buffer);
@@ -457,7 +496,7 @@ export const useTtsStore = defineStore("ttsStore", {
         ipcRenderer.send("log.info", `下载完成:${filePath}`);
       }
       else {
-       // 将 this.currMp3Buffer 转换为可读流
+        // 将 this.currMp3Buffer 转换为可读流
         const inputStream = new Readable();
         inputStream.push(this.currMp3Buffer);
         inputStream.push(null); // 结束流
@@ -505,7 +544,7 @@ export const useTtsStore = defineStore("ttsStore", {
           })
           .run();
       }
-//-------------------------------------------------------------------------------------------------------------------------------------
+      //-------------------------------------------------------------------------------------------------------------------------------------
 
     },
     async audition(val: string) {

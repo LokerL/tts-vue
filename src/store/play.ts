@@ -1,4 +1,5 @@
-const { ipcRenderer } = require("electron");
+import { ipcRenderer } from "electron";
+import { PromptGPT } from "@/types/prompGPT";
 
 async function getTTSData(
   inps: any,
@@ -25,9 +26,8 @@ async function getTTSData(
     SSML = `
     <speak xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="http://www.w3.org/2001/mstts" xmlns:emo="http://www.w3.org/2009/10/emotionml" version="1.0" xml:lang="en-US">
         <voice name="${voice}">
-            <mstts:express-as  ${
-              express != "" ? 'style="' + express + '"' : ""
-            } ${role != "" ? 'role="' + role + '"' : ""}>
+            <mstts:express-as  ${express != "" ? 'style="' + express + '"' : ""
+      } ${role != "" ? 'role="' + role + '"' : ""}>
                 <prosody rate="${rate}%" pitch="${pitch}%">
                 ${inps.inputValue}
                 </prosody>
@@ -81,5 +81,18 @@ async function retrySpeechInvocation(SSML: string, retryCount: number, delay: nu
 function sleep(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
+// promptGPT 
+async function getDataGPT(options: PromptGPT) {
+  let { promptGPT, model, key, retryCount, retryInterval=1 } = options;
+  // 判断retryCount是否为0或者null，如果是则不重试
+  if (!retryCount) {
+    retryCount = 1;
+  }
+  if (!retryInterval) {
+    retryInterval = 1;
+  }
+  const result = await ipcRenderer.invoke("promptGPT", promptGPT, model, key);
+  return result;
+}
 
-export default getTTSData;
+export { getTTSData, getDataGPT };
