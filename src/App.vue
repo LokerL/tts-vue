@@ -35,6 +35,7 @@ body {
 .app {
   background-color: #f2f3f5;
   border-radius: 10px;
+  border:1px solid gray;
 }
 .el-header {
   border: 0 !important;
@@ -49,7 +50,7 @@ body {
 }
 .container {
   margin-top: 5px;
-  height: calc(100vh - 35px);
+  height: calc(100vh - 40px);
 }
 .el-main,
 .el-footer {
