@@ -1,6 +1,12 @@
 <template>
   <div class="footer">
     <div class="play-bar">
+
+      <div class="format-bar-options">
+      <span style="color:blue;font-size: 14px;">下载格式:&nbsp&nbsp;</span>
+      <el-input v-model="config.formatType" style="width: 60px; " class="input-path" @change="setFormatType" />
+      </div>
+
       <div class="paly-bar-options">
         <el-button
           type="success"
@@ -37,6 +43,9 @@ const { config, currMp3Url, isLoading, audioPlayer } = storeToRefs(ttsStore);
 const download = () => {
   ttsStore.writeFileSync();
 };
+const setFormatType = () => {
+  ttsStore.setFormatType(); 
+};
 </script>
 
 <style scoped>
@@ -52,6 +61,11 @@ const download = () => {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.format-bar-options {
+  width: 150px;
+  justify-content: center;
+  align-items:center;
 }
 .paly-bar-options {
   width: 70px;
