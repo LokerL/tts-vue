@@ -3,7 +3,7 @@
     <div class="play-bar">
 
       <div class="format-bar-options">
-        <span style="color:#1677ff;font-size: 14px;">{{t('footer.format')}}:&nbsp&nbsp;</span>
+        <span style="color:#1677ff;font-size: 14px;white-space: nowrap;">{{t('footer.format')}}:&nbsp&nbsp;</span>
         <el-select
           v-model="config.formatType"
           style="width: 120px;"

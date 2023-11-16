@@ -250,7 +250,6 @@ const openInFolder = (val: any) => {
 <style scoped>
 .main {
   background-color: #f2f3f5;
-  margin-bottom: 5px;
   scroll-behavior: smooth;
   overscroll-behavior: contain;
   display: flex;

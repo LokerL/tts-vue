@@ -5,74 +5,77 @@ const messages = {
   en: {
     // Mensajes en inglés
     aside: {
-      text: 'Text',
-      batch: 'Batch',
-      settings: 'Settings',
-      documents: 'Documents'
+      text: "Text",
+      batch: "Batch",
+      settings: "Settings",
+      documents: "Documents",
     },
     version: {
-      checkUpdate: 'Check for updates',
-      currentVersion: 'Current Version:',
-      latestVersion: 'Latest Version:',
-      updateAvailable: 'Update Available',
-      noUpdate: 'You are up to date!',
-      updateInfo: 'Update Information',
-      confirm: 'OK',
-      downloadLinks: 'Download Links',
-      password: 'Password: em1n',
+      checkUpdate: "Check for updates",
+      currentVersion: "Current Version:",
+      latestVersion: "Latest Version:",
+      updateAvailable: "Update Available",
+      noUpdate: "You are up to date!",
+      updateInfo: "Update Information",
+      confirm: "OK",
+      downloadLinks: "Download Links",
+      password: "Password: em1n",
     },
     bilibtn: {
-      goToBilibili: 'Go to Bilibili',
+      goToBilibili: "Go to Bilibili",
     },
     configPage: {
-      downloadPath: 'Download Path',
-      retryCount: 'Retry Count',
-      retryInterval: 'Retry Interval (s)',
-      speechKey: 'SpeechKey Azure',
-      serviceRegion: 'ServiceRegion Azure',
-      autoplay: 'Autoplay',
-      language: 'Language',
-      updateNotification: 'Update Notification',
-      titleStyle: 'Title Bar Style',
-      auditionText: 'Audition Text',
-      templateEdit: 'Template Edit',
-      name: 'Name',
-      action: 'Action',
-      delete: 'Delete',
-      refreshConfig: 'Refresh Configuration',
-      configFile: 'Configuration File',
-      openLogs: 'Open Logs',
-      clearLogs: 'Clear Logs',
-      yes: 'Yes',
-      no: 'No',
+      downloadPath: "Download Path",
+      retryCount: "Retry Count",
+      retryInterval: "Retry Interval (s)",
+      speechKey: "SpeechKey Azure",
+      serviceRegion: "ServiceRegion Azure",
+      autoplay: "Autoplay",
+      language: "Language",
+      updateNotification: "Update Notification",
+      titleStyle: "Title Bar Style",
+      auditionText: "Audition Text",
+      templateEdit: "Template Edit",
+      name: "Name",
+      action: "Action",
+      delete: "Delete",
+      refreshConfig: "Refresh Configuration",
+      configFile: "Configuration File",
+      openLogs: "Open Logs",
+      clearLogs: "Clear Logs",
+      yes: "Yes",
+      no: "No",
       serviceRegionPlaceHolder: "Fill in the service region, such as: westus",
-      confirm: 'OK',
-      voice: 'Voice',
-      style: 'Style',
-      role: 'Role',
-      speed: 'Speed',
-      pitch: 'Pitch',
-      remove: 'Remove',
-      openAIKey: 'OpenAI Key',
-      gptModel: 'Model GPT',
+      confirm: "OK",
+      voice: "Voice",
+      style: "Style",
+      role: "Role",
+      speed: "Speed",
+      pitch: "Pitch",
+      remove: "Remove",
+      openAIKey: "OpenAI Key",
+      gptModel: "Model GPT",
       // Otras traducciones...
     },
     donate: {
-      appreciation: 'If you think this project is good,',
-      encouragement: 'Feel free to Star, Fork, and PR. Your Star is the best encouragement for the author :)',
-      guideReminder: 'If you encounter any problems, please read carefully the "Documentation" → "User Guide" section, including "Feature Introduction" and "FAQ".',
-      feedback: 'For other opinions or suggestions, you can @mention or privately chat with the group owner or manager in "Documentation" → "Join Q Group", or raise issues on GitHub or Gitee.',
-      buyCoffeeTitle: 'Buy the author a coffee 🍻',
-      wechatPayment: 'Use WeChat for payment',
-      hoverForAlipay: 'Hover for Alipay payment',
-      buyDrinkTitle: 'Buy the author a drink ☕️',
-      alipayPayment: 'Use Alipay for payment',
-      hoverForWechat: 'Move the mouse away for WeChat payment',
+      appreciation: "If you think this project is good,",
+      encouragement:
+        "Feel free to Star, Fork, and PR. Your Star is the best encouragement for the author :)",
+      guideReminder:
+        'If you encounter any problems, please read carefully the "Documentation" → "User Guide" section, including "Feature Introduction" and "FAQ".',
+      feedback:
+        'For other opinions or suggestions, you can @mention or privately chat with the group owner or manager in "Documentation" → "Join Q Group", or raise issues on GitHub or Gitee.',
+      buyCoffeeTitle: "Buy the author a coffee 🍻",
+      wechatPayment: "Use WeChat for payment",
+      hoverForAlipay: "Hover for Alipay payment",
+      buyDrinkTitle: "Buy the author a drink ☕️",
+      alipayPayment: "Use Alipay for payment",
+      hoverForWechat: "Move the mouse away for WeChat payment",
     },
 
     footer: {
-      downloadAudio: 'Download Audio',
-      format: 'Format',
+      downloadAudio: "Download Audio",
+      format: "Format",
       // Otras traducciones...
     },
     styles: {
@@ -108,7 +111,7 @@ const messages = {
       shouting: "Shouting",
       unfriendly: "Unfriendly",
       whispering: "Whispering",
-      hopeful: "Hopeful"
+      hopeful: "Hopeful",
     },
     roles: {
       YoungAdultFemale: "Young Adult Female",
@@ -119,11 +122,12 @@ const messages = {
       SeniorMale: "Senior Male",
       Girl: "Girl",
       Boy: "Boy",
-      Narrator: "Narrator"
+      Narrator: "Narrator",
     },
     main: {
       titleGenerateTextGPT: "Generate Text with GPT",
-      descriptionGenerateTextGPT: "Generate text with GPT-3 or GPT-4, the most powerful AI model in the world.",
+      descriptionGenerateTextGPT:
+        "Generate text with GPT-3 or GPT-4, the most powerful AI model in the world.",
       placeholderGPT: "Please enter the prompt text",
       action: "Action",
       textTab: "Text",
@@ -159,13 +163,15 @@ const messages = {
       saveConfig: "Save Configuration",
       selectConfig: "Select Configuration",
       startConversion: "Start Conversion",
-      edgeApiWarning: "The Edge interface does not support automatic slicing and the maximum text length is unknown. Please preprocess text manually as needed.",
-      configureAzure: "Please configure Azure's Speech service key and region first.",
+      edgeApiWarning:
+        "The Edge interface does not support automatic slicing and the maximum text length is unknown. Please preprocess text manually as needed.",
+      configureAzure:
+        "Please configure Azure's Speech service key and region first.",
       saveSuccess: "Configuration saved successfully.",
       cancelSave: "Save cancelled.",
       inputWarning: "Please enter text content.",
       emptyListWarning: "The list is empty.",
-      waitMessage: "Please wait..."
+      waitMessage: "Please wait...",
     },
     lang: {
       AF_ZA: "Afrikaans (South Africa)",
@@ -336,79 +342,84 @@ const messages = {
       InPreview: "Language in preview",
     },
     initialLocalStore: {
-      audition: "If you think this project is good, Star, Fork and PR are welcome. Your Star is the best encouragement to the author."
-    }
+      audition:
+        "If you think this project is good, Star, Fork and PR are welcome. Your Star is the best encouragement to the author.",
+    },
   },
   es: {
     // Mensajes en español
     aside: {
-      text: 'Texto',
-      batch: 'Lote',
-      settings: 'Configuración',
-      documents: 'Documentos'
+      text: "Texto",
+      batch: "Lote",
+      settings: "Configuración",
+      documents: "Documentos",
     },
     version: {
-      checkUpdate: 'Buscar actualizaciones',
-      currentVersion: 'Versión Actual:',
-      latestVersion: 'Última Versión:',
-      updateAvailable: 'Actualización disponible',
-      noUpdate: '¡Estás actualizado!',
-      updateInfo: 'Información de la actualización',
-      confirm: 'OK',
-      downloadLinks: 'Enlaces de Descarga',
-      password: 'Contraseña: em1n',
+      checkUpdate: "Buscar actualizaciones",
+      currentVersion: "Versión Actual:",
+      latestVersion: "Última Versión:",
+      updateAvailable: "Actualización disponible",
+      noUpdate: "¡Estás actualizado!",
+      updateInfo: "Información de la actualización",
+      confirm: "OK",
+      downloadLinks: "Enlaces de Descarga",
+      password: "Contraseña: em1n",
     },
     bilibtn: {
-      goToBilibili: 'Ir a Bilibili',
+      goToBilibili: "Ir a Bilibili",
     },
     donate: {
-      appreciation: 'Si piensas que este proyecto es bueno,',
-      encouragement: 'No dudes en dar Star, hacer Fork y PR. Tu Star es el mejor ánimo para el autor :)',
-      guideReminder: 'Si encuentras algún problema, por favor lee detenidamente la sección "Documentación" → "Guía del Usuario", incluyendo "Introducción de Funciones" y "Preguntas Frecuentes".',
-      feedback: 'Para otras opiniones o sugerencias, puedes mencionar o chatear en privado con el dueño del grupo o el administrador en "Documentación" → "Unirse al Grupo Q", o plantear problemas en GitHub o Gitee.',
-      buyCoffeeTitle: 'Compra al autor un café 🍻',
-      wechatPayment: 'Usa WeChat para el pago',
-      hoverForAlipay: 'Pasa el ratón para pagar con Alipay',
-      buyDrinkTitle: 'Compra al autor una bebida ☕️',
-      alipayPayment: 'Usa Alipay para el pago',
-      hoverForWechat: 'Aleja el ratón para usar WeChat para el pago',
+      appreciation: "Si piensas que este proyecto es bueno,",
+      encouragement:
+        "No dudes en dar Star, hacer Fork y PR. Tu Star es el mejor ánimo para el autor :)",
+      guideReminder:
+        'Si encuentras algún problema, por favor lee detenidamente la sección "Documentación" → "Guía del Usuario", incluyendo "Introducción de Funciones" y "Preguntas Frecuentes".',
+      feedback:
+        'Para otras opiniones o sugerencias, puedes mencionar o chatear en privado con el dueño del grupo o el administrador en "Documentación" → "Unirse al Grupo Q", o plantear problemas en GitHub o Gitee.',
+      buyCoffeeTitle: "Compra al autor un café 🍻",
+      wechatPayment: "Usa WeChat para el pago",
+      hoverForAlipay: "Pasa el ratón para pagar con Alipay",
+      buyDrinkTitle: "Compra al autor una bebida ☕️",
+      alipayPayment: "Usa Alipay para el pago",
+      hoverForWechat: "Aleja el ratón para usar WeChat para el pago",
     },
     configPage: {
-      downloadPath: 'Ruta de Descarga',
-      retryCount: 'Número de Intentos',
-      retryInterval: 'Intervalo de Reintentos (s)',
-      speechKey: 'SpeechKey Azure',
-      serviceRegion: 'ServiceRegion Azure',
-      language: 'Idioma',
-      autoplay: 'Reproducción Automática',
-      updateNotification: 'Notificación de Actualización',
-      titleStyle: 'Estilo de la Barra de Título',
-      auditionText: 'Texto de Audición',
-      templateEdit: 'Edición de Plantilla',
-      name: 'Nombre',
-      action: 'Acción',
-      delete: 'Eliminar',
-      refreshConfig: 'Refrescar Configuración',
-      configFile: 'Archivo Configuración',
-      openLogs: 'Abrir Registros',
-      clearLogs: 'Limpiar Registros',
-      yes: 'Sí',
-      no: 'No',
-      serviceRegionPlaceHolder: "Complete la región de servicio, como por ejemplo: westus",
-      confirm: 'OK',
-      voice: 'Voz',
-      style: 'Estilo',
-      role: 'Rol',
-      speed: 'Velocidad',
-      pitch: 'Tono',
-      remove: 'Eliminar',
-      openAIKey: 'OpenAI key',
-      gptModel: 'Modelo GPT',
+      downloadPath: "Ruta de Descarga",
+      retryCount: "Número de Intentos",
+      retryInterval: "Intervalo de Reintentos (s)",
+      speechKey: "SpeechKey Azure",
+      serviceRegion: "ServiceRegion Azure",
+      language: "Idioma",
+      autoplay: "Reproducción Automática",
+      updateNotification: "Notificación de Actualización",
+      titleStyle: "Estilo de la Barra de Título",
+      auditionText: "Texto de Audición",
+      templateEdit: "Edición de Plantilla",
+      name: "Nombre",
+      action: "Acción",
+      delete: "Eliminar",
+      refreshConfig: "Refrescar Configuración",
+      configFile: "Archivo Configuración",
+      openLogs: "Abrir Registros",
+      clearLogs: "Limpiar Registros",
+      yes: "Sí",
+      no: "No",
+      serviceRegionPlaceHolder:
+        "Complete la región de servicio, como por ejemplo: westus",
+      confirm: "OK",
+      voice: "Voz",
+      style: "Estilo",
+      role: "Rol",
+      speed: "Velocidad",
+      pitch: "Tono",
+      remove: "Eliminar",
+      openAIKey: "OpenAI key",
+      gptModel: "Modelo GPT",
       // Otras traducciones...
     },
     footer: {
-      downloadAudio: 'Descargar Audio',
-      format: 'Formato',
+      downloadAudio: "Descargar Audio",
+      format: "Formato",
       // Otras traducciones...
     },
     styles: {
@@ -444,7 +455,7 @@ const messages = {
       shouting: "Gritando",
       unfriendly: "Antipático",
       whispering: "Susurrando",
-      hopeful: "Esperanzado"
+      hopeful: "Esperanzado",
     },
     roles: {
       YoungAdultFemale: "Mujer Joven Adulta",
@@ -455,11 +466,12 @@ const messages = {
       SeniorMale: "Hombre Senior",
       Girl: "Niña",
       Boy: "Niño",
-      Narrator: "Narrador"
+      Narrator: "Narrador",
     },
     main: {
       titleGenerateTextGPT: "Genera Texto con GPT",
-      descriptionGenerateTextGPT: "Genera texto con GPT-3 o GPT-4, el modelo de IA más potente del mundo.",
+      descriptionGenerateTextGPT:
+        "Genera texto con GPT-3 o GPT-4, el modelo de IA más potente del mundo.",
       placeholderGPT: "Por favor ingrese el texto de la sugerencia",
       action: "Acción",
       textTab: "Texto",
@@ -495,8 +507,10 @@ const messages = {
       saveConfig: "Guardar Configuración",
       selectConfig: "Seleccionar Configuración",
       startConversion: "Iniciar Conversión",
-      edgeApiWarning: "La interfaz de Edge no admite el corte automático y la longitud máxima del texto es desconocida. Por favor, procese manualmente el texto según sea necesario.",
-      configureAzure: "Por favor, configure primero la clave y la región del servicio de voz de Azure.",
+      edgeApiWarning:
+        "La interfaz de Edge no admite el corte automático y la longitud máxima del texto es desconocida. Por favor, procese manualmente el texto según sea necesario.",
+      configureAzure:
+        "Por favor, configure primero la clave y la región del servicio de voz de Azure.",
       saveSuccess: "Configuración guardada con éxito.",
       cancelSave: "Guardado cancelado.",
       inputWarning: "Por favor, introduzca el contenido del texto.",
@@ -654,7 +668,8 @@ const messages = {
       YUE_CN: "Chino (cantonés, simplificado)",
       ZH_CN: "Chino (mandarín, simplificado)",
       ZH_CN_Bilingual: "Chino (mandarín, simplificado), inglés bilingüe",
-      ZH_CN_HENAN: "Chino (mandarín Henan de las llanuras centrales, simplificado)",
+      ZH_CN_HENAN:
+        "Chino (mandarín Henan de las llanuras centrales, simplificado)",
       ZH_CN_LIAONING: "Chino (mandarín nororiental, simplificado)",
       ZH_CN_SHAANXI: "Chino (chino mandarín Shaanxi, simplificado)",
       ZH_CN_SHANDONG: "Chino (Jilu Mandarín, simplificado)",
@@ -671,82 +686,85 @@ const messages = {
       InPreview: "Idioma en vista previa",
     },
     initialLocalStore: {
-      audition: "Si piensas que este proyecto es bueno, Star, Fork y PR son bienvenidos. Tu Star es el mejor ánimo para el autor."
-    }
+      audition:
+        "Si piensas que este proyecto es bueno, Star, Fork y PR son bienvenidos. Tu Star es el mejor ánimo para el autor.",
+    },
   },
   zh: {
     // Mensajes en chino
     aside: {
-      text: '文本',
-      batch: '批量',
-      settings: '设置',
-      documents: '文档'
+      text: "文本",
+      batch: "批量",
+      settings: "设置",
+      documents: "文档",
     },
     version: {
-      checkUpdate: '检查更新',
-      currentVersion: '当前版本:',
-      latestVersion: '最新版本:',
-      updateAvailable: '有可用更新',
-      noUpdate: '您的软件是最新的！',
-      updateInfo: '更新信息',
-      confirm: '确定',
-      downloadLinks: '下载链接',
-      password: '密码：em1n',
+      checkUpdate: "检查更新",
+      currentVersion: "当前版本:",
+      latestVersion: "最新版本:",
+      updateAvailable: "有可用更新",
+      noUpdate: "您的软件是最新的！",
+      updateInfo: "更新信息",
+      confirm: "确定",
+      downloadLinks: "下载链接",
+      password: "密码：em1n",
     },
     bilibtn: {
-      goToBilibili: '前往三连',
+      goToBilibili: "前往三连",
     },
     configPage: {
-      downloadPath: '下载路径',
-      retryCount: '重试次数',
-      retryInterval: '重试间隔(s)',
-      speechKey: 'SpeechKey Azure',
-      serviceRegion: 'ServiceRegion Azure',
-      autoplay: '自动播放',
-      language: '语言',
-      updateNotification: '新版本提醒',
-      titleStyle: '标题栏样式',
-      auditionText: '试听文本',
-      templateEdit: '模板编辑',
-      name: '名字',
-      action: '操作',
-      delete: '删除',
-      refreshConfig: '刷新配置',
-      configFile: '配置文件',
-      openLogs: '打开日志',
-      clearLogs: '清理日志',
-      yes: '是',
-      no: '否',
+      downloadPath: "下载路径",
+      retryCount: "重试次数",
+      retryInterval: "重试间隔(s)",
+      speechKey: "SpeechKey Azure",
+      serviceRegion: "ServiceRegion Azure",
+      autoplay: "自动播放",
+      language: "语言",
+      updateNotification: "新版本提醒",
+      titleStyle: "标题栏样式",
+      auditionText: "试听文本",
+      templateEdit: "模板编辑",
+      name: "名字",
+      action: "操作",
+      delete: "删除",
+      refreshConfig: "刷新配置",
+      configFile: "配置文件",
+      openLogs: "打开日志",
+      clearLogs: "清理日志",
+      yes: "是",
+      no: "否",
       serviceRegionPlaceHolder: "请填写ServiceRegion，如：westus",
-      confirm: '确认',
-      voice: '语音',
-      style: '风格',
-      role: '角色',
-      speed: '语速',
-      pitch: '音调',
-      remove: '删除',
-      openAIKey: '打开AIKey',
-      gptModel: '模型GPT',
+      confirm: "确认",
+      voice: "语音",
+      style: "风格",
+      role: "角色",
+      speed: "语速",
+      pitch: "音调",
+      remove: "删除",
+      openAIKey: "OpenAIKey",
+      gptModel: "模型",
       // Otras traducciones...
     },
     donate: {
-      appreciation: '如果你觉得这个项目还不错，',
-      encouragement: '欢迎给予Star、Fork和PR。你的Star是对作者最好的鼓励 :)',
-      guideReminder: '使用遇到问题请仔细阅读"文档"→"使用指南"中的"功能介绍"和"常见问题"。',
-      feedback: '其他意见或建议可以在"文档"→"加入Q群"中艾特或私聊群主或者管理，也可以在GitHub或者Gitee提出issues。',
-      buyCoffeeTitle: '请作者喝杯咖啡 🍻',
-      wechatPayment: '使用微信支付',
-      hoverForAlipay: '鼠标悬停使用支付宝支付',
-      buyDrinkTitle: '请作者喝杯饮料 ☕️',
-      alipayPayment: '使用支付宝支付',
-      hoverForWechat: '移开鼠标使用微信支付',
+      appreciation: "如果你觉得这个项目还不错，",
+      encouragement: "欢迎给予Star、Fork和PR。你的Star是对作者最好的鼓励 :)",
+      guideReminder:
+        '使用遇到问题请仔细阅读"文档"→"使用指南"中的"功能介绍"和"常见问题"。',
+      feedback:
+        '其他意见或建议可以在"文档"→"加入Q群"中艾特或私聊群主或者管理，也可以在GitHub或者Gitee提出issues。',
+      buyCoffeeTitle: "请作者喝杯咖啡 🍻",
+      wechatPayment: "使用微信支付",
+      hoverForAlipay: "鼠标悬停使用支付宝支付",
+      buyDrinkTitle: "请作者喝杯饮料 ☕️",
+      alipayPayment: "使用支付宝支付",
+      hoverForWechat: "移开鼠标使用微信支付",
     },
     footer: {
-      downloadAudio: 'Download Audio',
-      format: 'Format',
+      downloadAudio: "下载音频",
+      format: "格式",
       // Otras traducciones...
     },
-    "styles": {
+    styles: {
       assistant: "助手",
       chat: "聊天",
       customerservice: "客服",
@@ -779,9 +797,9 @@ const messages = {
       shouting: "大喊",
       unfriendly: "不友好的",
       whispering: "耳语",
-      hopeful: "充满希望的"
+      hopeful: "充满希望的",
     },
-    "roles": {
+    roles: {
       YoungAdultFemale: "年轻成年女性",
       YoungAdultMale: "年轻成年男性",
       OlderAdultFemale: "年长成年女性",
@@ -790,11 +808,13 @@ const messages = {
       SeniorMale: "老年男性",
       Girl: "女孩",
       Boy: "男孩",
-      Narrator: "旁白"
+      Narrator: "旁白",
     },
     main: {
+      action: "操作",
       titleGenerateTextGPT: "生成文本GPT",
-      descriptionGenerateTextGPT: "使用GPT-3或GPT-4，世界上最强大的AI模型，生成文本。",
+      descriptionGenerateTextGPT:
+        "使用GPT-3或GPT-4，世界上最强大的AI模型，生成文本。",
       placeholderGPT: "请输入提示文本",
       textTab: "文本",
       ssmlTab: "SSML",
@@ -829,13 +849,14 @@ const messages = {
       saveConfig: "保存配置",
       selectConfig: "选择配置",
       startConversion: "开始转换",
-      edgeApiWarning: "Edge接口不支持自动切片，最长支持文本长度未知。请根据自身需求手动预处理文本。",
+      edgeApiWarning:
+        "Edge接口不支持自动切片，最长支持文本长度未知。请根据自身需求手动预处理文本。",
       configureAzure: "请先配置Azure的Speech服务密钥和区域。",
       saveSuccess: "保存成功。",
       cancelSave: "取消保存。",
       inputWarning: "请输入文字内容。",
       emptyListWarning: "列表内容为空。",
-      waitMessage: "请稍候..."
+      waitMessage: "请稍候...",
     },
     lang: {
       AF_ZA: "南非荷兰语(南非)",
@@ -1006,17 +1027,22 @@ const messages = {
       InPreview: "预览中的语言",
     },
     initialLocalStore: {
-      audition: "如果你觉得这个项目还不错， 欢迎Star、Fork和PR。你的Star是对作者最好的鼓励。"
-    }
-
+      audition:
+        "如果你觉得这个项目还不错， 欢迎Star、Fork和PR。你的Star是对作者最好的鼓励。",
+    },
   },
   // Otros idiomas...
 };
+const language = process.env.LANG || "zh";
+let defaultLanguage = language.substring(0, 2);
+defaultLanguage = Object.keys(messages).includes(defaultLanguage)
+  ? defaultLanguage
+  : "zh";
 
 const i18n = createI18n({
   legacy: false, // Usa la Composition API
-  locale: 'en', // Idioma por defecto
-  fallbackLocale: 'en', // Idioma de reserva
+  locale: defaultLanguage, // Idioma por defecto
+  fallbackLocale: defaultLanguage, // Idioma de reserva
   messages,
 });
 // const i18nLegacy = createI18n({

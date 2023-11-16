@@ -1,5 +1,3 @@
-// import { useI18n } from 'vue-i18n';
-// const { t } = useI18n();  
 import i18n from '@/assets/i18n/i18n';
 import { voices } from './voices';
 const Store = require("electron-store");
@@ -17,17 +15,39 @@ export default async function initStore() {
       localStorage.setItem("msVoicesList", JSON.stringify(voices));
     }
   }
+  const locale = i18n.global.locale.value;
 
-  store.set("FormConfig.默认", {
-    languageSelect: "es-MX",
-    //Dalia
-    voiceSelect: "es-MX-DaliaNeural",
-    voiceStyleSelect: "Default",
-    role: "",
-    speed: 1.0,
-    pitch: 1.0,
-    api: 1,
-  });
+  const formConfigDefault = {
+    es: {
+      languageSelect: "es-MX",
+      voiceSelect: "es-MX-DaliaNeural",
+      voiceStyleSelect: "Default",
+      role: "",
+      speed: 1.0,
+      pitch: 1.0,
+      api: 1,
+    },
+    en: {
+      languageSelect: "en-US",
+      voiceSelect: "en-US-JennyNeural",
+      voiceStyleSelect: "Default",
+      role: "",
+      speed: 1.0,
+      pitch: 1.0,
+      api: 1,
+    },
+    zh: {
+      languageSelect: "zh-CN",
+      voiceSelect: "zh-CN-XiaoxiaoNeural",
+      voiceStyleSelect: "Default",
+      role: "",
+      speed: 1.0,
+      pitch: 1.0,
+      api: 1,
+    },
+  };
+
+  store.set("FormConfig.默认", formConfigDefault[locale]);
   
   if (!store.has("savePath")) {
     store.set("savePath", ipcRenderer.sendSync("getDesktopPath"));
@@ -39,7 +59,7 @@ export default async function initStore() {
     );
   }
   if (!store.has("language")) {
-    store.set("language", "en");
+    store.set("language", locale);
   }
   if (!store.has("autoplay")) {
     store.set("autoplay", true);

@@ -525,7 +525,7 @@ export const useTtsStore = defineStore("ttsStore", {
                 ),
               ]),
               type: "success",
-              duration: 4000,
+              duration: 3000,
             });
 
           })
@@ -538,7 +538,7 @@ export const useTtsStore = defineStore("ttsStore", {
                 h("span", null, "转码失败！！！：" + err)
               ]),
               type: "error",
-              duration: 10000,
+              duration: 3000,
             });
 
           })
