@@ -136,13 +136,7 @@
                   placement="top"
                   width="auto"
                 >
-                  <template #default>
-                    <!-- <div>语言: {{ scope.row.content.languageSelect }}</div>
-                    <div>语音: {{ scope.row.content.voiceSelect }}</div>
-                    <div>风格: {{ scope.row.content.voiceStyleSelect }}</div>
-                    <div>角色: {{ scope.row.content.role }}</div>
-                    <div>语速: {{ scope.row.content.speed }}</div>
-                    <div>音调: {{ scope.row.content.pitch }}</div> -->
+                  <template #default>-->
                     <div>{{ t('configPage.language') }}: {{ scope.row.content.languageSelect }}</div>
                     <div>{{ t('configPage.voice') }}: {{ scope.row.content.voiceSelect }}</div>
                     <div>{{ t('configPage.style') }}: {{ scope.row.content.voiceStyleSelect }}</div>
@@ -202,7 +196,7 @@ import { storeToRefs } from "pinia";
 import Donate from "./Donate.vue";
 import { useI18n } from 'vue-i18n';
 import i18n from "@/assets/i18n/i18n";
-const { t } = useI18n();  
+const { t } = useI18n();
 
 const { ipcRenderer, shell } = require("electron");
 
@@ -214,8 +208,6 @@ const { config } = storeToRefs(ttsStore);
 
 
 const languages = [
-  // Agrega más idiomas según sea necesario
-  
   { label: 'English', value: 'en' },
   { label: 'Español', value: 'es' },
   { label: '中文', value: 'zh' },
@@ -227,7 +219,6 @@ const gptModels = [
   { label: 'GPT-3.5 Turbo Instruct', value: 'gpt-3.5-turbo-instruct'},
   { label: 'GPT 4 8k', value: 'gpt-4'},
   { label: 'GPT 4 32k', value: 'gpt-4-32k'},
-  // Agrega más modelos según sea necesario
 ];
 
 const saveLanguageConfig = () => {

@@ -21,7 +21,6 @@ const bilibili = () => {
 </script>
 
 <style scoped>
-/* From uiverse.io by @adamgiebl */
 button {
   font-family: inherit;
   font-size: 20px;
