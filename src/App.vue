@@ -29,6 +29,7 @@ ttsStore.showDisclaimers();
 
 <style>
 body {
+  user-select: none;
   margin: 0;
   /* height: 570px; */
 }
