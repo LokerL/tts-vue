@@ -44,6 +44,15 @@ export default async function initStore() {
       speed: 1.0,
       pitch: 1.0,
       api: 1
+    },
+    vi: {
+      languageSelect: 'vi-VN',
+      voiceSelect: 'vi-VN-HoaiMyNeural',
+      voiceStyleSelect: 'Default',
+      role: '',
+      speed: 1.0,
+      pitch: 1.0,
+      api: 1
     }
   }
 

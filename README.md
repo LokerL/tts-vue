@@ -16,6 +16,24 @@
 
 🎤 微软语音合成工具，使用 `Electron` + `Vue` + `ElementPlus` + `Vite` 构建.
 
+## 🌐 语言支持 (Multilingual Support)
+
+该项目支持多种语言的文本转语音：
+
+- **英语 (English - en-US)**
+- **中文 (Chinese - zh-CN)**
+- **西班牙语 (Spanish - es-MX)**
+- **越南语 (Vietnamese - vi-VN)** ✨ NEW
+
+### 越南语 TTS 支持
+
+越南语 TTS 功能现已支持！可以选择以下越南语语音：
+
+- **vi-VN-HoaiMyNeural** - 女性语音
+- **vi-VN-NamMinhNeural** - 男性语音
+
+使用方式与其他语言相同，在语言选择中选择"越南语(越南)"即可。
+
 ## 开始使用
 
 - [项目简介](https://loker-page.lgwawork.com/guide/intro.html)

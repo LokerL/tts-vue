@@ -86,7 +86,11 @@ export const useTtsStore = defineStore('ttsStore', {
       const rate = (this.formConfig.speed - 1) * 100
       const pitch = (this.formConfig.pitch - 1) * 50
 
-      this.inputs.ssmlValue = `<speak xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="http://www.w3.org/2001/mstts" xmlns:emo="http://www.w3.org/2009/10/emotionml" version="1.0" xml:lang="en-US">
+      // Extract locale from voice name (e.g., "vi-VN-HoaiMyNeural" -> "vi-VN")
+      const voiceParts = voice.split('-')
+      const locale = voiceParts.length >= 2 ? `${voiceParts[0]}-${voiceParts[1]}` : 'en-US'
+
+      this.inputs.ssmlValue = `<speak xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="http://www.w3.org/2001/mstts" xmlns:emo="http://www.w3.org/2009/10/emotionml" version="1.0" xml:lang="${locale}">
         <voice name="${voice}">
             <mstts:express-as  ${
               express != 'General' ? 'style="' + express + '"' : ''
