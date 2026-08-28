@@ -1023,6 +1023,190 @@ const messages = {
     initialLocalStore: {
       audition: '如果你觉得这个项目还不错， 欢迎Star、Fork和PR。你的Star是对作者最好的鼓励。'
     }
+  },
+  vi: {
+    // Tiếng Việt
+    aside: {
+      text: 'Văn bản',
+      batch: 'Batch',
+      settings: 'Cài đặt',
+      documents: 'Tài liệu'
+    },
+    version: {
+      checkUpdate: 'Kiểm tra cập nhật',
+      currentVersion: 'Phiên bản hiện tại:',
+      latestVersion: 'Phiên bản mới nhất:',
+      updateAvailable: 'Có bản cập nhật',
+      noUpdate: 'Bạn đang sử dụng phiên bản mới nhất!',
+      updateInfo: 'Thông tin cập nhật',
+      confirm: 'OK',
+      downloadLinks: 'Liên kết tải',
+      password: 'Mật khẩu: em1n'
+    },
+    bilibtn: {
+      goToBilibili: 'Đi tới Bilibili'
+    },
+    configPage: {
+      downloadPath: 'Đường dẫn tải',
+      retryCount: 'Số lần thử lại',
+      retryInterval: 'Khoảng thời gian thử lại (s)',
+      speechKey: 'Speech Key Azure',
+      serviceRegion: 'Service Region Azure',
+      autoplay: 'Tự động phát',
+      language: 'Ngôn ngữ',
+      updateNotification: 'Thông báo cập nhật',
+      titleStyle: 'Kiểu thanh tiêu đề',
+      auditionText: 'Văn bản dùng thử',
+      templateEdit: 'Chỉnh sửa mẫu',
+      name: 'Tên',
+      action: 'Hành động',
+      delete: 'Xóa',
+      refreshConfig: 'Làm mới cấu hình',
+      configFile: 'Tệp cấu hình',
+      openLogs: 'Mở Logs',
+      clearLogs: 'Xóa Logs',
+      yes: 'Có',
+      no: 'Không',
+      serviceRegionPlaceHolder: 'Nhập service region, ví dụ: westus',
+      confirm: 'Xác nhận',
+      voice: 'Giọng nói',
+      style: 'Phong cách',
+      role: 'Vai trò',
+      speed: 'Tốc độ',
+      pitch: 'Cao độ',
+      remove: 'Xóa',
+      openAIKey: 'OpenAI Key',
+      gptModel: 'Mô hình GPT'
+    },
+    donate: {
+      appreciation: 'Nếu bạn thấy dự án này tốt,',
+      encouragement:
+        'Vui lòng Star, Fork và PR. Star của bạn là sự khích lệ tốt nhất cho tác giả :)',
+      guideReminder:
+        'Nếu gặp vấn đề, vui lòng đọc kỹ "Tài liệu" → "Hướng dẫn sử dụng" bao gồm "Giới thiệu tính năng" và "Câu hỏi thường gặp".',
+      feedback:
+        'Để có ý kiến hoặc đề xuất khác, bạn có thể @mention hoặc nhắn riêng cho chủ nhóm hoặc người quản lý trong "Tài liệu" → "Tham gia Q Group", hoặc tạo issues trên GitHub hoặc Gitee.',
+      buyCoffeeTitle: 'Mua cà phê cho tác giả 🍻',
+      wechatPayment: 'Sử dụng WeChat để thanh toán',
+      hoverForAlipay: 'Rê chuột để thanh toán Alipay',
+      buyDrinkTitle: 'Mua nước uống cho tác giả ☕️',
+      alipayPayment: 'Sử dụng Alipay để thanh toán',
+      hoverForWechat: 'Di chuột đi để thanh toán WeChat'
+    },
+    footer: {
+      downloadAudio: 'Tải âm thanh',
+      format: 'Định dạng'
+    },
+    styles: {
+      assistant: 'Trợ lý',
+      chat: 'Trò chuyện',
+      customerservice: 'Dịch vụ khách hàng',
+      newscast: 'Bản tin',
+      affectionate: 'Tình cảm',
+      angry: 'Tức giận',
+      calm: 'Bình tĩnh',
+      cheerful: 'Vui vẻ',
+      disgruntled: 'Không hài lòng',
+      fearful: 'Sợ hãi',
+      gentle: 'Nhẹ nhàng',
+      lyrical: 'Trữ tình',
+      sad: 'Buồn',
+      serious: 'Nghiêm túc',
+      'poetry-reading': 'Đọc thơ',
+      'narration-professional': 'Tường thuật chuyên nghiệp',
+      'newscast-casual': 'Bản tin thân mật',
+      embarrassed: 'Xấu hổ',
+      depressed: 'Chán nản',
+      envious: 'Ghen tỵ',
+      'narration-relaxed': 'Tường thuật thư giãn',
+      Advertisement_upbeat: 'Quảng cáo lạc quan',
+      'Narration-relaxed': 'Tường thuật thư giãn',
+      Sports_commentary: 'Bình luận thể thao',
+      Sports_commentary_excited: 'Bình luận thể thao hào hứng',
+      'documentary-narration': 'Tường thuật tài liệu',
+      excited: 'Hào hứng',
+      friendly: 'Thân thiện',
+      terrified: 'Kinh hoàng',
+      shouting: 'Hét lên',
+      unfriendly: 'Không thân thiện',
+      whispering: 'Thì thầm',
+      hopeful: 'Đầy hy vọng'
+    },
+    roles: {
+      YoungAdultFemale: 'Phụ nữ trưởng thành trẻ',
+      YoungAdultMale: 'Nam thanh niên trưởng thành',
+      OlderAdultFemale: 'Phụ nữ trưởng thành tuổi',
+      OlderAdultMale: 'Nam thanh niên trưởng thành tuổi',
+      SeniorFemale: 'Nữ cao tuổi',
+      SeniorMale: 'Nam cao tuổi',
+      Girl: 'Cô gái',
+      Boy: 'Cậu bé',
+      Narrator: 'Người kể chuyện'
+    },
+    main: {
+      titleGenerateTextGPT: 'Tạo văn bản với GPT',
+      descriptionGenerateTextGPT:
+        'Tạo văn bản với GPT-3 hoặc GPT-4, mô hình AI mạnh nhất thế giới.',
+      placeholderGPT: 'Vui lòng nhập văn bản gợi ý',
+      action: 'Hành động',
+      textTab: 'Văn bản',
+      ssmlTab: 'SSML',
+      placeholder: 'Vui lòng nhập',
+      fileName: 'Tên tệp',
+      filePath: 'Đường dẫn tệp',
+      fileSize: 'Số từ',
+      fileFormatTip: 'Định dạng văn bản: *.txt',
+      status: 'Trạng thái',
+      ready: 'Sẵn sàng',
+      remove: 'Xóa',
+      play: 'Phát',
+      openInFolder: 'Mở trong thư mục',
+      selectFiles: 'Chọn tệp',
+      clearAll: 'Xóa tất cả',
+      doc: 'Tài liệu'
+    },
+    options: {
+      api: 'Giao diện',
+      selectApi: 'Chọn API',
+      language: 'Ngôn ngữ',
+      selectLanguage: 'Chọn ngôn ngữ',
+      voice: 'Giọng nói',
+      selectVoice: 'Chọn giọng nói',
+      speakingStyle: 'Phong cách nói',
+      selectSpeakingStyle: 'Chọn phong cách nói',
+      role: 'Vai trò',
+      selectRole: 'Chọn vai trò',
+      speed: 'Tốc độ',
+      pitch: 'Cao độ',
+      generateTTS: 'Tạo TTS',
+      batchGenerateTTS: 'Tạo TTS hàng loạt',
+      stop: 'Dừng',
+      errorCheckError: 'Kiểm tra lỗi',
+      gptText: 'Văn bản GPT',
+      gptStyle: 'Phong cách GPT',
+      configureAzure: 'Vui lòng cấu hình khóa dịch vụ Speech và vùng của Azure trước.'
+    },
+    lang: {
+      EN_US: 'Tiếng Anh (Mỹ)',
+      VI_VN: 'Tiếng Việt (Việt Nam)',
+      ZH_CN: 'Tiếng Trung (Phổ thông, Giản thể)',
+      ZH_TW: 'Tiếng Trung (Phổ thông,繁體)',
+      JA_JP: 'Tiếng Nhật (Nhật Bản)',
+      KO_KR: 'Tiếng Hàn (Hàn Quốc)',
+      ES_ES: 'Tiếng Tây Ban Nha (Tây Ban Nha)',
+      FR_FR: 'Tiếng Pháp (Pháp)',
+      DE_DE: 'Tiếng Đức (Đức)',
+      IT_IT: 'Tiếng Ý (Ý)',
+      RU_RU: 'Tiếng Nga (Nga)',
+      AR_SA: 'Tiếng Ả Rập (Ả Rập Xê Út)',
+      PT_BR: 'Tiếng Bồ Đào Nha (Brazil)',
+      TH_TH: 'Tiếng Thái (Thái Lan)',
+      PL_PL: 'Tiếng Ba Lan (Ba Lan)',
+      TR_TR: 'Tiếng Thổ Nhĩ Kỳ (Thổ Nhĩ Kỳ)'
+    },
+    initialLocalStore: {
+      audition: 'Nếu bạn thấy dự án này tốt, vui lòng Star, Fork và PR. Star của bạn là sự khích lệ tốt nhất cho tác giả.'
+    }
   }
   // Otros idiomas...
 }
